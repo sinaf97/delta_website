@@ -58,8 +58,11 @@
                   Courses
                 </a>
                 <div class="collapse" id="collapseExample">
-                  <div class="card card-body" id="year-courses">
-                  </div>
+                  <!-- <div class="list-group" id="year-courses">
+                  </div> -->
+                  <ul  id="year-courses">
+
+                  </ul>
                 </div>
               </li>
               <li class="nav-item">
@@ -88,7 +91,7 @@
          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
            <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}</h1>
            <div class="mb-2 mb-md-0">
-               <img src="../pic/head.png" style="width:20%;float:right">
+               <img src="../static/pic/head.png" style="width:20%;float:right">
            </div>
          </div>
          <div id="details">
@@ -129,7 +132,7 @@
 
   <script>
   function order(input){
-    var output = sina[i].course_name +" => "+ sina[i].term.season + " of "+ sina[i].term.year + ", " + " part " + sina[i].term.part
+    var output = sina[i].code +"_"+ sina[i].group + "_"+ sina[i].term.year + "_" + sina[i].term.season + "_" + sina[i].term.part
     return(output)
   }
   var sina = {{courses|safe}}
@@ -138,13 +141,13 @@
   var count = 0
   for(var i=0;i<sina.length; i++){
     if(sina[i]['term']['year'] == flag && count==0){
-      $('#year-courses').append('<a class="nav-link" data-toggle="collapse" data-target="#collapseTerm'+sina[i]['term']['year']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
+      $('#year-courses').append('<a class="nav-link" data-toggle="collapse" data-target="#collapseYear'+sina[i]['term']['year']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
         <span data-feather="users"></span>\
-        '+sina[i]['term']['year']+'\
+        <li style="font-size:16px">'+sina[i]['term']['year']+'</li>\
       </a>\
-      <div class="collapse" id="collapseTerm'+sina[i]['term']['year']+'">\
-        <div class="card card-body" id="term-courses'+sina[i]['term']['year']+'">\
-        </div>\
+      <div class="collapse" id="collapseYear'+sina[i]['term']['year']+'">\
+        <ul class="list-group" id="year'+sina[i]['term']['year']+'">\
+        </ul>\
       </div>')
       count++;
     }
@@ -154,6 +157,28 @@
      i--;
     }
   }
+
+  flag = [sina[0]['term']['season'],sina[0]['term']['part']]
+  count = 0
+  for(var i=0;i<sina.length; i++){
+    if(sina[i]['term']['season'] == flag[0] && sina[i]['term']['part'] == flag[1] && count==0){
+      $('#year'+sina[i]['term']['year']).append('<li class="list-group-item" style="padding:0;margin:0 10px 0 0px;font-size:14px"><a class="nav-link" data-toggle="collapse" data-target="#collapseTerm'+sina[i]['term']['season']+sina[i]['term']['part']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
+        <span data-feather="users"></span>\
+        '+sina[i]['term']['season'] + " Part " + sina[i]['term']['part']+'\
+      </a>\
+      <div class="collapse" id="collapseTerm'+sina[i]['term']['season']+sina[i]['term']['part']+'">\
+        <ul id="term'+sina[i]['term']['season']+sina[i]['term']['part']+'">\
+        </ul>\
+      </div></li>')
+      count++;
+    }
+    else if(sina[i]['term']['season'] != flag[0] || sina[i]['term']['part'] != flag[1]) {
+    count = 0
+     flag = [sina[i]['term']['season'],sina[i]['term']['part']]
+     i--;
+    }
+  }
+
   for(var i=0;i<sina.length; i++)
-    $('#term-courses'+sina[i]['term']['year']).append('<a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+sina[i]['term']['season'] +' Part '+ sina[i]['term']['part'] +'</a>')
+    $('#term'+sina[i]['term']['season']+sina[i]['term']['part']).append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
   </script>

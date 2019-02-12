@@ -10,8 +10,8 @@ def getCurrentCourse(request):
     for i in t_courses:
         if i.term == term.objects.last():
             list.append(i.getCourseInfo())
-
     return list
+
 def orderKeyYear(e):
     return e['term']['year']
 def orderKeySeason(e):
@@ -23,20 +23,41 @@ def orderKeySeason(e):
         return 3
     elif e['term']['season']=="winter":
         return 4
-
-
 def orderKeyPart(e):
     return e['term']['part']
+
+def orderKeyYearTerm(e):
+    return e['year']
+def orderKeySeasonTerm(e):
+    if e['season']=="spring":
+        return 1
+    elif e['season']=="summer":
+        return 2
+    elif e['season']=="fall":
+        return 3
+    elif e['season']=="winter":
+        return 4
+def orderKeyPartTerm(e):
+    return e['part']
+
 def getCourse(request):
     t_courses = request.user.teacher.courses.all()
     list = []
     for i in t_courses:
         list.append(i.getCourseInfo())
+        sortCourses(list)
+    return list
+
+def sortCourses(list):
     list.sort(key=orderKeyPart,reverse=True)
     list.sort(key=orderKeySeason,reverse=True)
     list.sort(key=orderKeyYear,reverse=True)
+    # return list
+def sortTerms(list):
+    list.sort(key=orderKeyPartTerm)
+    list.sort(key=orderKeySeasonTerm)
+    list.sort(key=orderKeyYearTerm)
 
-    return list
 
 def dashboard(request):
     context = {
@@ -45,13 +66,21 @@ def dashboard(request):
     if request.user.username[0]=='s':
         return render(request,"html/dashboard/student/dashboard_s.html",context)
     else:
+        lastTerm = []
+        for i in term.objects.all():
+            lastTerm.append(i.getTermInfo())
+        sortTerms(lastTerm)
+        lastTerm = lastTerm[-1]
+        print(lastTerm)
         count = 0
         for i in request.user.teacher.courses.all():
-            if i.term == term.objects.last():
+            if i.term.getTermInfo() == lastTerm:
                 count = count + len(i.students.all())
+                print(i.students.all())
         context = {
         'count':count,
-        'courses' : getCourse(request)
+        'courses' : getCourse(request),
+        'lastTerm':lastTerm
         }
         return render (request,"html/dashboard/teacher/dashboard_t.html",context)
 
@@ -103,7 +132,6 @@ def courses(request):
     return render(request,'html/dashboard/teacher/courses.html',context)
 def courseInfo(request,info):
     info = info.split("_")
-
     context = {
     'info':info,
     'courses': getCourse(request)
