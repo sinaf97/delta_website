@@ -87,10 +87,7 @@
           </div>
           <div id="details">
             <h1 class="h1">Courses</h1>
-            <ul class="list-group">
-              {%for i in courses%}
-              <a href="dashboard/courses/info_" + i><li class="list-group-item">{{i}}</li></a>
-              {%endfor%}
+            <ul id="courses" class="list-group">
             </ul>
           </div>
         </main>
@@ -116,6 +113,15 @@
     <script type="text/javascript">
 ;
     </script>
+
+    <script type="text/javascript">
+    var sina = {{courses|safe}}
+    console.log(sina[0].code)
+    //for(var i=0;i<sina.length; i++){
+    //$("#courses").append('<a href="dashboard/courses/info_"'+sina[i].code+'><li class="list-group-item">'+ sina[i] +'</li></a>')
+  // }
+    </script>
+
 
 
   </body>
