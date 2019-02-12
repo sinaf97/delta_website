@@ -26,7 +26,8 @@ class course(models.Model):
     term = models.ForeignKey(term,null=True,on_delete=models.CASCADE,related_name="courses")
     course_name = models.CharField(max_length=128)
     teacher = models.ForeignKey(teacher,null=True,on_delete=models.PROTECT,related_name='courses')
-    #student = models.ManyToManyField('student',null=True,related_name='courses')
+    code = models.CharField(max_length=8,null=True)
+    group = models.DecimalField(max_digits=1,null=True,decimal_places=0)
     def __str__(self):
         return f"{self.course_name} - {self.term}"
 
