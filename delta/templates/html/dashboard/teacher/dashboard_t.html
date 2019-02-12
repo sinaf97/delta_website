@@ -6,20 +6,21 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>Status</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="static/css/bootstrap.css" rel="stylesheet">
-    <link href="static/mycss/cover.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Custom styles for this template -->
     <link href="static/mycss/dashboard.css" rel="stylesheet">
+    <link href="static/mycss/cover.css" rel="stylesheet">
   </head>
 
   <body>
     <nav class="site-header sticky-top py-1">
       <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-2" href="/">
+        <a class="py-1" href="/">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
             <line x1="5" y1="8" x2="5" y2="20"></line>
             <line x1="18" y1="8" x2="18" y2="20"></line>
@@ -39,22 +40,27 @@
     </nav>
 
 
+
     <div class="container-fluid">
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="/dashboard">
                   <span data-feather="home"></span>
                   Status <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="dashboard/courses">
-                  <span data-feather="file"></span>
+                <a class="nav-link" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" href="#" >
+                  <span data-feather="users"></span>
                   Courses
                 </a>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body" id="year-courses">
+                  </div>
+                </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -79,35 +85,36 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}</h1>
-            <div class="mb-2 mb-md-0">
-                <img src="../pic/head.png" style="width:20%;float:right">
-            </div>
-          </div>
-          <div id="details">
-            <h1 class="h1">Summary</h1>
-              <h3 id="current-course" class="h5" style="padding:20px 0 0 20px">Status: {%if count == 0 %}
-                                                                                            Not Teaching
-                                                                                          {%else %}
-                                                                                          Teaching
-                                                                                          {%endif%}
-                                                                                              </h3>
-              <h3 id="current-time" class="h5" style="padding:0px 0 0 20px">Current semester: {%if count != 0%}{{user.teacher.courses.last.term}} {%endif%}</h3>
-              <h3 id="average-score" class="h5" style="padding:0px 0 0 20px">Number of students: {{count}}</h3>
+         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+           <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}</h1>
+           <div class="mb-2 mb-md-0">
+               <img src="../pic/head.png" style="width:20%;float:right">
+           </div>
+         </div>
+         <div id="details">
+           <h1 class="h1">Summary</h1>
+             <h3 id="current-course" class="h5" style="padding:20px 0 0 20px">Status: {%if count == 0 %}
+                                                                                           Not Teaching
+                                                                                         {%else %}
+                                                                                         Teaching
+                                                                                         {%endif%}
+                                                                                             </h3>
+             <h3 id="current-time" class="h5" style="padding:0px 0 0 20px">Current semester: {%if count != 0%}{{user.teacher.courses.last.term}} {%endif%}</h3>
+             <h3 id="average-score" class="h5" style="padding:0px 0 0 20px">Number of students: {{count}}</h3>
 
-          </div>
-        </main>
+         </div>
+       </main>
+        </div>
       </div>
-    </div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -115,6 +122,38 @@
       feather.replace()
     </script>
 
-
   </body>
 </html>
+
+
+
+  <script>
+  function order(input){
+    var output = sina[i].course_name +" => "+ sina[i].term.season + " of "+ sina[i].term.year + ", " + " part " + sina[i].term.part
+    return(output)
+  }
+  var sina = {{courses|safe}}
+
+  var flag = sina[0]['term']['year']
+  var count = 0
+  for(var i=0;i<sina.length; i++){
+    if(sina[i]['term']['year'] == flag && count==0){
+      $('#year-courses').append('<a class="nav-link" data-toggle="collapse" data-target="#collapseTerm'+sina[i]['term']['year']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
+        <span data-feather="users"></span>\
+        '+sina[i]['term']['year']+'\
+      </a>\
+      <div class="collapse" id="collapseTerm'+sina[i]['term']['year']+'">\
+        <div class="card card-body" id="term-courses'+sina[i]['term']['year']+'">\
+        </div>\
+      </div>')
+      count++;
+    }
+    else if(sina[i]['term']['year'] != flag) {
+    count = 0
+     flag = sina[i]['term']['year']
+     i--;
+    }
+  }
+  for(var i=0;i<sina.length; i++)
+    $('#term-courses'+sina[i]['term']['year']).append('<a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+sina[i]['term']['season'] +' Part '+ sina[i]['term']['part'] +'</a>')
+  </script>

@@ -3,6 +3,40 @@ from .models import term
 import json
 
 # Create your views here.
+def getCurrentCourse(request):
+    t_courses = request.user.teacher.courses.all()
+    last_term = term.objects.last()
+    list = []
+    for i in t_courses:
+        if i.term == term.objects.last():
+            list.append(i.getCourseInfo())
+
+    return list
+def orderKeyYear(e):
+    return e['term']['year']
+def orderKeySeason(e):
+    if e['term']['season']=="spring":
+        return 1
+    elif e['term']['season']=="summer":
+        return 2
+    elif e['term']['season']=="fall":
+        return 3
+    elif e['term']['season']=="winter":
+        return 4
+
+
+def orderKeyPart(e):
+    return e['term']['part']
+def getCourse(request):
+    t_courses = request.user.teacher.courses.all()
+    list = []
+    for i in t_courses:
+        list.append(i.getCourseInfo())
+    list.sort(key=orderKeyPart,reverse=True)
+    list.sort(key=orderKeySeason,reverse=True)
+    list.sort(key=orderKeyYear,reverse=True)
+
+    return list
 
 def dashboard(request):
     context = {
@@ -15,7 +49,10 @@ def dashboard(request):
         for i in request.user.teacher.courses.all():
             if i.term == term.objects.last():
                 count = count + len(i.students.all())
-        context['count'] = count
+        context = {
+        'count':count,
+        'courses' : getCourse(request)
+        }
         return render (request,"html/dashboard/teacher/dashboard_t.html",context)
 
 
@@ -62,13 +99,13 @@ def reports(request):
     return render(request,'html/dashboard/student/reports.html')
 
 def courses(request):
-    t_courses = request.user.teacher.courses.all()
-    last_term = term.objects.last()
-    list = []
-    for i in t_courses:
-        if i.term == term.objects.last():
-            list.append(i.getCourseInfo())
-    context = {
-    "courses" : list,
-    }
+    context = getCourse(request)
     return render(request,'html/dashboard/teacher/courses.html',context)
+def courseInfo(request,info):
+    info = info.split("_")
+
+    context = {
+    'info':info,
+    'courses': getCourse(request)
+    }
+    return render(request,'html/dashboard/teacher/courseInfo.html',context)
