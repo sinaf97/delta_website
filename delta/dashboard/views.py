@@ -67,7 +67,7 @@ def courses(request):
     list = []
     for i in t_courses:
         if i.term == term.objects.last():
-            list.append(i)
+            list.append(i.getCourseInfo())
     context = {
     "courses" : list,
     }

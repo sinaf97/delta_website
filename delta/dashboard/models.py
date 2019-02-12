@@ -6,12 +6,14 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class term(models.Model):
-    year = models.DecimalField(max_digits=4,decimal_places=0,null=True)
+    year = models.IntegerField(null=True)
     season = models.CharField(max_length=10,null=True)
-    part = models.DecimalField(max_digits=1,decimal_places=0,null=True)
+    part = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.year} => {self.season} {self.part}"
+    def getTermInfo(self):
+        return {'year':self.year,'season':self.season,'part':self.part}
 
 
 class teacher(models.Model):
@@ -21,6 +23,13 @@ class teacher(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+    def statusConvert(self):
+        if(self.status):
+            return "true"
+        else:
+            return "false"
+    def getTeacherInfo(self):
+        return {'name':self.user.first_name+" "+self.user.last_name,'status':self.statusConvert()}
 
 
 class course(models.Model):
@@ -28,9 +37,11 @@ class course(models.Model):
     course_name = models.CharField(max_length=128)
     teacher = models.ForeignKey(teacher,null=True,on_delete=models.PROTECT,related_name='courses')
     code = models.CharField(max_length=8,null=True)
-    group = models.DecimalField(max_digits=1,null=True,decimal_places=0)
+    group = models.IntegerField(null=True)
     def __str__(self):
         return f"{self.course_name} - {self.term}"
+    def getCourseInfo(self):
+        return {'term':self.term.getTermInfo(),'course_name':self.course_name,'teacher':self.teacher.getTeacherInfo(),'code':self.code,'group':self.group}
 
 
 class student(models.Model):
@@ -43,7 +54,7 @@ class student(models.Model):
 class score(models.Model):
     student = models.ForeignKey(student,null=True,default=None,on_delete=models.CASCADE,related_name="scores")
     course = models.ForeignKey(course,null=True,on_delete=models.PROTECT,related_name="scores")
-    scorenum = models.DecimalField(max_digits=3,decimal_places=0)
+    scorenum = models.FloatField(null=True)
 
     def __str__(self):
         return f"Score:{self.scorenum} => {self.student} => {self.course}"

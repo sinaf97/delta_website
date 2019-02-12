@@ -115,11 +115,15 @@
     </script>
 
     <script type="text/javascript">
+    function order(input){
+      var output = sina[i].course_name +" => "+ sina[i].term.season + " of "+ sina[i].term.year + ", " + " part " + sina[i].term.part
+      return(output)
+    }
     var sina = {{courses|safe}}
-    console.log(sina[0].code)
-    //for(var i=0;i<sina.length; i++){
-    //$("#courses").append('<a href="dashboard/courses/info_"'+sina[i].code+'><li class="list-group-item">'+ sina[i] +'</li></a>')
-  // }
+
+    for(var i=0;i<sina.length; i++){
+    $("#courses").append('<a href="dashboard/courses/info_'+sina[i].code+'"><li class="list-group-item">'+ order(i) +'</li></a>')
+  }
     </script>
 
 
