@@ -1,7 +1,13 @@
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
+
+
+
+
+class User(AbstractUser):
+    role = models.CharField(max_length=30, blank=True)
 
 # Create your models here.
 
@@ -46,7 +52,7 @@ class course(models.Model):
 
 class student(models.Model):
     user = models.OneToOneField(User,null=True,on_delete = models.CASCADE)
-    course = models.ManyToManyField(course,null=True,related_name='students')
+    course = models.ManyToManyField(course,related_name='students')
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"

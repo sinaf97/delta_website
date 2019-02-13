@@ -3,14 +3,14 @@ from .models import term , course,score,student
 import json
 
 # Create your views here.
-def getCurrentCourse(request):
-    t_courses = request.user.teacher.courses.all()
-    last_term = term.objects.last()
-    list = []
-    for i in t_courses:
-        if i.term == term.objects.last():
-            list.append(i.getCourseInfo())
-    return list
+# def getCurrentCourse(request):
+#     t_courses = request.user.teacher.courses.all()
+#     last_term = term.objects.last()
+#     list = []
+#     for i in t_courses:
+#         if i.term == term.objects.last():
+#             list.append(i.getCourseInfo())
+#     return list
 
 def courseConverter(info):
     info = info.split("_")
@@ -78,12 +78,15 @@ def dashboard(request):
     }
     if request.user.username[0]=='s':
         return render(request,"html/dashboard/student/dashboard_s.html",context)
+    elif request.user.username == "admin":
+        return render (request,"html/dashboard/admin/dashboard_a.html",context)
     else:
         lastTerm = []
         for i in term.objects.all():
             lastTerm.append(i.getTermInfo())
-        sortTerms(lastTerm)
-        lastTerm = lastTerm[-1]
+        if lastTerm:
+            sortTerms(lastTerm)
+            lastTerm = lastTerm[-1]
         print(lastTerm)
         count = 0
         for i in request.user.teacher.courses.all():
