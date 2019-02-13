@@ -53,23 +53,31 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" href="#" >
+                <a class="nav-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="false" aria-controls="collapseSemester"  href="#" >
                   <span data-feather="users"></span>
                   Courses
                 </a>
-                <div class="collapse" id="collapseExample">
+                <div class="collapse" id="collapseSemester">
+                  <!-- <div class="list-group" id="year-courses">
+                  </div> -->
+                  <ul  id="year-courses-semester">
+
+                  </ul>
+                </div>
+
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" data-target="#collapseHistory" aria-expanded="false" aria-controls="collapseHistory"  href="#">
+                  <span data-feather="layers"></span>
+                  History
+                </a>
+                <div class="collapse" id="collapseHistory">
                   <!-- <div class="list-group" id="year-courses">
                   </div> -->
                   <ul  id="year-courses">
 
                   </ul>
                 </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                  History
-                </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -102,7 +110,7 @@
                                                                                          Teaching
                                                                                          {%endif%}
                                                                                              </h3>
-             <h3 id="current-time" class="h5" style="padding:0px 0 0 20px">Current semester: {%if count != 0%}{{user.teacher.courses.last.term}} {%endif%}</h3>
+             <h3 id="current-time" class="h5" style="padding:0px 0 0 20px">Current semester: {{lastTerm.season}}{{lastTerm.part}} of {{lastTerm.year}}</h3>
              <h3 id="average-score" class="h5" style="padding:0px 0 0 20px">Number of students: {{count}}</h3>
 
          </div>
@@ -132,7 +140,7 @@
 
   <script>
   function order(input){
-    var output = sina[i].code +"_"+ sina[i].group + "_"+ sina[i].term.year + "_" + sina[i].term.season + "_" + sina[i].term.part
+    var output =  "info/" + sina[i].code +"_"+ sina[i].group + "_"+ sina[i].term.year + "_" + sina[i].term.season + "_" + sina[i].term.part
     return(output)
   }
   var sina = {{courses|safe}}
@@ -180,5 +188,11 @@
   }
 
   for(var i=0;i<sina.length; i++)
-    $('#term'+sina[i]['term']['season']+sina[i]['term']['part']).append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
+    $('#term'+sina[i].term.season+sina[i].term.part).append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
+
+
+    var last = {{lastTerm|safe}}
+    for(var i=0;i<sina.length; i++)
+      if(sina[i].term.year == last.year && sina[i].term.season == last.season && sina[i].term.part == last.part)
+        $('#year-courses-semester').append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
   </script>

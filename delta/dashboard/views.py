@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import term , course
+from .models import term , course,score,student
 import json
 
 # Create your views here.
@@ -11,6 +11,19 @@ def getCurrentCourse(request):
         if i.term == term.objects.last():
             list.append(i.getCourseInfo())
     return list
+
+def courseConverter(info):
+    info = info.split("_")
+    info[1] = int(info[1])
+    info[2] = int(info[2])
+    info[4] = int(info[4])
+    studentList = []
+    theCourse = course.objects.all().filter(code=info[0],group=info[1])
+    for i in theCourse:
+        if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
+            theCourse = i
+            break
+    return theCourse
 
 def orderKeyYear(e):
     return e['term']['year']
@@ -85,7 +98,7 @@ def dashboard(request):
         return render (request,"html/dashboard/teacher/dashboard_t.html",context)
 
 
-def score(request):
+def studentScore(request):
     scores = request.user.student.scores.all()
     # list = []
     # for i in scores:
@@ -97,7 +110,7 @@ def score(request):
         list2 = []
         for j in reversed(scores):
             if j.course.term.year == i:
-                sina["text"] =  j.course.term.season + " " + str(j.course.term.part) +"******** score: " + str(j.scorenum)
+                sina["text"] =  j.course.term.season + " " + str(j.course.term.part)+":"+j.course.course_name +"******** Midterm: " + str(j.midScore) +" - Final: " + str(j.finalScore)
                 list2.append(sina)
                 dic[str(i)] = list2
                 sina = {}
@@ -131,21 +144,48 @@ def courses(request):
     context = getCourse(request)
     return render(request,'html/dashboard/teacher/courses.html',context)
 def courseInfo(request,info):
-    info = info.split("_")
-    info[1] = int(info[1])
-    info[2] = int(info[2])
-    info[4] = int(info[4])
-    studentList = []
-    theCourse = course.objects.all().filter(code=info[0],group=info[1])
-    for i in theCourse:
-        if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
-            theCourse = i
-            break
-    counter = 1
+    theCourse = courseConverter(info)
+    lastTerm = []
+    for i in term.objects.all():
+        lastTerm.append(i.getTermInfo())
+    sortTerms(lastTerm)
+    lastTerm = lastTerm[-1]
+
+    students = []
+    for i in theCourse.students.all():
+        students.append(i.getStudentInfo())
+    scores = []
+    for i in theCourse.scores.all():
+        scores.append(i.getScoreInfo())
     context = {
-    'counter':counter,
+    'lastTerm':lastTerm,
     'rawInfo': theCourse,
     'info':theCourse.getCourseInfo(),
-    'courses': getCourse(request)
+    'courses': getCourse(request),
+    'students':students,
+    'scores':scores,
     }
     return render(request,'html/dashboard/teacher/course_info.html',context)
+
+def commiteScore(request,theCourse,username,midscore,finalscore):
+    if midscore=="":
+        midscore = 0
+    if finalscore=="":
+        finalscore = 0
+    std = student.objects.filter(user__username__contains=username).first()
+    new = score(student=std,course=theCourse,midScore=midscore,finalScore=finalscore)
+    exist = score.objects.filter(student=std,course=theCourse).first()
+    if exist is None:
+        new.save()
+    else:
+        score.objects.filter(student=std,course=theCourse).update(midScore=midscore,finalScore=finalscore)
+
+def add_score(request):
+    info = request.POST["course"]
+    theCourse = courseConverter(info)
+    students = theCourse.students.all()
+    for i in students:
+        midScore = request.POST[("midterm_"+i.user.username)]
+        finalScore = request.POST[("final_"+i.user.username)]
+        commiteScore(request,theCourse,i.user.username,midScore,finalScore)
+    return render(request,'html/dashboard/teacher/submit.html')
