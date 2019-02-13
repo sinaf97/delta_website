@@ -5,4 +5,4 @@ from django.contrib.auth import logout
 
 def lout(request):
     logout(request)
-    return render(request,'html/index.html')
+    return render(request,'html/login.html')

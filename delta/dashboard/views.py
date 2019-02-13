@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import term
+from .models import term , course
 import json
 
 # Create your views here.
@@ -132,8 +132,18 @@ def courses(request):
     return render(request,'html/dashboard/teacher/courses.html',context)
 def courseInfo(request,info):
     info = info.split("_")
+    info[1] = int(info[1])
+    info[2] = int(info[2])
+    info[4] = int(info[4])
+    studentList = []
+    theCourse = course.objects.all().filter(code=info[0],group=info[1])
+    for i in theCourse:
+        if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
+            theCourse = i
+            break
     context = {
-    'info':info,
+    'rawInfo': theCourse,
+    'info':theCourse.getCourseInfo(),
     'courses': getCourse(request)
     }
-    return render(request,'html/dashboard/teacher/courseInfo.html',context)
+    return render(request,'html/dashboard/teacher/course_info.html',context)
