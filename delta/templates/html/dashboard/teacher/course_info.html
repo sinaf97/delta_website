@@ -15,6 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="../../static/mycss/dashboard.css" rel="stylesheet">
     <link href="../../static/mycss/cover.css" rel="stylesheet">
+
   </head>
 
   <body>
@@ -96,11 +97,32 @@
          </div>
          <div id="details">
            <h1 class="h1">{{info.course_name}}</h1>
-           <ol>
-             {%for i in rawInfo.students.all%}
-             <li>{{i}}</li>
-             {%endfor%}
-           </ol>
+              <div class="container" style="margin-top:5%">
+                  <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                      <tr>
+
+                        <th>Name</th>
+                        <th>Student Number</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    {%for i in rawInfo.students.all%}
+                      <tr>
+
+                        <td>{{i}}</td>
+                        <td>{{i.user.username}}</td>
+                        <td><input type="number" placeholder="0-100"></td>
+                      </tr>
+
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                  <button type="button" class="btn btn-primary float-right">Submit</button>
+                </div>
+
          </div>
        </main>
         </div>

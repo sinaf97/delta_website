@@ -141,7 +141,9 @@ def courseInfo(request,info):
         if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
             theCourse = i
             break
+    counter = 1
     context = {
+    'counter':counter,
     'rawInfo': theCourse,
     'info':theCourse.getCourseInfo(),
     'courses': getCourse(request)
