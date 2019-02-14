@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import student,course,teacher,term,score,User
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import student,course,teacher,term,score,User,courseInfo
 # Register your models here.
 
 admin.site.register(student)
@@ -8,7 +7,7 @@ admin.site.register(score)
 admin.site.register(course)
 admin.site.register(teacher)
 admin.site.register(term)
-
+admin.site.register(courseInfo)
 
 
 

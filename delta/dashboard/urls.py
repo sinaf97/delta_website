@@ -11,6 +11,9 @@ urlpatterns = [
     path('/courses/submit',views.add_score,name="add_score"),
     path('/courses/info/<str:info>',views.courseInfo,name="course_history"),
     path('/add_user',views.add_user,name="add_user"),
-    # path('add_user/submit',views.add_user_submit,name="add_user_submit"),
+    path('/add_user/submit',views.add_user_submit,name="add_user_submit"),
+    path('/add_user/submit/validate_username',views.validate_username,name="validate_username"),
+    path('/add_term',views.add_term,name="add_term"),
+    path('/add_term/submit',views.add_term_submit,name="add_term_submit"),
 
 ]

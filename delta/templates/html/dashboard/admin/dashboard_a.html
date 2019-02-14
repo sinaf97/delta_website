@@ -59,9 +59,15 @@
                 </a>
                 <div class="collapse" id="collapseAdd">
                   <div class="card card-body" id="year-courses">
-                    <a class="nav-link" href="#">User</a>
-                    <a class="nav-link" href="#">Term</a>
-                    <a class="nav-link" href="#">Course</a>
+                    <a class="nav-link" href="dashboard/add_user">User</a>
+                    <a class="nav-link" href="dashboard/add_term">Term</a>
+                    <a class="nav-link" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="false" aria-controls="collapseCourse" href="#">Course</a>
+                    <div class="collapse" id="collapseCourse">
+                      <ul  id="year-courses">
+                        <li ><a class="nav-link" href="#">Add Course To Term</a></li>
+                        <li ><a class="nav-link" href="#">New Course</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 

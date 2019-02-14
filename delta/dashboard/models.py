@@ -4,7 +4,12 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    role = models.CharField(max_length=30, blank=True)
+    role = models.CharField(max_length=30)
+    phone = models.CharField(max_length=12,null=True)
+    mobile= models.CharField(max_length=12,null=True)
+    idCode = models.CharField(max_length=10,null=True)
+    address = models.TextField(max_length=256,null=True)
+
 
 # Create your models here.
 
@@ -37,15 +42,20 @@ class teacher(models.Model):
 
 class course(models.Model):
     term = models.ForeignKey(term,null=True,on_delete=models.CASCADE,related_name="courses")
-    course_name = models.CharField(max_length=128)
     teacher = models.ForeignKey(teacher,null=True,on_delete=models.PROTECT,related_name='courses')
-    code = models.CharField(max_length=8,null=True)
+    courseInfo = models.OneToOneField('courseInfo',null=True,on_delete=models.PROTECT,related_name='courses')
     group = models.IntegerField(null=True)
     def __str__(self):
-        return f"{self.course_name} - {self.term}"
+        return f"{self.courseInfo.course_name} - {self.term}"
     def getCourseInfo(self):
-        return {'term':self.term.getTermInfo(),'course_name':self.course_name,'teacher':self.teacher.getTeacherInfo(),'code':self.code,'group':self.group}
+        return {'term':self.term.getTermInfo(),'course_name':self.courseInfo.course_name,'teacher':self.teacher.getTeacherInfo(),'code':self.courseInfo.code,'group':self.group}
 
+class courseInfo(models.Model):
+    course_name = models.CharField(max_length=128)
+    code = models.CharField(max_length=8,null=True)
+
+    def __str__(self):
+        return f"{self.course_name}"
 
 class student(models.Model):
     user = models.OneToOneField(User,null=True,on_delete = models.CASCADE)

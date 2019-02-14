@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from .models import term , course,score,student
+from .models import term , course,score,student,User,teacher
 import json
+from django.http import JsonResponse
+from django.urls import reverse
+from django.shortcuts import redirect
 
 # Create your views here.
 # def getCurrentCourse(request):
@@ -18,7 +21,7 @@ def courseConverter(info):
     info[2] = int(info[2])
     info[4] = int(info[4])
     studentList = []
-    theCourse = course.objects.all().filter(code=info[0],group=info[1])
+    theCourse = course.objects.all().filter(courseInfo__code__contains=info[0],group=info[1])
     for i in theCourse:
         if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
             theCourse = i
@@ -76,11 +79,9 @@ def dashboard(request):
     context = {
         "user" : request.user
     }
-    if request.user.username[0]=='s':
+    if request.user.role=="Student":
         return render(request,"html/dashboard/student/dashboard_s.html",context)
-    elif request.user.username == "admin":
-        return render (request,"html/dashboard/admin/dashboard_a.html",context)
-    else:
+    elif request.user.role=="Teacher":
         lastTerm = []
         for i in term.objects.all():
             lastTerm.append(i.getTermInfo())
@@ -99,6 +100,8 @@ def dashboard(request):
         'lastTerm':lastTerm
         }
         return render (request,"html/dashboard/teacher/dashboard_t.html",context)
+    else:
+        return render (request,"html/dashboard/admin/dashboard_a.html",context)
 
 
 def studentScore(request):
@@ -113,7 +116,7 @@ def studentScore(request):
         list2 = []
         for j in reversed(scores):
             if j.course.term.year == i:
-                sina["text"] =  j.course.term.season + " " + str(j.course.term.part)+":"+j.course.course_name +"******** Midterm: " + str(j.midScore) +" - Final: " + str(j.finalScore)
+                sina["text"] =  j.course.term.season + " " + str(j.course.term.part)+":"+j.course.courseInfo.course_name +"******** Midterm: " + str(j.midScore) +" - Final: " + str(j.finalScore)
                 list2.append(sina)
                 dic[str(i)] = list2
                 sina = {}
@@ -192,6 +195,60 @@ def add_score(request):
         finalScore = request.POST[("final_"+i.user.username)]
         commiteScore(request,theCourse,i.user.username,midScore,finalScore)
     return render(request,'html/dashboard/teacher/submit.html')
+
 def add_user(request):
-    return render(request,'html/dashboard/admin/addUser.html')
-# def add_user_submit(request):
+    context = {
+        'status':"start",
+    }
+    return render(request,'html/dashboard/admin/addUser.html',context)
+def add_user_submit(request):
+    print("called")
+    check = User.objects.filter(username=request.POST["username"]).first()
+    if(check is None):
+        newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
+        newUser.save()
+        status = "User was created successfully!"
+        if request.POST["role"]=="Teacher":
+            t = teacher(user=newUser)
+            t.save()
+        elif request.POST["role"]=="Student":
+            s = student(user=newUser)
+            s.save()
+    else:
+        status = "Username already exists!"
+    data = {
+        'status':status,
+    }
+    return JsonResponse(data)
+def validate_username(request):
+    username = request.GET.get('username',None)
+    exists = User.objects.filter(username=username).exists()
+    if(exists):
+        data={
+            'msg':"Username taken!",
+            'status':0,
+        }
+    else:
+        data={
+            'msg':"Username valid!",
+            'status':200,
+        }
+    return JsonResponse(data)
+
+def add_term(request):
+    context = {
+        'status':"start",
+    }
+    return render(request,'html/dashboard/admin/addTerm.html',context)
+def add_term_submit(request):
+    check = term.objects.filter(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"]).first()
+    if(check is None):
+        newTerm = term(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"])
+        newTerm.save()
+        status = "Term was added successfully!"
+    else:
+        status = "Term already added!"
+    data = {
+        'status':status,
+    }
+    return JsonResponse(data)
