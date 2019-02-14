@@ -192,3 +192,6 @@ def add_score(request):
         finalScore = request.POST[("final_"+i.user.username)]
         commiteScore(request,theCourse,i.user.username,midScore,finalScore)
     return render(request,'html/dashboard/teacher/submit.html')
+def add_user(request):
+    return render(request,'html/dashboard/admin/addUser.html')
+# def add_user_submit(request):
