@@ -12,17 +12,22 @@ admin.site.register(term)
 
 
 
+class UserDisplay(admin.ModelAdmin):
+    list_display = ('username','email','first_name','last_name','role','is_staff','is_active')
 
-class TeacherInline(admin.StackedInline):
-    model = teacher
-    can_delete = False
-    verbose_name_plural = 'teacher'
+admin.site.register(User,UserDisplay)
 
-class StudentInline(admin.StackedInline):
-    model = student
-    can_delete = False
-    verbose_name_plural = 'student'
-class UserAdmin(BaseUserAdmin):
-    inlines = (StudentInline,TeacherInline)
+# class TeacherInline(admin.StackedInline):
+#     model = teacher
+#     can_delete = False
+#     verbose_name_plural = 'teacher'
+#
+# class StudentInline(admin.StackedInline):
+#     model = student
+#     can_delete = False
+#     verbose_name_plural = 'student'
+#
+# class UserAdmin(BaseUserAdmin):
+#     inlines = (StudentInline,TeacherInline,UserDisplay)
 
-admin.site.register(User,UserAdmin)
+# admin.site.register(User,UserAdmin)
