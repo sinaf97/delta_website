@@ -1,100 +1,6 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% include "html/dashboard/admin/layout.html" %}
 
-    <title>Status</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- Custom styles for this template -->
-    <link href="../static/mycss/dashboard.css" rel="stylesheet">
-    <link href="../static/mycss/cover.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <nav class="site-header sticky-top py-1">
-      <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-1" href="/">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-            <line x1="5" y1="8" x2="5" y2="20"></line>
-            <line x1="18" y1="8" x2="18" y2="20"></line>
-            <line x1="0" y1="10" x2="11.5" y2="0"></line>
-            <line x1="23" y1="10" x2="11.5" y2="0"></line>
-          </svg>
-        </a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Schedule</a>
-        <a class="py-2 d-none d-md-inline-block" href="dashboard">Dashboard</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Books</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Contact us</a>
-        <a class="py-2 d-none d-md-inline-block" href="{%url 'logout'%}">Log out</a>
-      </div>
-    </nav>
-
-
-
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                  <span data-feather="home"></span>
-                  Status <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" data-toggle="collapse" data-target="#collapseAdd" aria-expanded="true" aria-controls="collapseAdd"  href="#" >
-                  <span data-feather="bar-chart-2"></span>
-                  Add
-                </a>
-                <div class="collapse show" id="collapseAdd">
-                  <div class="card card-body" id="year-courses">
-                    <a class="nav-link" href="/dashboard/add_user">User</a>
-                    <a class="nav-link active" href="#">Term</a>
-                    <a class="nav-link" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="false" aria-controls="collapseCourse" href="#">Course</a>
-                    <div class="collapse" id="collapseCourse">
-                      <ul  id="year-courses">
-                        <li ><a class="nav-link" href="#">Add Course To Term</a></li>
-                        <li ><a class="nav-link" href="#">New Course</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" data-target="#collapseStatistics" aria-expanded="false" aria-controls="collapseStatistics"  href="#" >
-                  <span data-feather="bar-chart-2"></span>
-                  Statistics
-                </a>
-                <div class="collapse" id="collapseStatistics">
-                  <div class="card card-body" id="year-courses">
-                    <a class="nav-link" href="#">Students</a>
-                    <a class="nav-link" href="#">Teachers</a>
-                    <a class="nav-link" href="#">Staff</a>
-                  </div>
-                </div>
-
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Course Report
-                </a>
-              </li>
-
-            </ul>
-        </nav>
+{% block main %}
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -113,7 +19,7 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="season">Season</label>
-                <select id="season" class="form-control" name="season">
+                <select id="season" class="form-control" name="season" required>
                   <option selected>Choose...</option>
                   <option>Spring</option>
                   <option>Summer</option>
@@ -123,7 +29,7 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="part">Part</label>
-                <select id="part" class="form-control" name="part">
+                <select id="part" class="form-control" name="part"  required>
                   <option selected>Choose...</option>
                   <option>1</option>
                   <option>2</option>
@@ -138,59 +44,56 @@
         </div>
       </div>
 
-      <div class="modal fade" id="addTerm" role="dialog">
-        <div class="modal-dialog">
+      <!-- Central Modal Medium Success -->
+        <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content">
+              <!--Header-->
+              <div class="modal-header">
+                <p class="heading lead">Status</p>
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title float-left">Status</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+              </div>
+
+              <!--Body-->
+              <div class="modal-body">
+                <div class="text-center">
+                  <p id="status"></p>
+                </div>
+              </div>
+
+              <!--Footer-->
+              <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+              </div>
             </div>
-            <div class="modal-body">
-              <p id="status">User was created successfully!</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            <!--/.Content-->
           </div>
-
         </div>
+        {% endblock %}
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script
-			  src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script>
-        <script src="http://malsup.github.com/jquery.form.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../static/js/popper.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
 
-    <!-- Icons -->
-    <script src="../../../static/js/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
-<script type="text/javascript">
-var status = "{{status|safe}}"
-console.log(status)
-if(status !="start"){
-  $('#status').html(status)
- $('#addTerm').modal()
-}
+  <script type="text/javascript">
+    $('#submit').click(submit_form)
 
-$('#submit').click(function() {
-  $('#add-term-form').ajaxForm({
-  success: function (data) {
-    $('#status').html(data.status)
-   $('#addTerm').modal()
-  },
-    dataType:'json',
-})});
+    function submit_form(){
+      $('#add-term-form').ajaxForm({
+      success: function (data) {
+        $('#status').html(data.status)
+       $('#centralModalSuccess').modal()
+       document.getElementById('add-term-form').reset()
+      },
+        dataType:'json',
+    })
+    }
 
-</script>
-  </body>
-</html>
+      $('#add').addClass("active")
+      $('#add-term').addClass("active")
+      $('#collapseAdd').addClass("show")
+      $('#add').attr("aria-expanded","true")
+
+  </script>

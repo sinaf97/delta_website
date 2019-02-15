@@ -43,7 +43,7 @@ class teacher(models.Model):
 class course(models.Model):
     term = models.ForeignKey(term,null=True,on_delete=models.CASCADE,related_name="courses")
     teacher = models.ForeignKey(teacher,null=True,on_delete=models.PROTECT,related_name='courses')
-    courseInfo = models.OneToOneField('courseInfo',null=True,on_delete=models.PROTECT,related_name='courses')
+    courseInfo = models.ForeignKey('courseInfo',null=True,on_delete=models.PROTECT,related_name='courses')
     group = models.IntegerField(null=True)
     def __str__(self):
         return f"{self.courseInfo.course_name} - {self.term}"
@@ -68,7 +68,7 @@ class student(models.Model):
 
 class score(models.Model):
     student = models.ForeignKey(student,null=True,default=None,on_delete=models.CASCADE,related_name="scores")
-    course = models.ForeignKey(course,null=True,on_delete=models.PROTECT,related_name="scores")
+    course = models.ForeignKey(course,null=True,on_delete=models.CASCADE,related_name="scores")
     midScore = models.FloatField(null=True)
     finalScore = models.FloatField(null=True)
 

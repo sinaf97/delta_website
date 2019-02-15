@@ -1,0 +1,76 @@
+{% include "html/dashboard/admin/layout.html" %}
+
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+ <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+   <h3 class="h3 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h3>
+   <div class="mb-2 mb-md-0">
+       <img src="../static/pic/head.png" style="width:10%;float:right">
+   </div>
+ </div>
+ <form id="new-course-form" action="{%url 'new_course_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+   {%csrf_token%}
+   <div style="margin:10px">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="courseName">Course name</label>
+        <input type="text" class="form-control" id="courseName" placeholder="AEF 1" name="courseName" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="courseCode">Course code</label>
+        <input type="text" class="form-control" id="courseCode" placeholder="AEF1UI" name="courseCode" required>
+      </div>
+
+    </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Submit</button>
+
+    <div>
+  </form>
+</main>
+</div>
+</div>
+
+<div class="modal fade" id="newCourse" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title float-left">Status</h4>
+    </div>
+    <div class="modal-body">
+      <p id="status">User was created successfully!</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+
+  <script type="text/javascript">
+    $('#submit').click(submit_form)
+
+    function submit_form(){
+      $('#new-course-form').ajaxForm({
+        success: function (data) {
+        $('#status').html(data.msg)
+        $('#newCourse').modal()
+        document.getElementById('new-course-form').reset()
+        },
+        dataType:'json',
+      })
+    }
+
+    $('#add').addClass("active")
+    $('#course').addClass("active")
+    $('#new-course').addClass("active")
+    $('#collapseAdd').addClass("show")
+    $('#add').attr("aria-expanded","true")
+    $('#collapseCourse').addClass("show")
+    $('#course').attr("aria-expanded","true")
+
+</script>

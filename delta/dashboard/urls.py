@@ -15,5 +15,9 @@ urlpatterns = [
     path('/add_user/submit/validate_username',views.validate_username,name="validate_username"),
     path('/add_term',views.add_term,name="add_term"),
     path('/add_term/submit',views.add_term_submit,name="add_term_submit"),
-
+    path('/new_course',views.new_course,name="new_course"),
+    path('/new_course/submit',views.new_course_submit,name="new_course_submit"),
+    path('/course_to_term',views.course_to_term,name="course_to_term"),
+    path('/course_to_term/submit',views.course_to_term_submit,name="course_to_term_submit"),
+    path('/course_to_term/auto_fill',views.auto_fill,name="auto_fill"),
 ]

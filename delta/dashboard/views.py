@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import term , course,score,student,User,teacher
+from .models import courseInfo as course_info
 import json
 from django.http import JsonResponse
 from django.urls import reverse
@@ -21,7 +22,7 @@ def courseConverter(info):
     info[2] = int(info[2])
     info[4] = int(info[4])
     studentList = []
-    theCourse = course.objects.all().filter(courseInfo__code__contains=info[0],group=info[1])
+    theCourse = course.objects.all().filter(courseInfo__code=info[0],group=info[1])
     for i in theCourse:
         if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
             theCourse = i
@@ -65,14 +66,14 @@ def getCourse(request):
     return list
 
 def sortCourses(list):
-    list.sort(key=orderKeyPart,reverse=True)
-    list.sort(key=orderKeySeason,reverse=True)
-    list.sort(key=orderKeyYear,reverse=True)
+    list.sort(key=lambda i: i['part'],reverse=True)
+    list.sort(key=lambda i: i['season'],reverse=True)
+    list.sort(key=lambda i: i['year'],reverse=True)
     # return list
 def sortTerms(list):
-    list.sort(key=orderKeyPartTerm)
-    list.sort(key=orderKeySeasonTerm)
-    list.sort(key=orderKeyYearTerm)
+    list.sort(key=lambda i: i['part'],reverse=True)
+    list.sort(key=lambda i: i['season'],reverse=True)
+    list.sort(key=lambda i: i['year'],reverse=True)
 
 
 def dashboard(request):
@@ -178,7 +179,7 @@ def commiteScore(request,theCourse,username,midscore,finalscore):
         midscore = 0
     if finalscore=="":
         finalscore = 0
-    std = student.objects.filter(user__username__contains=username).first()
+    std = student.objects.filter(user__username=username).first()
     new = score(student=std,course=theCourse,midScore=midscore,finalScore=finalscore)
     exist = score.objects.filter(student=std,course=theCourse).first()
     if exist is None:
@@ -236,19 +237,104 @@ def validate_username(request):
     return JsonResponse(data)
 
 def add_term(request):
-    context = {
-        'status':"start",
-    }
-    return render(request,'html/dashboard/admin/addTerm.html',context)
+    return render(request,'html/dashboard/admin/addTerm.html')
 def add_term_submit(request):
     check = term.objects.filter(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"]).first()
     if(check is None):
         newTerm = term(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"])
         newTerm.save()
-        status = "Term was added successfully!"
+        status = f"<b>Term was added successfully:</b><br/>Year: {newTerm.year}<br/>Season: {newTerm.season}<br/>Part: {newTerm.part}"
     else:
-        status = "Term already added!"
+        status = f"<b>Term already exists:</b><br/>Year: {check.year}<br/>Season: {check.season}<br/>Part: {check.part}"
     data = {
         'status':status,
     }
+    return JsonResponse(data)
+def new_course(request):
+    return render(request,'html/dashboard/admin/newCourse.html')
+def new_course_submit(request):
+    new = course_info(course_name=request.POST['courseName'],code=request.POST['courseCode'])
+    exist = [course_info.objects.filter(course_name=request.POST['courseName']).first(),course_info.objects.filter(code=request.POST['courseCode']).first()]
+    if exist[0] is not None and exist[1] is not None:
+        msg = f"<b>Course already exists:</b><br/>Name: {exist[0].course_name}<br/>Code: {exist[0].course_name}"
+        status = 0
+    elif exist[0] is not None:
+        msg = f"<b>Name taken:</b><br/>Name: {exist[0].course_name}<br/>Code: {exist[0].course_name}"
+        status = 0
+    elif exist[1] is not None:
+        msg = f"<b>Code taken:</b><br/>Name: {exist[1].course_name}<br/>Code: {exist[1].course_name}"
+        status = 0
+    else:
+        msg = "Course created successfully!"
+        status = 200
+        new.save()
+    data={
+        'msg':msg,
+        'status':status,
+    }
+    return JsonResponse(data)
+def course_to_term(request):
+    terms = []
+    for i in term.objects.all():
+        terms.append(i.getTermInfo())
+    if terms:
+        sortTerms(terms)
+    data = {
+        'terms':terms,
+    }
+    return render(request,'html/dashboard/admin/courseToTerm.html',data)
+def course_to_term_submit(request):
+    newTerm = year=request.POST['term'].split("-")
+    newTerm = term.objects.get(year=newTerm[2],season=newTerm[0],part=newTerm[1])
+    newCourse = course_info.objects.get(code=request.POST['courseCode'])
+    newTeacher = teacher.objects.get(user__username=request.POST['teacherUsername'])
+    newGroup = request.POST['courseGroup']
+    newCourse = course(term=newTerm,teacher=newTeacher,courseInfo=newCourse,group=newGroup)
+    newCourse.save()
+    data = {
+        'msg':f"Course added to {request.POST['term']} successfully!",
+        'status':200
+    }
+    return JsonResponse(data)
+def auto_fill(request):
+    answer = None
+    thing = [request.GET.get('info',None),request.GET.get('wanted',None)]
+    if thing[1] == "courseCode":
+        answer = course_info.objects.filter(course_name=thing[0]).first()
+        if answer is not None:
+            data = {
+            'info':answer.code,
+            'status':200,
+            }
+    elif thing[1] == "courseName":
+        answer = course_info.objects.filter(code=thing[0]).first()
+        print(answer)
+        if answer is not None:
+            data = {
+            'info':answer.course_name,
+            'status':200,
+            }
+    elif thing[1] == "teacherUsername":
+        teachers = teacher.objects.all()
+        for i in teachers:
+            temp = i.user.first_name + " " +i.user.last_name
+            if temp == thing[0]:
+                data = {
+                'info':i.user.username,
+                'status':200,
+                }
+                answer = 1
+                break
+    elif thing[1] == "teacherName":
+        answer = teacher.objects.filter(user__username=thing[0]).first()
+        if answer is not None:
+            data = {
+            'info':answer.user.first_name + " " +answer.user.last_name,
+            'status':200,
+            }
+    if answer is None:
+        data = {
+        'info':"Not found",
+        'status':0,
+        }
     return JsonResponse(data)

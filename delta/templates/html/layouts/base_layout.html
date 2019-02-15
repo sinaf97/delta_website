@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% block title %}{% endblock %}
+    {% block head %}{% endblock %}
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="../static/mycss/dashboard.css" rel="stylesheet">
+    <link href="../static/mycss/cover.css" rel="stylesheet">
+  </head>
+
+<body>
+<nav class="site-header sticky-top py-1">
+  <div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-1" href="/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
+        <line x1="5" y1="8" x2="5" y2="20"></line>
+        <line x1="18" y1="8" x2="18" y2="20"></line>
+        <line x1="0" y1="10" x2="11.5" y2="0"></line>
+        <line x1="23" y1="10" x2="11.5" y2="0"></line>
+      </svg>
+    </a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Schedule</a>
+    <a class="py-2 d-none d-md-inline-block" href="/dashboard">Dashboard</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Books</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Contact us</a>
+    <a class="py-2 d-none d-md-inline-block" href="{%url 'logout'%}">Log out</a>
+  </div>
+</nav>
+{% block body %}
+{% endblock %}
+
+</body>
+</html>

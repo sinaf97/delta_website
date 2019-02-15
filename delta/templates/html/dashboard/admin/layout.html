@@ -1,0 +1,86 @@
+{% include "html/layouts/base_layout.html"%}
+
+{% block title %}
+  <title>Dashboard</title>
+{% endblock %}
+{% block head %}
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<link href="style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a id="dashboard" class="nav-link" href="/dashboard">
+              <span data-feather="home"></span>
+              Status <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="add" class="nav-link" data-toggle="collapse" data-target="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd"  href="#" >
+              <span data-feather="bar-chart-2"></span>
+              Add
+            </a>
+            <div class="collapse" id="collapseAdd">
+              <div class="card card-body" id="year-courses">
+                <a id="add-user" class="nav-link" href="/dashboard/add_user">User</a>
+                <a id="add-term" class="nav-link" href="/dashboard/add_term">Term</a>
+                <a id="course" class="nav-link" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="false" aria-controls="collapseCourse" href="#">Course</a>
+                <div class="collapse" id="collapseCourse">
+                  <ul>
+                    <li ><a id="new-course" class="nav-link" href="/dashboard/new_course">New Course</a></li>
+                    <li ><a id="add-course-to-term" class="nav-link" href="/dashboard/course_to_term">Add Course To Term</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" data-target="#collapseStatistics" aria-expanded="false" aria-controls="collapseStatistics"  href="#" >
+              <span data-feather="bar-chart-2"></span>
+              Statistics
+            </a>
+            <div class="collapse" id="collapseStatistics">
+              <div class="card card-body" id="year-courses">
+                <a class="nav-link" href="#">Students</a>
+                <a class="nav-link" href="#">Teachers</a>
+                <a class="nav-link" href="#">Staff</a>
+              </div>
+            </div>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="bar-chart-2"></span>
+              Course Report
+            </a>
+          </li>
+        </ul>
+      </div>
+      </nav>
+    </div>
+        {% block main %}
+        {% endblock %}
+    </div>
+
+
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="../../../static/js/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+{% endblock %}
