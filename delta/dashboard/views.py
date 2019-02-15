@@ -70,6 +70,11 @@ def sortCourses(list):
     list.sort(key=lambda i: i['season'],reverse=True)
     list.sort(key=lambda i: i['year'],reverse=True)
     # return list
+def sortCourses_name(list):
+    list.sort(key=lambda i: i['part'],reverse=True)
+    list.sort(key=lambda i: i['season'],reverse=True)
+    list.sort(key=lambda i: i['year'],reverse=True)
+    # return list
 def sortTerms(list):
     list.sort(key=lambda i: i['part'],reverse=True)
     list.sort(key=lambda i: i['season'],reverse=True)
@@ -89,12 +94,10 @@ def dashboard(request):
         if lastTerm:
             sortTerms(lastTerm)
             lastTerm = lastTerm[-1]
-        print(lastTerm)
         count = 0
         for i in request.user.teacher.courses.all():
             if i.term.getTermInfo() == lastTerm:
                 count = count + len(i.students.all())
-                print(i.students.all())
         context = {
         'count':count,
         'courses' : getCourse(request),
@@ -203,7 +206,6 @@ def add_user(request):
     }
     return render(request,'html/dashboard/admin/addUser.html',context)
 def add_user_submit(request):
-    print("called")
     check = User.objects.filter(username=request.POST["username"]).first()
     if(check is None):
         newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
@@ -308,7 +310,6 @@ def auto_fill(request):
             }
     elif thing[1] == "courseName":
         answer = course_info.objects.filter(code=thing[0]).first()
-        print(answer)
         if answer is not None:
             data = {
             'info':answer.course_name,
@@ -337,4 +338,56 @@ def auto_fill(request):
         'info':"Not found",
         'status':0,
         }
+    return JsonResponse(data)
+
+def students_to_course(request):
+    terms = []
+    for i in term.objects.all():
+        terms.append(i.getTermInfo())
+    if terms:
+        sortTerms(terms)
+    data = {
+        'terms':terms,
+    }
+    return render(request,'html/dashboard/admin/studentToCourse.html',data)
+def getTermCourse(request):
+    myterm = request.GET.get('info',None).split("-")
+    myterm = term.objects.get(year=myterm[2],season=myterm[0],part=myterm[1])
+    courses = []
+    for i in myterm.courses.all():
+        courses.append(i.getCourseInfo())
+    courses.sort(key=lambda i: i['course_name'])
+    data = {
+        'courses':courses
+    }
+    return JsonResponse(data)
+def students_to_course_submit(request):
+    myterm = [request.POST['term'].split('-')[0],int(request.POST['term'].split('-')[1]),int(request.POST['term'].split('-')[2])]
+    mycourse = [request.POST['courses'].split(' - ')[0],request.POST['courses'].split(' - ')[1].split(':')[1],int(request.POST['courses'].split(' - ')[2].split(':')[1])]
+    mycourse = course.objects.get(courseInfo__course_name = mycourse[0],courseInfo__code = mycourse[1],group = mycourse[2],term__year=myterm[2],term__season=myterm[0],term__part=myterm[1])
+    names = request.POST['studentNames'].split('\n')
+    students = student.objects.all()
+    for i in names:
+        toAdd = list(filter(lambda x: x.user.first_name+" "+x.user.last_name==i,students))
+        toAdd[0].course.add(mycourse)
+        toAdd[0].save()
+    data = {
+    'msg':f"<b>Students added to the course successfully!</b><br/>Course name: {mycourse.courseInfo.course_name}<br/>Course students number: {len(mycourse.students.all())}",
+    'status':200
+    }
+    return JsonResponse(data)
+def validate_usernames(request):
+    names = list(filter(None,request.GET.get('info',None).split(",")))
+    response = []
+    for i in names:
+        students = student.objects.all()
+        toAdd = list(filter(lambda x: x.user.first_name+" "+x.user.last_name==i,students))
+        if toAdd:
+                response.append({'name':toAdd[0].user.first_name +" "+toAdd[0].user.last_name,'status':200})
+        else:
+            response.append({'name':i,'status':0})
+    data = {
+        'response':response,
+        'status':200
+    }
     return JsonResponse(data)

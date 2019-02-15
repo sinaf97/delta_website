@@ -37,7 +37,7 @@ class teacher(models.Model):
         else:
             return "false"
     def getTeacherInfo(self):
-        return {'name':self.user.first_name+" "+self.user.last_name,'status':self.statusConvert()}
+        return {'name':self.user.first_name+" "+self.user.last_name,'status':self.statusConvert(),'username':self.user.username}
 
 
 class course(models.Model):

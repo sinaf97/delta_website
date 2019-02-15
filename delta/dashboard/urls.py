@@ -20,4 +20,9 @@ urlpatterns = [
     path('/course_to_term',views.course_to_term,name="course_to_term"),
     path('/course_to_term/submit',views.course_to_term_submit,name="course_to_term_submit"),
     path('/course_to_term/auto_fill',views.auto_fill,name="auto_fill"),
+    path('/students_to_course',views.students_to_course,name="students_to_course"),
+    path('/students_to_course/submit',views.students_to_course_submit,name="students_to_course_submit"),
+    path('/student_to_course/validate_usernames',views.validate_usernames,name="validate_usernames"),
+    path('/student_to_course/get_term_course',views.getTermCourse,name="get_term_course"),
+
 ]

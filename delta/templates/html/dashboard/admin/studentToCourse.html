@@ -1,0 +1,189 @@
+{% include "html/dashboard/admin/layout.html" %}
+
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+ <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+   <h3 class="h3 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h3>
+   <div class="mb-2 mb-md-0">
+       <img src="../static/pic/head.png" style="width:10%;float:right">
+   </div>
+ </div>
+ <form id="student-to-course-form" action="{%url 'students_to_course_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+   {%csrf_token%}
+   <div style="margin:10px">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="term">Term</label>
+        <select id="term" class="form-control" name="term">
+          <option selected>Choose...</option>
+          {%for i in terms%}
+          <option>{{i.season}}-{{i.part}}-{{i.year}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="courses">Course</label>
+        <select id="courses" class="form-control" name="courses" disabled>
+          <option value="" selected>Choose...</option>
+        </select>
+      </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="teacherName">Teacher name</label>
+        <input type="text" class="form-control" id="teacherName" name="teacherName" required disabled>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="teacherUsername">Teacher username</label>
+        <input type="text" class="form-control" id="teacherUsername" name="teacherUsername" required disabled>
+      </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="studentNames" disabled>Student's names</label>
+      <textarea class="form-control" id="studentNames" rows="10" name="studentNames" required></textarea>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="studentsUsernames" disabled>Response</label>
+      <div  style="overflow:scroll;border:2px solid grey;border-radius:5px" id="response-container">
+
+        <ol id="studentsUsernames">
+
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+      <button type="button" class="btn btn-primary col-md-5" style="margin:5% 3%" id="validate-students">Validate students</button>
+      <button type="submit" class="btn btn-primary col-md-5" style="margin:5% 3%" id="submit" disabled>Submit</button>
+</div>
+    <div>
+  </form>
+</main>
+</div>
+</div>
+
+      <!-- Central Modal Medium Success -->
+        <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content">
+              <!--Header-->
+              <div class="modal-header">
+                <p class="heading lead">Status</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+              </div>
+
+              <!--Body-->
+              <div class="modal-body">
+                <div class="text-center">
+                  <p id="status"></p>
+                </div>
+              </div>
+
+              <!--Footer-->
+              <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+              </div>
+            </div>
+            <!--/.Content-->
+          </div>
+        </div>
+        <!-- Central Modal Medium Success-->
+
+
+{% endblock %}
+
+  <script type="text/javascript">
+
+    $('#response-container').css('height',$('#studentNames').height()+$('#studentNames').height()/15)
+
+    $('#submit').click(submit_form)
+    $('#term').change(getCourses)
+    $('#courses').change(fill_teacher)
+    $('#validate-students').click(validate_students)
+
+    var courses = []
+    function getCourses(){
+      var term = $(this).val();
+      $.ajax({
+        url: "{%url 'get_term_course'%}",
+        data: {
+          'info': term,
+        },
+        dataType: 'json',
+        success: function (data) {
+          $('#courses').prop('disabled',false)
+          $('#courses').empty()
+          $('#courses').append('<option value="" selected>Choose...</option>')
+          courses = data.courses
+          for (var i of data.courses)
+            $('#courses').append('<option>'+i.course_name+' - code:'+i.code+' - group:'+i.group+'</option>')
+        }
+      });
+    }
+    function fill_teacher(){
+        var course = $('#courses').val()
+        course = course.split("-")
+        course = [course[0].trim(),course[1].split(":")[1].trim(),course[2].split(":")[1].trim()]
+        for (i of courses)
+          if(i.course_name == course[0]&&i.code == course[1]&&i.group == course[2]){
+            $('#teacherName').val(i.teacher.name)
+            $('#teacherUsername').val(i.teacher.username)
+          }
+  }
+    function validate_students(){
+    var names = $('#studentNames').val().split();
+    names = names[0].split('\n')
+    $.ajax({
+      url: "{%url 'validate_usernames'%}",
+      data: {
+        'info': names.join(),
+      },
+      dataType: 'json',
+      success: function (data) {
+        var flag = 0
+        $('#studentsUsernames').empty()
+        for(var i of data.response){
+            if(i.status)
+              $('#studentsUsernames').append('<li >'+ i.name + ' <span style="color:green">Valid</span></li>')
+            else{
+            $('#studentsUsernames').append('<li >'+ i.name + ' <span style="color:red">NOT Valid</span></li>')
+            flag = 1;
+          }
+        }
+        if(!flag&&$('#term').val()!="Choose..."&&$('#courses').val()!="Choose...")
+          $('#submit').prop('disabled',false)
+        else
+          $('#submit').prop('disabled',true)
+      }
+    });
+  }
+
+    function submit_form(){
+      var names = $('#studentNames').val().split();
+      names = names[0].split('\n')
+      $('#student-to-course-form').ajaxForm({
+        data : {
+          'names':names
+        },
+        success: function (data) {
+        $('#status').html(data.msg)
+        $('#centralModalSuccess').modal()
+        document.getElementById('student-to-course-form').reset()
+        $('#submit').prop('disabled',true)
+        $('#response-container').empty()
+        },
+        dataType:'json',
+      })
+    }
+    $('#add').addClass("active")
+    $('#students-to-course').addClass("active")
+    $('#collapseAdd').addClass("show")
+    $('#add').attr("aria-expanded","true")
+
+</script>
