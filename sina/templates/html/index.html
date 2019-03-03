@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="../pic/Loogo.png">
+
+    <title>Delta</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/mycss/cover.css" rel="stylesheet">
+    <link href="/static/mycss/heading.css" rel="stylesheet">
+
+  </head>
+
+  <body class="text-center">
+
+    <nav class="site-header sticky-top py-1">
+      {% if request.user.is_authenticated %}
+      <p style="color: white;float:left;margin:8px 20px">Hello, {{user.username}} !</p>
+      {%endif%}
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-2" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
+            <line x1="5" y1="8" x2="5" y2="20"></line>
+            <line x1="18" y1="8" x2="18" y2="20"></line>
+            <line x1="0" y1="10" x2="11.5" y2="0"></line>
+            <line x1="23" y1="10" x2="11.5" y2="0"></line>
+          </svg>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Schedule</a>
+        {% if request.user.is_authenticated %}
+        <a class="py-2 d-none d-md-inline-block" href="dashboard">Dashboard</a>
+        {% else %}
+        <a class="py-2 d-none d-md-inline-block" href="login">Sign in</a>
+        <a class="py-2 d-none d-md-inline-block" href="register">Register</a>
+        {%endif%}
+        <a class="py-2 d-none d-md-inline-block" href="#">Books</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Contact us</a>
+        {% if request.user.is_authenticated %}
+        <a class="py-2 d-none d-md-inline-block" href="{%url 'logout'%}">Log out</a>
+        {%endif%}
+      </div>
+    </nav>
+
+<div id="heading">
+      <div id="heading-text">
+        <h1>DELTA</h1>
+        <h3>Institute Of English<br>Language</h3>
+        <br><br>
+        {% if request.user.is_authenticated %}
+        <a href="dashboard" id="heading-link">Dashboard</a>
+        {%else%}
+        <a href="login" id="heading-link">Sign in</a>
+        <a href="register" id="heading-link">Register</a>
+        {%endif%}
+      </div>
+
+    <div id="heading-logo">
+      <img src="/static/pic/Logo.png">
+    </div>
+</div>
+    <hr>
+
+  <div id="ceo">
+      <div id="ceo-pic">
+        <img src="/static/pic/ceo.png">
+      </div>
+      <div id="ceo-text">
+        <h1 id = "sina">Sina Farahani</h1>
+        <h3>CEO and manager of the institute</h3>
+          <p>this is me sina asDFHBSFDNMK JDA Dasd afsf sfef<br>
+             afvff ef afasff<br>
+             s sdf dsf fgs dfsdg dsf ds fdsf<br>
+             sf sd sdg ddssd grdg fsdfg<br>
+             g sgregdsgfr g rf
+           </p>
+
+      </div>
+    </div>
+    <hr>
+    <footer>
+      Content here
+    </footer>
+</body>

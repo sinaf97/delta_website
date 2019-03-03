@@ -1,100 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Status</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- Custom styles for this template -->
-    <link href="static/mycss/dashboard.css" rel="stylesheet">
-    <link href="static/mycss/cover.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <nav class="site-header sticky-top py-1">
-      <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-1" href="/">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-            <line x1="5" y1="8" x2="5" y2="20"></line>
-            <line x1="18" y1="8" x2="18" y2="20"></line>
-            <line x1="0" y1="10" x2="11.5" y2="0"></line>
-            <line x1="23" y1="10" x2="11.5" y2="0"></line>
-          </svg>
-        </a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Schedule</a>
-        <a class="py-2 d-none d-md-inline-block" href="dashboard">Dashboard</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Books</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Contact us</a>
-        <a class="py-2 d-none d-md-inline-block" href="{%url 'logout'%}">Log out</a>
-      </div>
-    </nav>
-
-
-
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="/dashboard">
-                  <span data-feather="home"></span>
-                  Status <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="false" aria-controls="collapseSemester"  href="#" >
-                  <span data-feather="book"></span>
-                  Courses
-                </a>
-                <div class="collapse" id="collapseSemester">
-                  <!-- <div class="list-group" id="year-courses">
-                  </div> -->
-                  <ul  id="year-courses-semester">
-
-                  </ul>
-                </div>
-
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" data-target="#collapseHistory" aria-expanded="false" aria-controls="collapseHistory"  href="#">
-                  <span data-feather="layers"></span>
-                  History
-                </a>
-                <div class="collapse" id="collapseHistory">
-                  <!-- <div class="list-group" id="year-courses">
-                  </div> -->
-                  <ul  id="year-courses">
-
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Inbox
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Course Report
-                </a>
-              </li>
-
-            </ul>
-        </nav>
-
+{% include "html/dashboard/teacher/layout.html" %}
+{% block main %}
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
            <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}<br><span class="h3">{{user.role}}</span></h1>
@@ -116,13 +21,11 @@
 
          </div>
        </main>
-        </div>
-      </div>
 
-
+{% endblock %}
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    ==================================================
+    Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="static/js/popper.min.js"></script>
@@ -132,6 +35,8 @@
     <script src="../../static/js/feather.min.js"></script>
     <script>
       feather.replace()
+
+      $('#status').addClass('active')
     </script>
 
   </body>
@@ -139,61 +44,4 @@
 
 
 
-  <script>
-  function order(input){
-    var output =  "info/" + sina[i].code +"_"+ sina[i].group + "_"+ sina[i].term.year + "_" + sina[i].term.season + "_" + sina[i].term.part
-    return(output)
-  }
-  var sina = {{courses|safe}}
-
-  var flag = sina[0]['term']['year']
-  var count = 0
-  for(var i=0;i<sina.length; i++){
-    if(sina[i]['term']['year'] == flag && count==0){
-      $('#year-courses').append('<a class="nav-link" data-toggle="collapse" data-target="#collapseYear'+sina[i]['term']['year']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
-        <span data-feather="users"></span>\
-        <li style="font-size:16px">'+sina[i]['term']['year']+'</li>\
-      </a>\
-      <div class="collapse" id="collapseYear'+sina[i]['term']['year']+'">\
-        <ul class="list-group" id="year'+sina[i]['term']['year']+'">\
-        </ul>\
-      </div>')
-      count++;
-    }
-    else if(sina[i]['term']['year'] != flag) {
-    count = 0
-     flag = sina[i]['term']['year']
-     i--;
-    }
-  }
-
-  flag = [sina[0]['term']['season'],sina[0]['term']['part']]
-  count = 0
-  for(var i=0;i<sina.length; i++){
-    if(sina[i]['term']['season'] == flag[0] && sina[i]['term']['part'] == flag[1] && count==0){
-      $('#year'+sina[i]['term']['year']).append('<li class="list-group-item" style="padding:0;margin:0 10px 0 0px;font-size:14px"><a class="nav-link" data-toggle="collapse" data-target="#collapseTerm'+sina[i]['term']['season']+sina[i]['term']['part']+'" aria-expanded="false" aria-controls="collapseTerm" href="#" >\
-        <span data-feather="users"></span>\
-        '+sina[i]['term']['season'] + " Part " + sina[i]['term']['part']+'\
-      </a>\
-      <div class="collapse" id="collapseTerm'+sina[i]['term']['season']+sina[i]['term']['part']+'">\
-        <ul id="term'+sina[i]['term']['season']+sina[i]['term']['part']+'">\
-        </ul>\
-      </div></li>')
-      count++;
-    }
-    else if(sina[i]['term']['season'] != flag[0] || sina[i]['term']['part'] != flag[1]) {
-    count = 0
-     flag = [sina[i]['term']['season'],sina[i]['term']['part']]
-     i--;
-    }
-  }
-
-  for(var i=0;i<sina.length; i++)
-    $('#term'+sina[i].term.season+sina[i].term.part).append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
-
-
-    var last = {{lastTerm|safe}}
-    for(var i=0;i<sina.length; i++)
-      if(sina[i].term.year == last.year && sina[i].term.season == last.season && sina[i].term.part == last.part)
-        $('#year-courses-semester').append('<li style="font-size:12px"><a class="nav-link" href="dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
-  </script>
+  

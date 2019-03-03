@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Inbox</title>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="../static/html/dashboard/student/inbox.css">
+
+    <!-- Bootstrap core CSS -->
+
+
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/mycss/score.css" rel="stylesheet">
+
+
+
+    <!-- Custom styles for this template -->
+    <link href="../static/mycss/dashboard.css" rel="stylesheet">
+    <link href="../static/mycss/cover.css" rel="stylesheet">
+  </head>
+
+  <body onload="drawtree()">
+    <nav class="site-header sticky-top py-1">
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-1" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
+            <line x1="5" y1="8" x2="5" y2="20"></line>
+            <line x1="18" y1="8" x2="18" y2="20"></line>
+            <line x1="0" y1="10" x2="11.5" y2="0"></line>
+            <line x1="23" y1="10" x2="11.5" y2="0"></line>
+          </svg>
+        </a>
+        <a class="py-2 d-none d-sm-inline-block" href="#">Schedule</a>
+        <a class="py-2 d-none d-md-inline-block" href="dashboard">Dashboard</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Books</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Contact us</a>
+        <a class="py-2 d-none d-md-inline-block" href="{%url 'logout'%}">Log out</a>
+      </div>
+    </nav>
+
+
+
+    <div class="container">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">
+                  <span data-feather="home"></span>
+                  Status
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="score">
+                  <span data-feather="file"></span>
+                  Score
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id="draver" class="nav-link active" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample" href="#" >
+                  <span data-feather="users"></span>
+                  Talk to teacher
+                </a>
+                <div class="collapse show" id="collapseExample">
+                  <div class="card card-body">
+                    <a class="nav-link" href="s_messege">Send messege</a>
+                    <a class="nav-link active" href="#">Recieved messege</a>
+                  </div>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="reports">
+                  <span data-feather="bar-chart-2"></span>
+                  Reports
+                </a>
+              </li>
+            </ul>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+             <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}</h1>
+             <div class="mb-2 mb-md-0">
+                 <img src="../static/pic/head.jpg" style="width:20%;float:right">
+             </div>
+           </div>
+           <div id="details">
+             <h4 class="h4">Inbox:</h4>
+
+             <div class="container">
+   <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+    <div class="mail-box">
+                     <aside class="sm-side">
+                         <div class="inbox-body">
+                             <!-- Modal -->
+
+                     <aside class="lg-side">
+                         <div class="inbox-head">
+                             <form action="#" class="pull-right position">
+                                 <div class="input-append">
+                                     <input type="text" class="sr-input" placeholder="Search Mail">
+                                     <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                                 </div>
+                             </form>
+                         </div>
+                         <div class="inbox-body">
+                            <div class="mail-option">
+                                <div class="chk-all">
+                                    <input type="checkbox" class="mail-checkbox mail-group-checkbox">
+                                    <div class="btn-group">
+                                        <a data-toggle="dropdown" href="#" class="btn mini all" aria-expanded="false">
+                                            All
+                                            <i class="fa fa-angle-down "></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#"> None</a></li>
+                                            <li><a href="#"> Read</a></li>
+                                            <li><a href="#"> Unread</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="btn-group">
+                                    <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn mini tooltips">
+                                        <i class=" fa fa-refresh"></i>
+                                    </a>
+                                </div>
+                                <div class="btn-group hidden-phone">
+                                    <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">
+                                        More
+                                        <i class="fa fa-angle-down "></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                                        <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <a data-toggle="dropdown" href="#" class="btn mini blue">
+                                        Move to
+                                        <i class="fa fa-angle-down "></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                                        <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+
+                                <ul class="unstyled inbox-pagination">
+                                    <li><span></span></li>
+                                    <li>
+                                        <a class="np-btn" href="#"><i class="fa fa-angle-left  pagination-left"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="np-btn" href="#"><i class="fa fa-angle-right pagination-right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                             <table class="table table-inbox table-hover">
+                               <tbody>
+                                 <tr class="unread">
+                                     <td class="inbox-small-cells">
+                                         <input type="checkbox" class="mail-checkbox">
+                                     </td>
+                                     <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                     <td class="view-message  dont-show">PHPClass</td>
+                                     <td class="view-message ">Added a new class: Login Class Fast Site</td>
+                                     <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                     <td class="view-message  text-right">9:27 AM</td>
+                                 </tr>
+
+                                 <tr class="">
+                                     <td class="inbox-small-cells">
+                                         <input type="checkbox" class="mail-checkbox">
+                                     </td>
+                                     <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                     <td class="view-message dont-show">Facebook</td>
+                                     <td class="view-message view-message">Alireza Zare Login faild</td>
+                                     <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                     <td class="view-message text-right">feb 14</td>
+                                 </tr>
+                             </tbody>
+                             </table>
+                         </div>
+                     </aside>
+                 </div>
+   </div>
+
+
+
+
+           </div>
+         </main>
+       </div>
+     </div>
+
+
+
+
+</body>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/html/dashboard/tree/tests/lib/jquery.js"></script>
+    <script src="../static/html/dashboard/tree/tests/lib/bootstrap-treeview.js"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+    <script src="../static/js.js"></script>
+
+
+</html>

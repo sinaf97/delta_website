@@ -144,12 +144,14 @@
       success: function (data) {
         $('#status').html(data.status)
        $('#centralModalSuccess').modal()
-       if(data.status)
-          document.getElementById('add_user_form').reset();
+       if(data.ok)
+          document.getElementById('add-user-form').reset();
         $('#check_username').html("");
       },
         dataType:'json',
-    })}
+    })
+
+  }
 
 
 

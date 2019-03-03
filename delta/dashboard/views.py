@@ -66,9 +66,9 @@ def getCourse(request):
     return list
 
 def sortCourses(list):
-    list.sort(key=lambda i: i['part'],reverse=True)
-    list.sort(key=lambda i: i['season'],reverse=True)
-    list.sort(key=lambda i: i['year'],reverse=True)
+    list.sort(key=lambda i: i['term']['part'],reverse=True)
+    list.sort(key=lambda i: i['term']['season'],reverse=True)
+    list.sort(key=lambda i: i['term']['year'],reverse=True)
     # return list
 def sortCourses_name(list):
     list.sort(key=lambda i: i['part'],reverse=True)
@@ -83,9 +83,14 @@ def sortTerms(list):
 
 def dashboard(request):
     context = {
-        "user" : request.user
+        "user" : request.user,
     }
     if request.user.role=="Student":
+        context['info'] = {
+        'term':term.objects.last(),
+        'course':request.user.student.course.filter(term = term.objects.last()).first(),
+        'score': request.user.student.scores.filter(course = request.user.student.course.filter(term = term.objects.last()).first()).first()
+        }
         return render(request,"html/dashboard/student/dashboard_s.html",context)
     elif request.user.role=="Teacher":
         lastTerm = []
@@ -107,7 +112,12 @@ def dashboard(request):
     else:
         return render (request,"html/dashboard/admin/dashboard_a.html",context)
 
-
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ************** Student views ************* #
 def studentScore(request):
     scores = request.user.student.scores.all()
     # list = []
@@ -150,6 +160,12 @@ def r_messege(request):
 def reports(request):
     return render(request,'html/dashboard/student/reports.html')
 
+# ********** end of Student views ********** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ************** Teacher views ************* #
 def courses(request):
     context = getCourse(request)
     return render(request,'html/dashboard/teacher/courses.html',context)
@@ -175,20 +191,7 @@ def courseInfo(request,info):
     'students':students,
     'scores':scores,
     }
-    return render(request,'html/dashboard/teacher/course_info.html',context)
-
-def commiteScore(request,theCourse,username,midscore,finalscore):
-    if midscore=="":
-        midscore = 0
-    if finalscore=="":
-        finalscore = 0
-    std = student.objects.filter(user__username=username).first()
-    new = score(student=std,course=theCourse,midScore=midscore,finalScore=finalscore)
-    exist = score.objects.filter(student=std,course=theCourse).first()
-    if exist is None:
-        new.save()
-    else:
-        score.objects.filter(student=std,course=theCourse).update(midScore=midscore,finalScore=finalscore)
+    return render(request,'html/dashboard/teacher/courseInfo.html',context)
 
 def add_score(request):
     info = request.POST["course"]
@@ -198,8 +201,29 @@ def add_score(request):
         midScore = request.POST[("midterm_"+i.user.username)]
         finalScore = request.POST[("final_"+i.user.username)]
         commiteScore(request,theCourse,i.user.username,midScore,finalScore)
-    return render(request,'html/dashboard/teacher/submit.html')
+    data = {
+        'msg':"Scores submitted successfully"
+    }
+    return JsonResponse(data)
+def commiteScore(request,theCourse,username,midscore,finalscore):
+        if midscore=="":
+            midscore = 0
+        if finalscore=="":
+            finalscore = 0
+        std = student.objects.filter(user__username=username).first()
+        new = score(student=std,course=theCourse,midScore=midscore,finalScore=finalscore)
+        exist = score.objects.filter(student=std,course=theCourse).first()
+        if exist is None:
+            new.save()
+        else:
+            score.objects.filter(student=std,course=theCourse).update(midScore=midscore,finalScore=finalscore)
 
+# ********** end of Teacher views ********** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ****************************************** #
+# ************** Admin views *************** #
 def add_user(request):
     context = {
         'status':"start",
@@ -208,18 +232,21 @@ def add_user(request):
 def add_user_submit(request):
     check = User.objects.filter(username=request.POST["username"]).first()
     if(check is None):
-        newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
+        newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]), first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
         newUser.save()
         status = "User was created successfully!"
-        if request.POST["role"]=="Teacher":
+        if request.POST["role"] == "Teacher":
             t = teacher(user=newUser)
             t.save()
         elif request.POST["role"]=="Student":
             s = student(user=newUser)
             s.save()
+        ok = 1
     else:
         status = "Username already exists!"
+        ok = 0
     data = {
+        'ok':ok,
         'status':status,
     }
     return JsonResponse(data)
@@ -252,6 +279,7 @@ def add_term_submit(request):
         'status':status,
     }
     return JsonResponse(data)
+
 def new_course(request):
     return render(request,'html/dashboard/admin/newCourse.html')
 def new_course_submit(request):
@@ -275,6 +303,7 @@ def new_course_submit(request):
         'status':status,
     }
     return JsonResponse(data)
+
 def course_to_term(request):
     terms = []
     for i in term.objects.all():
@@ -365,7 +394,7 @@ def students_to_course_submit(request):
     myterm = [request.POST['term'].split('-')[0],int(request.POST['term'].split('-')[1]),int(request.POST['term'].split('-')[2])]
     mycourse = [request.POST['courses'].split(' - ')[0],request.POST['courses'].split(' - ')[1].split(':')[1],int(request.POST['courses'].split(' - ')[2].split(':')[1])]
     mycourse = course.objects.get(courseInfo__course_name = mycourse[0],courseInfo__code = mycourse[1],group = mycourse[2],term__year=myterm[2],term__season=myterm[0],term__part=myterm[1])
-    names = request.POST['studentNames'].split('\n')
+    names = list(filter(None,request.POST['studentNames'].split('\n')))
     students = student.objects.all()
     for i in names:
         toAdd = list(filter(lambda x: x.user.first_name+" "+x.user.last_name==i,students))
@@ -391,3 +420,4 @@ def validate_usernames(request):
         'status':200
     }
     return JsonResponse(data)
+# ********** end of Admin views ********** #

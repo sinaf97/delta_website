@@ -24,6 +24,7 @@ class term(models.Model):
         return {'year':self.year,'season':self.season,'part':self.part}
 
 
+
 class teacher(models.Model):
     #pic = models.ImageField(upload_to='content/pic')
     user = models.OneToOneField(User,null=True,on_delete = models.CASCADE)
