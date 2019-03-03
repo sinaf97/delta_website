@@ -1,85 +1,12 @@
 from django.shortcuts import render
 from .models import term , course,score,student,User,teacher
 from .models import courseInfo as course_info
-import json
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
+import json
 from django.urls import reverse
 from django.shortcuts import redirect
-
-# Create your views here.
-# def getCurrentCourse(request):
-#     t_courses = request.user.teacher.courses.all()
-#     last_term = term.objects.last()
-#     list = []
-#     for i in t_courses:
-#         if i.term == term.objects.last():
-#             list.append(i.getCourseInfo())
-#     return list
-
-def courseConverter(info):
-    info = info.split("_")
-    info[1] = int(info[1])
-    info[2] = int(info[2])
-    info[4] = int(info[4])
-    studentList = []
-    theCourse = course.objects.all().filter(courseInfo__code=info[0],group=info[1])
-    for i in theCourse:
-        if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
-            theCourse = i
-            break
-    return theCourse
-
-def orderKeyYear(e):
-    return e['term']['year']
-def orderKeySeason(e):
-    if e['term']['season']=="spring":
-        return 1
-    elif e['term']['season']=="summer":
-        return 2
-    elif e['term']['season']=="fall":
-        return 3
-    elif e['term']['season']=="winter":
-        return 4
-def orderKeyPart(e):
-    return e['term']['part']
-
-def orderKeyYearTerm(e):
-    return e['year']
-def orderKeySeasonTerm(e):
-    if e['season']=="spring":
-        return 1
-    elif e['season']=="summer":
-        return 2
-    elif e['season']=="fall":
-        return 3
-    elif e['season']=="winter":
-        return 4
-def orderKeyPartTerm(e):
-    return e['part']
-
-def getCourse(request):
-    t_courses = request.user.teacher.courses.all()
-    list = []
-    for i in t_courses:
-        list.append(i.getCourseInfo())
-        sortCourses(list)
-    return list
-
-def sortCourses(list):
-    list.sort(key=lambda i: i['term']['part'],reverse=True)
-    list.sort(key=lambda i: i['term']['season'],reverse=True)
-    list.sort(key=lambda i: i['term']['year'],reverse=True)
-    # return list
-def sortCourses_name(list):
-    list.sort(key=lambda i: i['part'],reverse=True)
-    list.sort(key=lambda i: i['season'],reverse=True)
-    list.sort(key=lambda i: i['year'],reverse=True)
-    # return list
-def sortTerms(list):
-    list.sort(key=lambda i: i['part'],reverse=True)
-    list.sort(key=lambda i: i['season'],reverse=True)
-    list.sort(key=lambda i: i['year'],reverse=True)
-
+from .methods import *
 
 def dashboard(request):
     context = {
@@ -111,6 +38,39 @@ def dashboard(request):
         return render (request,"html/dashboard/teacher/dashboard_t.html",context)
     else:
         return render (request,"html/dashboard/admin/dashboard_a.html",context)
+
+def settings(request):
+    if request.user.role == "Teacher":
+        context = {
+        'courses' : getCourse(request),
+        }
+        return render(request,"html/dashboard/teacher/settings.html",context)
+    elif request.user.role == "Student":
+        return render(request,"html/dashboard/student/settings.html")
+    else:
+        return render(request,"html/dashboard/admin/settings.html")
+def change_name(request):
+    request.user.first_name = request.POST["firstName"]
+    request.user.last_name = request.POST["lastName"]
+    request.user.save()
+    context = {
+        'new_name':request.user.get_full_name(),
+        'msg':"Name changed successfully"
+    }
+    return JsonResponse(context)
+def change_pass(request):
+    if request.user.check_password(request.POST["oldpass"]):
+        user = request.user
+        user.set_password(request.POST["newpass"])
+        user.save()
+        update_session_auth_hash(request,user)
+        msg = "Password changed successfully"
+    else:
+        msg = "Wrong old password"
+    context = {
+        'msg': msg
+        }
+    return JsonResponse(context)
 
 # ****************************************** #
 # ****************************************** #

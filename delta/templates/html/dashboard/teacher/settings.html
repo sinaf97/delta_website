@@ -1,0 +1,122 @@
+{% include "html/dashboard/teacher/layout.html" %}
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h4 id="name-info" class="h4 font-weight-bold">{{user.first_name}} {{user.last_name}}</h4>
+  <div class="mb-2 mb-md-0">
+      <img src="../../../static/pic/head.png" style="width:10%;float:right">
+  </div>
+</div>
+<div id="details">
+  <form id="change-name" action="{%url 'change_name'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+    {%csrf_token%}
+    <div style="margin:10px">
+     <div class="form-row">
+       <div class="form-group col-md-6">
+         <label for="firstName">First name</label>
+         <input type="text" class="form-control" id="firstName" placeholder="New name" name="firstName" required>
+       </div>
+       <div class="form-group col-md-6">
+         <label for="lastName">Last name</label>
+         <input type="text" class="form-control" id="lastName" placeholder="New lastname" name="lastName" required>
+       </div>
+     </div>
+     <div>
+       <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-name">Change Name</button>
+     </div>
+   </form>
+ </div>
+   <form id="change-pass" action="{%url 'change_pass'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+     {%csrf_token%}
+     <div style="margin:10px">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="firstName">Old Password</label>
+          <input type="password" class="form-control" id="oldpass" placeholder="Old" name="oldpass" required>
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="lastName">New Password</label>
+          <input type="password" class="form-control" id="newpass" placeholder="New" name="newpass" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="lastName">Re-Enter New Password</label>
+          <input type="password" class="form-control" id="repass" placeholder="New" name="repass" required>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-pass">Change Password</button>
+      </div>
+    </form>
+</main>
+
+<!-- Central Modal Medium Success -->
+  <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-success" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <p class="heading lead">Status</p>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+          <div class="text-center">
+            <p id="status-response"></p>
+          </div>
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!-- Central Modal Medium Success-->
+{% endblock %}
+
+<script type="text/javascript">
+  $('#settings').addClass('active')
+</script>
+
+<script type="text/javascript">
+
+  $('#submit-name').click(submit_name)
+  $('#submit-pass').click(submit_pass)
+
+  function submit_name(){
+    $('#change-name').ajaxForm({
+    success: function (data) {
+      $('#status-response').html(data.msg)
+      $('#centralModalSuccess').modal()
+      $('#name-info').html(data.new_name);
+      document.getElementById('change-name').reset();
+    },
+      dataType:'json',
+  })
+  }
+  function submit_pass(){
+    console.log("clicked!")
+    if($('#newpass').val() == $('#repass').val()){
+      $('#change-pass').ajaxForm({
+      success: function (data) {
+        $('#status-response').html(data.msg)
+        $('#centralModalSuccess').modal()
+        document.getElementById('change-pass').reset();
+      },
+        dataType:'json',
+    })
+  }
+}
+$('#settings').addClass('active')
+
+</script>

@@ -24,5 +24,8 @@ urlpatterns = [
     path('/students_to_course/submit',views.students_to_course_submit,name="students_to_course_submit"),
     path('/student_to_course/validate_usernames',views.validate_usernames,name="validate_usernames"),
     path('/student_to_course/get_term_course',views.getTermCourse,name="get_term_course"),
+    path('/settings',views.settings,name="settings"),
+    path('/settings/change_name',views.change_name,name="change_name"),
+    path('/settings/change_pass',views.change_pass,name="change_pass"),
 
 ]
