@@ -7,7 +7,6 @@ def courseConverter(info):
     info[1] = int(info[1])
     info[2] = int(info[2])
     info[4] = int(info[4])
-    studentList = []
     theCourse = course.objects.all().filter(courseInfo__code=info[0],group=info[1])
     for i in theCourse:
         if(i.term.year == info[2] and i.term.season == info[3] and i.term.part == info[4]):
@@ -55,12 +54,10 @@ def sortCourses(list):
     list.sort(key=lambda i: i['term']['part'],reverse=True)
     list.sort(key=lambda i: i['term']['season'],reverse=True)
     list.sort(key=lambda i: i['term']['year'],reverse=True)
-    # return list
 def sortCourses_name(list):
     list.sort(key=lambda i: i['part'],reverse=True)
     list.sort(key=lambda i: i['season'],reverse=True)
     list.sort(key=lambda i: i['year'],reverse=True)
-    # return list
 def sortTerms(list):
     list.sort(key=lambda i: i['part'],reverse=True)
     list.sort(key=lambda i: i['season'],reverse=True)

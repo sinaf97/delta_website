@@ -4,8 +4,7 @@ from .models import courseInfo as course_info
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 import json
-from django.urls import reverse
-from django.shortcuts import redirect
+from django.core import serializers
 from .methods import *
 
 def dashboard(request):
@@ -80,9 +79,6 @@ def change_pass(request):
 # ************** Student views ************* #
 def studentScore(request):
     scores = request.user.student.scores.all()
-    # list = []
-    # for i in scores:
-        # list.append(i.course.term)
     dic = {}
     list2 = []
     sina = {}
@@ -90,7 +86,7 @@ def studentScore(request):
         list2 = []
         for j in reversed(scores):
             if j.course.term.year == i:
-                sina["text"] =  j.course.term.season + " " + str(j.course.term.part)+":"+j.course.courseInfo.course_name +"******** Midterm: " + str(j.midScore) +" - Final: " + str(j.finalScore)
+                sina["text"] = j.course.term.season + " " + str(j.course.term.part)+":"+j.course.courseInfo.course_name +"******** Midterm: " + str(j.midScore) +" - Final: " + str(j.finalScore)
                 list2.append(sina)
                 dic[str(i)] = list2
                 sina = {}
@@ -275,7 +271,7 @@ def course_to_term(request):
     }
     return render(request,'html/dashboard/admin/courseToTerm.html',data)
 def course_to_term_submit(request):
-    newTerm = year=request.POST['term'].split("-")
+    newTerm = request.POST['term'].split("-")
     newTerm = term.objects.get(year=newTerm[2],season=newTerm[0],part=newTerm[1])
     newCourse = course_info.objects.get(code=request.POST['courseCode'])
     newTeacher = teacher.objects.get(user__username=request.POST['teacherUsername'])
@@ -378,6 +374,68 @@ def validate_usernames(request):
     data = {
         'response':response,
         'status':200
+    }
+    return JsonResponse(data)
+
+def get_users(request):
+    return render(request,'html/dashboard/admin/get_users.html')
+def get_users_ajax(request):
+    type = request.POST["type"]
+    active = request.POST["active"]
+    if type == "All":
+        if active == "Active":
+            users = serializers.serialize("json", User.objects.filter(is_active = True))
+        elif active == "Deactive":
+            users = serializers.serialize("json", User.objects.filter(is_active = False))
+        else:
+            users = serializers.serialize("json", User.objects.all())
+    elif type == "Teachers":
+        if active == "Active":
+            users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=True))
+        elif active == "Deactive":
+            users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=False))
+        else:
+            users = serializers.serialize("json", User.objects.filter(role="Teacher"))
+    elif type == "Students":
+        if active == "Active":
+            users = serializers.serialize("json", User.objects.filter(role="Student",is_active=True))
+        elif active == "Deactive":
+            users = serializers.serialize("json", User.objects.filter(role="Student",is_active=False))
+        else:
+            users = serializers.serialize("json", User.objects.filter(role="Student"))
+    else:
+        if active == "Active":
+            users = serializers.serialize("json", User.objects.filter(is_active=True).exclude(role="Teacher").exclude(role="Student"))
+        elif active == "Deactive":
+            users = serializers.serialize("json", User.objects.filter(is_active=False).exclude(role="Teacher").exclude(role="Student"))
+        else:
+            users = serializers.serialize("json", User.objects.all().exclude(role="Teacher").exclude(role="Student"))
+    data = {
+        'users':users
+    }
+    return JsonResponse(data)
+
+def get_courses(request):
+    return render(request,'html/dashboard/admin/get_courses.html')
+def get_courses_ajax(request):
+    if request.POST["year"]=='All':
+        year = 1
+    else:
+        year = int(request.POST["year"])
+    if request.POST["season"]=='All':
+        season = ''
+    else:
+        season = request.POST["season"]
+    if request.POST["part"]=='All':
+        part = ''
+    else:
+        part = int(request.POST["part"])
+    courses = course.objects.filter(term__year__contains = year,term__season__contains=season,term__part__contains=part)
+    list = []
+    for i in courses:
+        list.append({'name':i.courseInfo.course_name,'code':i.courseInfo.code,'term':{'year':i.term.year,'season':i.term.season,'part':i.term.part},'group':i.group,'num':len(i.students.all())})
+    data = {
+        'courses':list
     }
     return JsonResponse(data)
 # ********** end of Admin views ********** #

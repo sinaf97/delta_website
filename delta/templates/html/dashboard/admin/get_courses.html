@@ -1,0 +1,108 @@
+{% include "html/dashboard/admin/layout.html" %}
+
+{% block main %}
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+           <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h3">{{user.role}}</span></h1>
+           <div class="mb-2 mb-md-0">
+               <img src="../static/pic/head.png" style="width:20%;float:right">
+           </div>
+         </div>
+
+
+         <form id="get-courses" action="{%url 'get_courses_ajax'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+           {%csrf_token%}
+           <div style="margin:10px">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="year">Year</label>
+                <input class="form-control" type="text" name="year" value="All">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="season">Season</label>
+                <select class="form-control" name="season">
+                  <option value="All" selected>All</option>
+                  <option value="Spring">Spring</option>
+                  <option value="Summer">Summer</option>
+                  <option value="Fall">Fall</option>
+                  <option value="Winter">Winter</option>
+              </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="part">Part</label>
+                <select class="form-control" name="part">
+                  <option value="All" selected>All</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+              </select>
+              </div>
+            </div>
+            <div>
+              <div class="" id="courses">
+                <table class="table table-bordered" id="course-list">
+
+                </table>
+              </div>
+              <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="query-courses">Show me!</button>
+            </div>
+          </form>
+       </main>
+        </div>
+      </div>
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+      $('#courses-s').addClass("active")
+      $('#statistics').addClass("active")
+      $('#collapseStatistics').addClass("show")
+
+    </script>
+
+    <script type="text/javascript">
+      $('#query-courses').click(query_users)
+
+      function query_users(){
+          $('#get-courses').ajaxForm({
+          success: function (data) {
+            console.log(data.courses)
+            var courses = data.courses
+            $('#course-list').empty()
+            var count = 0
+            $('#course-list').append('<tr>\
+              <th style="background-color:grey;color:grey;width:1%">!</th>\
+              <th>Name</th>\
+              <th>Code</th>\
+              <th>Year</th>\
+              <th>Season</th>\
+              <th>Part</th>\
+              <th>Group</th>\
+              <th>Number of students</th>\
+            </tr>')
+            courses.forEach(fill)
+          },
+            dataType:'json',
+        })
+      }
+
+      function fill(course,count){
+        count += 1
+        $('#course-list').append(
+        '<tr>\
+          <td>'+count+'</td>\
+          <td style="width:20%">'+course.name+'</td>\
+          <td style="width:15%">'+course.code+'</td>\
+          <td style="width:10%">'+course.term.year+'</td>\
+          <td style="width:15%">'+course.term.season+'</td>\
+          <td style="width:10%">'+course.term.part+'</td>\
+          <td style="width:10%">'+course.group+'</td>\
+          <td style="width:30%">'+ course.num +'</td>\
+        </tr>')
+      }
+    </script>
+{% endblock %}

@@ -27,5 +27,9 @@ urlpatterns = [
     path('/settings',views.settings,name="settings"),
     path('/settings/change_name',views.change_name,name="change_name"),
     path('/settings/change_pass',views.change_pass,name="change_pass"),
+    path('/get_users',views.get_users,name="get_users"),
+    path('/get_users_ajax',views.get_users_ajax,name="get_users_ajax"),
+    path('/get_courses',views.get_courses,name="get_courses"),
+    path('/get_courses_ajax',views.get_courses_ajax,name="get_courses_ajax"),
 
 ]
