@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b6d9c2ae-5e0c-4592-947c-953c6fa7c8b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/dashboard/methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_student_info.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,11 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="39" selection-start-line="39" selection-end-line="39" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -206,7 +201,7 @@
       <workItem from="1551701466897" duration="4748000" />
       <workItem from="1551810590756" duration="3954000" />
       <workItem from="1551948643423" duration="516000" />
-      <workItem from="1551968826544" duration="3498000" />
+      <workItem from="1551968826544" duration="4186000" />
     </task>
     <servers />
   </component>
@@ -216,7 +211,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18339000" />
+    <option name="totallyTimeSpent" value="19027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="23" width="1440" height="820" extended-state="0" />
@@ -295,11 +290,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>

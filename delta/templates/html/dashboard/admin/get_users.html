@@ -55,7 +55,7 @@
       </div>
 
       <!-- Central Modal Medium Success -->
-        <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade modal-lg" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-lg modal-success" role="document">
             <!--Content-->
@@ -91,83 +91,14 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/html/dashboard/admin/js.js" charset="utf-8"></script>
+
     <script>
       $('#users-s').addClass("active")
       $('#statistics').addClass("active")
       $('#collapseStatistics').addClass("show")
-
-    </script>
-
-    <script type="text/javascript">
       $('#query-users').click(query_users)
-      function query_users(){
-          $('#get-users').ajaxForm({
-          success: function (data) {
-            var users = JSON.parse(data.users)
-            $('#user-list').empty()
-            var count = 0
-            $('#user-list').append('<tr>\
-              <th style="background-color:grey;color:grey;width:1%">!</th>\
-              <th>Name</th>\
-              <th>Username</th>\
-              <th>Role</th>\
-              <th>Mobile</th>\
-              <th>Status</th>\
-              <th>Profile</th>\
-            </tr>')
-            users.forEach(fill)
-            $(document).ready(function(){
-              $(".aClass").click(function(){
-                var addressValue = $(this).attr("href");
-                profile(addressValue)
-                return false;
-              });
-            })
-            },
-            dataType:'json',
-        })
-    }
-
-      function fill(user,count){
-        count += 1
-        $('#user-list').append(
-        '<tr>\
-          <td>'+count+'</td>\
-          <td style="width:30%">'+user.fields.first_name+' '+user.fields.last_name+'</td>\
-          <td style="width:20%%">'+user.fields.username+'</td>\
-          <td style="width:15%">'+user.fields.role+'</td>\
-          <td style="width:29%">'+user.fields.mobile+'</td>\
-          <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
-          <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
-        </tr>')
-      }
-      function profile(addressValue){
-          $.ajax({
-            url: addressValue,
-            method:'GET',
-            dataType: 'json',
-            success: function (data) {
-              var user = JSON.parse(data.user)[0]
-              if(user.fields.role == "Teacher")
-                teacher_modal_creator(user,data.courses)
-              else if(user.fields.role == "Student")
-                student_modal_creator(user,JSON.parse(data.scores.tree))
-              else
-              staff_modal_creator(user)
-            }
-          });
-        }
-
-        function course_profile(addressValue){
-            $.ajax({
-              url: addressValue,
-              method:'GET',
-              dataType: 'json',
-              success: function (data) {
-                course_modal_creator(data)
-              }
-            });
-          }
     </script>
-    <script src="/static/html/dashboard/admin/js.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
 {% endblock %}

@@ -121,7 +121,9 @@ function add_courses(courses){
   </div>')
 
   var sina = courses
-  test = sina
+  console.log(sina)
+  if(typeof sina[0] == "undefined" )
+    return
   var flag = sina[0]['term']['year']
   var count = 0
   for(var i=0;i<sina.length; i++){
@@ -172,14 +174,16 @@ function course_modal_creator(data){
   var course = JSON.parse(data.course)[0]
   reset_course_modal(course,data.teacher,data.term)
   var count = 0
-  $('#course_user-list').append('<tr>\
-    <th style="background-color:grey;color:grey;width:1%">!</th>\
-    <th>Name</th>\
-    <th>Username</th>\
-    <th>Role</th>\
-    <th>Mobile</th>\
-    <th>Active</th>\
-    <th>Profile</th>\
+  $('#course-user-list').append(
+  '<tr>\
+    <td style="background-color:grey;color:grey">!</td>\
+    <td style="width:30%">Name</td>\
+    <td style="width:20%%">Username</td>\
+    <td style="width:15%">Mid Score</td>\
+    <td style="width:15%">Final Score</td>\
+    <td style="width:29%">Mobile</td>\
+    <td style="width:10%">Activity</td>\
+    <td style="width:10%">Profile</td>\
   </tr>')
   data.students.forEach(add_students)
   $(document).ready(function(){
@@ -192,17 +196,131 @@ function course_modal_creator(data){
 
   $('#centralModalSuccess').modal()
 }
-function add_students(user,count){
-  user = JSON.parse(user)[0]
+function add_students(student,count){
+  user = JSON.parse(student.user)[0]
+  score = JSON.parse(student.score)[0]
   count += 1
   $('#course-user-list').append(
   '<tr>\
     <td>'+count+'</td>\
     <td style="width:30%">'+user.fields.first_name+' '+user.fields.last_name+'</td>\
     <td style="width:20%%">'+user.fields.username+'</td>\
-    <td style="width:15%">'+user.fields.role+'</td>\
+    <td style="width:15%">'+score.fields.midScore+'</td>\
+    <td style="width:15%">'+score.fields.finalScore+'</td>\
     <td style="width:29%">'+user.fields.mobile+'</td>\
     <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
     <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
   </tr>')
 }
+
+function profile(addressValue){
+    $.ajax({
+      url: addressValue,
+      method:'GET',
+      dataType: 'json',
+      success: function (data) {
+        var user = JSON.parse(data.user)[0]
+        if(user.fields.role == "Teacher")
+          teacher_modal_creator(user,data.courses)
+        else if(user.fields.role == "Student")
+          student_modal_creator(user,JSON.parse(data.scores.tree))
+        else
+        staff_modal_creator(user)
+      }
+    });
+  }
+function course_profile(addressValue){
+      $.ajax({
+        url: addressValue,
+        method:'GET',
+        dataType: 'json',
+        success: function (data) {
+          course_modal_creator(data)
+        }
+      });
+    }
+function query_courses(){
+        $('#get-courses').ajaxForm({
+        success: function (data) {
+          var courses = data.courses
+          $('#course-list').empty()
+          var count = 0
+          $('#course-list').append('<tr>\
+            <th style="background-color:grey;color:grey;width:1%">!</th>\
+            <th>Name</th>\
+            <th>Code</th>\
+            <th>Year</th>\
+            <th>Season</th>\
+            <th>Part</th>\
+            <th>Group</th>\
+            <th>Number of students</th>\
+            <th>More Info</th>\
+          </tr>')
+          courses.forEach(fill_courses)
+          $(document).ready(function(){
+            $(".aClass").click(function(){
+              var addressValue = $(this).attr("href");
+              course_profile(addressValue)
+              return false;
+            });
+          })
+        },
+          dataType:'json',
+      })
+    }
+
+function query_users(){
+        $('#get-users').ajaxForm({
+        success: function (data) {
+          var users = JSON.parse(data.users)
+          $('#user-list').empty()
+          var count = 0
+          $('#user-list').append('<tr>\
+            <th style="background-color:grey;color:grey;width:1%">!</th>\
+            <th>Name</th>\
+            <th>Username</th>\
+            <th>Role</th>\
+            <th>Mobile</th>\
+            <th>Status</th>\
+            <th>Profile</th>\
+          </tr>')
+          users.forEach(fill_user)
+          $(document).ready(function(){
+            $(".aClass").click(function(){
+              var addressValue = $(this).attr("href");
+              profile(addressValue)
+              return false;
+            });
+          })
+          },
+          dataType:'json',
+      })
+  }
+function fill_user(user,count){
+    count += 1
+    $('#user-list').append(
+    '<tr>\
+      <td>'+count+'</td>\
+      <td style="width:30%">'+user.fields.first_name+' '+user.fields.last_name+'</td>\
+      <td style="width:20%%">'+user.fields.username+'</td>\
+      <td style="width:15%">'+user.fields.role+'</td>\
+      <td style="width:29%">'+user.fields.mobile+'</td>\
+      <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
+      <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
+    </tr>')
+  }
+function fill_courses(course,count){
+    count += 1
+    $('#course-list').append(
+    '<tr>\
+      <td>'+count+'</td>\
+      <td style="width:20%">'+course.name+'</td>\
+      <td style="width:15%">'+course.code+'</td>\
+      <td style="width:10%">'+course.term.year+'</td>\
+      <td style="width:15%">'+course.term.season+'</td>\
+      <td style="width:10%">'+course.term.part+'</td>\
+      <td style="width:10%">'+course.group+'</td>\
+      <td style="width:10%">'+ course.num +'</td>\
+      <td style="width:20%"><a class="aClass" href="/dashboard/course/'+ order(course) +'">Show</a></td>\
+    </tr>')
+  }

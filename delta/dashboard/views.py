@@ -483,7 +483,7 @@ class adminViews:
         students = course.students.all()
         list = []
         for i in students:
-            list.append(serializers.serialize("json",[i.user]))
+            list.append({'user':serializers.serialize("json",[i.user]),'score':serializers.serialize("json",[i.scores.get(course=course)])})
         data = {
         'course':serializers.serialize("json",[course.courseInfo]),
         'students':list,

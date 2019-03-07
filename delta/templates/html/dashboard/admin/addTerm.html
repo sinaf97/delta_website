@@ -62,7 +62,6 @@
               <!--Body-->
               <div class="modal-body">
                 <div class="text-center">
-                  <p id="status"></p>
                 </div>
               </div>
 
@@ -83,7 +82,8 @@
     function submit_form(){
       $('#add-term-form').ajaxForm({
       success: function (data) {
-        $('#status').html(data.status)
+        $('.text-center').append('<i class="fas fa-check fa-4x mb-3 animated rotateIn" style="color:green"></i>')
+        $('.text-center').append('<p>'+data.status+'</p>')
        $('#centralModalSuccess').modal()
        document.getElementById('add-term-form').reset()
       },

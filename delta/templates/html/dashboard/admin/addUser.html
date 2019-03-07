@@ -88,7 +88,6 @@
                   <!--Body-->
                   <div class="modal-body">
                     <div class="text-center">
-                      <p id="status"></p>
                     </div>
                   </div>
 
@@ -142,10 +141,15 @@
     function submit_form(){
       $('#add-user-form').ajaxForm({
       success: function (data) {
-        $('#status').html(data.status)
-       $('#centralModalSuccess').modal()
-       if(data.ok)
+        $('.text-center').empty()
+        if(data.ok){
+          $('.text-center').append('<i class="fas fa-check fa-4x mb-3 animated rotateIn" style="color:green"></i>')
           document.getElementById('add-user-form').reset();
+        }
+        else
+          $('.text-center').append('<i class="fas fa-times fa-4x mb-3 animated rotateIn" style="color:red"></i>')
+        $('.text-center').append('<p>'+data.status+'</p>')
+       $('#centralModalSuccess').modal()
         $('#check_username').html("");
       },
         dataType:'json',
