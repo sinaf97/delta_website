@@ -20,7 +20,7 @@
 
     <nav class="site-header sticky-top py-1">
       {% if request.user.is_authenticated %}
-      <p style="color: white;float:left;margin:8px 20px">Hello, {{user.username}} !</p>
+      <p style="color: white;float:left;margin:8px 20px">Hello, {{user.get_full_name}} !</p>
       {%endif%}
       <div class="container d-flex flex-column flex-md-row justify-content-between">
         <a class="py-2" href="/">
