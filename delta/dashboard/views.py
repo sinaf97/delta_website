@@ -153,7 +153,9 @@ class teacherViews:
             'students':students,
             'scores':scores,
             }
-            return render(request,'html/dashboard/teacher/courseInfo.html',context)
+            if 'admin' not in request.content_params.keys():
+                return render(request,'html/dashboard/teacher/courseInfo.html',context)
+            return context
     # @login_required(login_url='/login')
     def add_score(request):
             info = request.POST["course"]
@@ -408,34 +410,35 @@ class adminViews:
     def get_users_ajax(request):
             type = request.POST["type"]
             active = request.POST["active"]
+            name = [request.POST["name"],request.POST["last_name"]]
             if type == "All":
                 if active == "Active":
-                    users = serializers.serialize("json", User.objects.filter(is_active = True))
+                    users = serializers.serialize("json", User.objects.filter(is_active = True,first_name__contains = name[0],last_name__contains=name[1]))
                 elif active == "Deactive":
-                    users = serializers.serialize("json", User.objects.filter(is_active = False))
+                    users = serializers.serialize("json", User.objects.filter(is_active = False,first_name__contains = name[0],last_name__contains=name[1]))
                 else:
-                    users = serializers.serialize("json", User.objects.all())
+                    users = serializers.serialize("json", User.objects.filter(first_name__contains = name[0],last_name__contains=name[1]))
             elif type == "Teachers":
                 if active == "Active":
-                    users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=True))
+                    users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=True,first_name__contains = name[0],last_name__contains=name[1]))
                 elif active == "Deactive":
-                    users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=False))
+                    users = serializers.serialize("json", User.objects.filter(role="Teacher",is_active=False,first_name__contains = name[0],last_name__contains=name[1]))
                 else:
-                    users = serializers.serialize("json", User.objects.filter(role="Teacher"))
+                    users = serializers.serialize("json", User.objects.filter(role="Teacher",first_name__contains = name[0],last_name__contains=name[1]))
             elif type == "Students":
                 if active == "Active":
-                    users = serializers.serialize("json", User.objects.filter(role="Student",is_active=True))
+                    users = serializers.serialize("json", User.objects.filter(role="Student",is_active=True,first_name__contains = name[0],last_name__contains=name[1]))
                 elif active == "Deactive":
-                    users = serializers.serialize("json", User.objects.filter(role="Student",is_active=False))
+                    users = serializers.serialize("json", User.objects.filter(role="Student",is_active=False,first_name__contains = name[0],last_name__contains=name[1]))
                 else:
-                    users = serializers.serialize("json", User.objects.filter(role="Student"))
+                    users = serializers.serialize("json", User.objects.filter(role="Student",first_name__contains = name[0],last_name__contains=name[1]))
             else:
                 if active == "Active":
-                    users = serializers.serialize("json", User.objects.filter(is_active=True).exclude(role="Teacher").exclude(role="Student"))
+                    users = serializers.serialize("json", User.objects.filter(is_active=True,first_name__contains = name[0],last_name__contains=name[1]).exclude(role="Teacher").exclude(role="Student"))
                 elif active == "Deactive":
-                    users = serializers.serialize("json", User.objects.filter(is_active=False).exclude(role="Teacher").exclude(role="Student"))
+                    users = serializers.serialize("json", User.objects.filter(is_active=False,first_name__contains = name[0],last_name__contains=name[1]).exclude(role="Teacher").exclude(role="Student"))
                 else:
-                    users = serializers.serialize("json", User.objects.all().exclude(role="Teacher").exclude(role="Student"))
+                    users = serializers.serialize("json", User.objects.filter(first_name__contains = name[0],last_name__contains=name[1]).exclude(role="Teacher").exclude(role="Student"))
             data = {
                 'users':users
             }
@@ -446,19 +449,7 @@ class adminViews:
             return render(request,'html/dashboard/admin/get_courses.html')
     # @login_required(login_url='/login')
     def get_courses_ajax(request):
-        if request.POST["year"]=='All':
-            year = 1
-        else:
-            year = int(request.POST["year"])
-        if request.POST["season"]=='All':
-            season = ''
-        else:
-            season = request.POST["season"]
-        if request.POST["part"]=='All':
-            part = ''
-        else:
-            part = int(request.POST["part"])
-        courses = course.objects.filter(term__year__contains = year,term__season__contains=season,term__part__contains=part)
+        courses = course.objects.filter(courseInfo__course_name__contains = request.POST["name"] ,term__year__contains = request.POST["year"],term__season__contains=request.POST["season"],term__part__contains=request.POST["part"])
         list = []
         for i in courses:
             list.append({'name':i.courseInfo.course_name,'code':i.courseInfo.code,'term':{'year':i.term.year,'season':i.term.season,'part':i.term.part},'group':i.group,'num':len(i.students.all())})
@@ -471,10 +462,9 @@ class adminViews:
         requested.user = User.objects.get(username = info)
         requested.content_params['admin'] = True
         if requested.user.role == "Student":
-            scores = studentViews.studentScore(requested)['tree']
             context = {
                 'user':serializers.serialize("json",User.objects.filter(username = info)),
-                'tree':scores
+                'scores':studentViews.studentScore(requested)
             }
         elif requested.user.role == "Teacher":
             courses = getCourse(requested)
@@ -487,3 +477,18 @@ class adminViews:
                 'user':serializers.serialize("json",User.objects.filter(username = info)),
             }
         return JsonResponse(context)
+
+    def get_course_info(request,info):
+        course = courseConverter(info)
+        students = course.students.all()
+        list = []
+        for i in students:
+            list.append(serializers.serialize("json",[i.user]))
+        data = {
+        'course':serializers.serialize("json",[course.courseInfo]),
+        'students':list,
+        'teacher':course.teacher.user.get_full_name(),
+        'term':course.term.getTermInfo(),
+        'group':course.group,
+        }
+        return JsonResponse(data)

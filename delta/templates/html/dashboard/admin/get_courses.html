@@ -16,31 +16,31 @@
            <div style="margin:10px">
             <div class="form-row">
               <div class="form-group col-md-4">
-                <label for="year">Year</label>
-                <input class="form-control" type="text" name="year" value="All">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" placeholder="All" name="name" value="">
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
+                <label for="year">Year</label>
+                <input class="form-control" type="number" placeholder="All" name="year" value="">
+              </div>
+              <div class="form-group col-md-3">
                 <label for="season">Season</label>
                 <select class="form-control" name="season">
-                  <option value="All" selected>All</option>
+                  <option value="" selected>All</option>
                   <option value="Spring">Spring</option>
                   <option value="Summer">Summer</option>
                   <option value="Fall">Fall</option>
                   <option value="Winter">Winter</option>
               </select>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-2">
                 <label for="part">Part</label>
-                <select class="form-control" name="part">
-                  <option value="All" selected>All</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
+                <input class="form-control" type="number" placeholder="All" name="part" value="">
               </div>
             </div>
             <div>
               <div class="" id="courses">
-                <table class="table table-bordered" id="course-list">
+                <table class="table table-hover" id="course-list">
 
                 </table>
               </div>
@@ -51,7 +51,37 @@
         </div>
       </div>
 
+      <!-- Central Modal Medium Success -->
+        <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content">
+              <!--Header-->
+              <div class="modal-header">
+                <p class="heading lead">Status</p>
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+              </div>
+
+              <!--Body-->
+              <div class="modal-body">
+                <div class="text-center">
+                  <p id="status"></p>
+                </div>
+              </div>
+
+              <!--Footer-->
+              <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+              </div>
+            </div>
+            <!--/.Content-->
+          </div>
+        </div>
+        <!-- Central Modal Medium Success-->
 
 
     <!-- Bootstrap core JavaScript
@@ -70,7 +100,6 @@
       function query_users(){
           $('#get-courses').ajaxForm({
           success: function (data) {
-            console.log(data.courses)
             var courses = data.courses
             $('#course-list').empty()
             var count = 0
@@ -83,8 +112,16 @@
               <th>Part</th>\
               <th>Group</th>\
               <th>Number of students</th>\
+              <th>More Info</th>\
             </tr>')
             courses.forEach(fill)
+            $(document).ready(function(){
+              $(".aClass").click(function(){
+                var addressValue = $(this).attr("href");
+                course_profile(addressValue)
+                return false;
+              });
+            })
           },
             dataType:'json',
         })
@@ -101,8 +138,37 @@
           <td style="width:15%">'+course.term.season+'</td>\
           <td style="width:10%">'+course.term.part+'</td>\
           <td style="width:10%">'+course.group+'</td>\
-          <td style="width:30%">'+ course.num +'</td>\
+          <td style="width:10%">'+ course.num +'</td>\
+          <td style="width:20%"><a class="aClass" href="/dashboard/course/'+ order(course) +'">Show</a></td>\
         </tr>')
       }
+      function course_profile(addressValue){
+          $.ajax({
+            url: addressValue,
+            method:'GET',
+            dataType: 'json',
+            success: function (data) {
+              course_modal_creator(data)
+            }
+          });
+        }
+
+        function profile(addressValue){
+            $.ajax({
+              url: addressValue,
+              method:'GET',
+              dataType: 'json',
+              success: function (data) {
+                var user = JSON.parse(data.user)[0]
+                if(user.fields.role == "Teacher")
+                  teacher_modal_creator(user,data.courses)
+                else if(user.fields.role == "Student")
+                  student_modal_creator(user,JSON.parse(data.scores.tree))
+                else
+                staff_modal_creator(user)
+              }
+            });
+          }
     </script>
+    <script src="/static/html/dashboard/admin/js.js" charset="utf-8"></script>
 {% endblock %}

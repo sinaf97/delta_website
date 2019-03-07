@@ -15,7 +15,15 @@
            {%csrf_token%}
            <div style="margin:10px">
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
+                <label for="name">Firstname</label>
+                <input class="form-control" type="text" placeholder="All" name="name" value="">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="last_name">Lastname</label>
+                <input class="form-control" type="text" placeholder="All" name="last_name" value="">
+              </div>
+              <div class="form-group col-md-2">
                 <label for="type">Type</label>
                 <select class="form-control" name="type">
                   <option value="All" selected>All</option>
@@ -24,7 +32,7 @@
                   <option value="Others">Others</option>
                 </select>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-2">
                 <label for="active">Activity</label>
                 <select class="form-control" name="active">
                   <option value="All" selected>All</option>
@@ -49,7 +57,7 @@
       <!-- Central Modal Medium Success -->
         <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
           aria-hidden="true">
-          <div class="modal-dialog modal-notify modal-success" role="document">
+          <div class="modal-dialog modal-lg modal-success" role="document">
             <!--Content-->
             <div class="modal-content">
               <!--Header-->
@@ -92,7 +100,6 @@
 
     <script type="text/javascript">
       $('#query-users').click(query_users)
-
       function query_users(){
           $('#get-users').ajaxForm({
           success: function (data) {
@@ -106,50 +113,61 @@
               <th>Role</th>\
               <th>Mobile</th>\
               <th>Status</th>\
+              <th>Profile</th>\
             </tr>')
             users.forEach(fill)
-          },
+            $(document).ready(function(){
+              $(".aClass").click(function(){
+                var addressValue = $(this).attr("href");
+                profile(addressValue)
+                return false;
+              });
+            })
+            },
             dataType:'json',
         })
-      }
+    }
 
       function fill(user,count){
         count += 1
         $('#user-list').append(
         '<tr>\
           <td>'+count+'</td>\
-          <td style="width:30%"><a class="aClick" href="/dashboard/users/'+user.fields.username+'">'+user.fields.first_name+' '+user.fields.last_name+'</a></td>\
+          <td style="width:30%">'+user.fields.first_name+' '+user.fields.last_name+'</td>\
           <td style="width:20%%">'+user.fields.username+'</td>\
           <td style="width:15%">'+user.fields.role+'</td>\
           <td style="width:29%">'+user.fields.mobile+'</td>\
           <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
+          <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
         </tr>')
       }
-          $(".aClick").click(function () {
-              var addressValue = $(this).attr("href");
-              $.ajax({
-                url: addressValue,
-                method:'GET',
-                dataType: 'json',
-                success: function (data) {
-                  if(data.user.feilds.role == "Teacher")
-                      showTeacher(data)
-                  else if(data.user.fields.role == "Student")
-                      showStudent(data)
-                  else
-                      showStaff(data)
-                }
-      });
-    })
+      function profile(addressValue){
+          $.ajax({
+            url: addressValue,
+            method:'GET',
+            dataType: 'json',
+            success: function (data) {
+              var user = JSON.parse(data.user)[0]
+              if(user.fields.role == "Teacher")
+                teacher_modal_creator(user,data.courses)
+              else if(user.fields.role == "Student")
+                student_modal_creator(user,JSON.parse(data.scores.tree))
+              else
+              staff_modal_creator(user)
+            }
+          });
+        }
 
-    function showTeacher(data){
-      console.log(data.courses)
-    }
-    function showStudent(data){
-      console.log(data.scores)
-    }
-    function showStaff(data){
-      console.log(data.user)
-    }
+        function course_profile(addressValue){
+            $.ajax({
+              url: addressValue,
+              method:'GET',
+              dataType: 'json',
+              success: function (data) {
+                course_modal_creator(data)
+              }
+            });
+          }
     </script>
+    <script src="/static/html/dashboard/admin/js.js" charset="utf-8"></script>
 {% endblock %}

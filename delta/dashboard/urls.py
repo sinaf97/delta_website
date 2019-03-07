@@ -37,5 +37,6 @@ urlpatterns = [
     path('/get_courses',views.adminViews.get_courses,name="get_courses"),
     path('/get_courses_ajax',views.adminViews.get_courses_ajax,name="get_courses_ajax"),
     path('/users/<str:info>',views.adminViews.get_info,name="get_info"),
+    path('/course/<str:info>',views.adminViews.get_course_info,name="get_course_info"),
 
 ]
