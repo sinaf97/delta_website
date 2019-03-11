@@ -164,7 +164,7 @@ class teacherViews:
             for i in students:
                 midScore = request.POST[("midterm_"+i.user.username)]
                 finalScore = request.POST[("final_"+i.user.username)]
-                commiteScore(request,theCourse,i.user.username,midScore,finalScore)
+                teacherViews.commiteScore(request,theCourse,i.user.username,midScore,finalScore)
             data = {
                 'msg':"Scores submitted successfully"
             }
@@ -483,11 +483,14 @@ class adminViews:
         students = course.students.all()
         list = []
         for i in students:
-            list.append({'user':serializers.serialize("json",[i.user]),'score':serializers.serialize("json",[i.scores.get(course=course)])})
+            try:
+                list.append({'user':serializers.serialize("json",[i.user]),'score':serializers.serialize("json",[i.scores.get(course=course)])})
+            except:
+                list.append({'user': serializers.serialize("json", [i.user]),'score': json.dumps([{'fields':{'midScore':0,'finalScore':0}}])})
         data = {
         'course':serializers.serialize("json",[course.courseInfo]),
         'students':list,
-        'teacher':course.teacher.user.get_full_name(),
+        'teacher':serializers.serialize("json",[course.teacher.user]),
         'term':course.term.getTermInfo(),
         'group':course.group,
         }

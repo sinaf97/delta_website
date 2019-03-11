@@ -65,10 +65,10 @@ function reset_modal(user){
   </div>')
   $('input').css('color','black')
 }
-function reset_course_modal(course,teacher,term){
+function reset_course_modal(course,teacher,term,group){
   $('.modal-body').empty()
   $('.modal-header').empty()
-  $('.modal-header').append('<h1>'+course.fields.course_name+'</h1>\
+  $('.modal-header').append('<a class="cClass" href="/dashboard/course/'+ order({'code':course.fields.code,'group':group,'term':term}) +'"><h1>'+course.fields.course_name+'</h1></a>\
     <h5>Term: '+ term.season + " of "+term.year + ", Part "+ term.part +'</h5>')
   $('.modal-body').append('<div id="info">\
     <form class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">\
@@ -76,7 +76,13 @@ function reset_course_modal(course,teacher,term){
        <div class="form-row">\
          <div class="form-group col-md-4">\
            <label for="fn">Teacher</label>\
-           <input type="text" name="fn" class="form-control" value="'+teacher+'" disabled>\
+           <input type="text" name="fn" class="form-control" value="'+teacher.fields.first_name+' '+teacher.fields.last_name+'" disabled>\
+         </div>\
+         <div class="form-group col-md-4">\
+         </div>\
+         <div class="form-group col-md-4">\
+         <label for="ln" style="color:white">!</label>\
+           <input name="ln" id="to-be-white" type="button" class="aClass btn btn-primary form-control" value="Teacher profile" href="/dashboard/users/'+teacher.fields.username+'">\
          </div>\
        </div>\
        </div>\
@@ -85,7 +91,7 @@ function reset_course_modal(course,teacher,term){
        <table class="table table-hover" id="course-user-list">\
        </table>\
      </div>')
-     $('input').css('color','black')
+  $('input').css('color','black')
 }
 
 function student_modal_creator(user,scores){
@@ -96,13 +102,7 @@ function student_modal_creator(user,scores){
 function teacher_modal_creator(user,courses){
   reset_modal(user)
   add_courses(courses)
-  $(document).ready(function(){
-    $(".aClass").click(function(){
-      var addressValue = $(this).attr("href");
-      course_profile(addressValue)
-      return false;
-    });
-  })
+  ready()
   $('#centralModalSuccess').modal()
 }
 function staff_modal_creator(user){
@@ -121,7 +121,6 @@ function add_courses(courses){
   </div>')
 
   var sina = courses
-  console.log(sina)
   if(typeof sina[0] == "undefined" )
     return
   var flag = sina[0]['term']['year']
@@ -163,7 +162,7 @@ function add_courses(courses){
     }
   }
   for(var i=0;i<sina.length; i++)
-    $('#term'+sina[i]['term']['season']+sina[i]['term']['part']).append('<li style="font-size:12px"><a id="'+sina[i].term.year+sina[i].term.season+sina[i].term.part+sina[i].code+'" class="aClass nav-link" href="/dashboard/course/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
+    $('#term'+sina[i]['term']['season']+sina[i]['term']['part']).append('<li style="font-size:12px"><a id="'+sina[i].term.year+sina[i].term.season+sina[i].term.part+sina[i].code+'" class="cClass nav-link" href="/dashboard/course/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
 }
 function order(input){
   var output = input.code +"_"+ input.group + "_"+ input.term.year + "_" + input.term.season + "_" + input.term.part
@@ -172,7 +171,8 @@ function order(input){
 
 function course_modal_creator(data){
   var course = JSON.parse(data.course)[0]
-  reset_course_modal(course,data.teacher,data.term)
+  reset_course_modal(course,JSON.parse(data.teacher)[0],data.term,data.group)
+    $('#to-be-white').css('color','white')
   var count = 0
   $('#course-user-list').append(
   '<tr>\
@@ -186,13 +186,7 @@ function course_modal_creator(data){
     <td style="width:10%">Profile</td>\
   </tr>')
   data.students.forEach(add_students)
-  $(document).ready(function(){
-    $(".aClass").click(function(){
-      var addressValue = $(this).attr("href");
-      profile(addressValue)
-      return false;
-    });
-  })
+  ready()
 
   $('#centralModalSuccess').modal()
 }
@@ -257,13 +251,7 @@ function query_courses(){
             <th>More Info</th>\
           </tr>')
           courses.forEach(fill_courses)
-          $(document).ready(function(){
-            $(".aClass").click(function(){
-              var addressValue = $(this).attr("href");
-              course_profile(addressValue)
-              return false;
-            });
-          })
+          ready()
         },
           dataType:'json',
       })
@@ -285,13 +273,7 @@ function query_users(){
             <th>Profile</th>\
           </tr>')
           users.forEach(fill_user)
-          $(document).ready(function(){
-            $(".aClass").click(function(){
-              var addressValue = $(this).attr("href");
-              profile(addressValue)
-              return false;
-            });
-          })
+          ready()
           },
           dataType:'json',
       })
@@ -321,6 +303,23 @@ function fill_courses(course,count){
       <td style="width:10%">'+course.term.part+'</td>\
       <td style="width:10%">'+course.group+'</td>\
       <td style="width:10%">'+ course.num +'</td>\
-      <td style="width:20%"><a class="aClass" href="/dashboard/course/'+ order(course) +'">Show</a></td>\
+      <td style="width:20%"><a class="cClass" href="/dashboard/course/'+ order(course) +'">Show</a></td>\
     </tr>')
   }
+function ready(){
+  $(document).ready(function(){
+    $(".cClass").click(function(){
+      var addressValue = $(this).attr("href");
+      course_profile(addressValue)
+      return false;
+    });
+  })
+  $(document).ready(function(){
+    $(".aClass").click(function(){
+      var addressValue = $(this).attr("href");
+      profile(addressValue)
+      return false;
+    });
+  })
+
+}
