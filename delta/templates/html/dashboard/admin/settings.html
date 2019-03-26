@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h4 id="name-info" class="h4 font-weight-bold">{{user.first_name}} {{user.last_name}}</h4>
   <div class="mb-2 mb-md-0">
-      <img src="../../../static/pic/head.png" style="width:10%;float:right">
+      <img src="{{user.pic.url}}" style="width:10%;float:right">
   </div>
 </div>
 <div id="details">
@@ -26,6 +26,7 @@
      </div>
    </form>
  </div>
+ <div>
    <form id="change-pass" action="{%url 'change_pass'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
      {%csrf_token%}
      <div style="margin:10px">
@@ -49,6 +50,22 @@
         <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-pass">Change Password</button>
       </div>
     </form>
+    </div>
+    <div class="">
+    <form id="change-profile-photo" action="{%url 'change_profile_photo'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+      {%csrf_token%}
+        <div style="margin:10px">
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <input type="file" name="pic">
+           </div>
+        </div>
+       </div>
+       <div>
+         <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-profile-photo">Change Profile Photo</button>
+       </div>
+     </form>
+   </div>
 </main>
 
 <!-- Central Modal Medium Success -->
@@ -92,6 +109,7 @@
 
   $('#submit-name').click(submit_name)
   $('#submit-pass').click(submit_pass)
+  $('#submit-profile-photo').click(submit_profile_photo)
 
   function submit_name(){
     $('#change-name').ajaxForm({
@@ -115,6 +133,17 @@
         dataType:'json',
     })
   }
+}
+function submit_profile_photo(){
+  $('#change-profile-photo').ajaxForm({
+  success: function (data) {
+    $('#status-response').html(data.msg)
+    $('#centralModalSuccess').modal()
+    $('img:first').attr('src',data.path);
+    document.getElementById('change-profile-photo').reset();
+  },
+    dataType:'json',
+})
 }
 $('#settings').addClass('active')
 

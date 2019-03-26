@@ -11,20 +11,81 @@
    <div id="details">
      <h4 class="h4">Send a messege to your teacher:</h4>
 
-     <form>
-<div class="form-group">
-<label for="exampleFormControlInput1">Email address</label>
-<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-</div>
-
-<div class="form-group">
-<label for="exampleFormControlTextarea1">Content</label>
-<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-</div>
-<button type="submit" class="btn btn-primary mb-2 btn-block">Send</button>
-</form>
+     <form id="send-message" action="{% url 's_messege_ajax' %}"  class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+       {%csrf_token%}
+       <div style="margin:10px">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="t-fname">Teacher</label>
+            <input type="text" class="form-control" id="t-fname" value="{{t_fname}}" name="t_fname" disabled>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="t-lname" style="color:white">!</label>
+            <input type="text" class="form-control" id="t-lname" value="{{t_lname}}" name="t_lname" disabled>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="subject">Subject</label>
+            <input type="text" class="form-control" id="subject" placeholder="" name="subject" required>
+            <p id="check_username"></p>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="text">Content</label>
+          <textarea name="text" id="text" rows="8" class="form-control" cols="80"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Send</button>
+      </div>
+    </form>
 
 
    </div>
  </main>
+ <!-- Central Modal Medium Success -->
+   <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+     <div class="modal-dialog modal-notify modal-success" role="document">
+       <!--Content-->
+       <div class="modal-content">
+         <!--Header-->
+         <div class="modal-header">
+           <p class="heading lead">Status</p>
+
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true" class="white-text">&times;</span>
+           </button>
+         </div>
+
+         <!--Body-->
+         <div class="modal-body">
+           <div class="text-center">
+           </div>
+         </div>
+
+         <!--Footer-->
+         <div class="modal-footer justify-content-center">
+           <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+         </div>
+       </div>
+       <!--/.Content-->
+     </div>
+   </div>
+   <!-- Central Modal Medium Success-->
  {% endblock %}
+
+ <script type="text/javascript">
+   $('#submit').click(send_message)
+   function send_message(){
+     $('#send-message').ajaxForm({
+     success: function (data) {
+       if(data.ok){
+         $('.text-center').append('<i class="fas fa-check fa-4x mb-3 animated rotateIn" style="color:green"></i>')
+         $('.text-center').append(data.msg)
+         document.getElementById('send-message').reset();
+       }
+     },
+       dataType:'json',
+   })
+   }
+ </script>

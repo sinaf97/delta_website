@@ -65,3 +65,12 @@
     -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;
     animation: checkmark-circle 0.6s ease-in-out backwards
 }
+.file-field.medium .file-path-wrapper {
+height: 3rem; }
+.file-field.medium .file-path-wrapper .file-path {
+height: 2.8rem; }a
+
+.file-field.big-2 .file-path-wrapper {
+height: 3.7rem; }
+.file-field.big-2 .file-path-wrapper .file-path {
+height: 3.5rem; }

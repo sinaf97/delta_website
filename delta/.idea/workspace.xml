@@ -3,9 +3,32 @@
   <component name="ChangeListManager">
     <list default="true" id="b6d9c2ae-5e0c-4592-947c-953c6fa7c8b6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/delta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/delta/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/delta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/delta/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/addTerm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/addTerm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/addUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/addUser.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/courseToTerm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/courseToTerm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/dashboard_a.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/dashboard_a.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/newCourse.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/newCourse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/studentToCourse.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/studentToCourse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/dashboard_s.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/dashboard_s.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/info.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/s_messege.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/s_messege.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/score.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/score.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/courseInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/courseInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/dashboard_t.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/dashboard_t.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/settings.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +57,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dashboard/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="164" column="23" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
+            <state relative-caret-position="158">
+              <caret line="88" column="95" selection-start-line="88" selection-start-column="95" selection-end-line="88" selection-end-column="95" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -46,8 +69,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="525">
+              <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -65,8 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="820" />
@@ -207,7 +232,11 @@
       <workItem from="1551968826544" duration="4707000" />
       <workItem from="1552056322783" duration="2240000" />
       <workItem from="1552226626893" duration="84000" />
-      <workItem from="1552336325335" duration="725000" />
+      <workItem from="1552336325335" duration="822000" />
+      <workItem from="1552419032042" duration="2196000" />
+      <workItem from="1552595134711" duration="817000" />
+      <workItem from="1553079142418" duration="77000" />
+      <workItem from="1553626792786" duration="1551000" />
     </task>
     <servers />
   </component>
@@ -217,13 +246,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22597000" />
+    <option name="totallyTimeSpent" value="27335000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1440" height="820" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="820" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27110156" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28540772" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -248,6 +277,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dashboard/views.py</url>
+          <line>91</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/templates/html/dashboard/admin/newCourse.html">
@@ -276,7 +316,7 @@
     </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/psycopg2/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
+        <state relative-caret-position="246">
           <caret line="129" selection-start-line="129" selection-end-line="129" />
         </state>
       </provider>
@@ -290,15 +330,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="525">
+          <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="164" column="23" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
+        <state relative-caret-position="158">
+          <caret line="88" column="95" selection-start-line="88" selection-start-column="95" selection-end-line="88" selection-end-column="95" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

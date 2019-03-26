@@ -1,7 +1,11 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
+def picPath(user,fileName):
+    fileName = fileName.split('.')[1]
+    return f"users/{user.role}s/{user.username}/profile pic/{user.username}.{fileName}"
 
 class User(AbstractUser):
     role = models.CharField(max_length=30)
@@ -9,6 +13,7 @@ class User(AbstractUser):
     mobile= models.CharField(max_length=12,null=True)
     idCode = models.CharField(max_length=10,null=True)
     address = models.TextField(max_length=256,null=True)
+    pic = models.FileField(upload_to=picPath,null=True,default='default/profile.png')
 
 
 # Create your models here.
@@ -77,3 +82,11 @@ class score(models.Model):
         return f"Midterm: {self.midScore} - Final: {self.finalScore} => {self.student} => {self.course}"
     def getScoreInfo(self):
         return {'username':self.student.user.username,'midScore':self.midScore,'finalScore':self.finalScore}
+
+
+class message(models.Model):
+    origin =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="sent_messages")
+    to =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="recieved_messages")
+    seen = models.BooleanField(default = True)
+    subject = models.CharField(max_length = 64)
+    text = models.CharField(max_length = 512)

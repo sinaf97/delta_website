@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import student,course,teacher,term,score,User,courseInfo
+from .models import student,course,teacher,term,score,User,courseInfo,message
 # Register your models here.
 
 admin.site.register(student)
@@ -8,6 +8,7 @@ admin.site.register(course)
 admin.site.register(teacher)
 admin.site.register(term)
 admin.site.register(courseInfo)
+admin.site.register(message)
 
 
 

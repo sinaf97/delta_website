@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import term , course,score,student,User,teacher
+from .models import term , course,score,student,User,teacher,message
 from .models import courseInfo as course_info
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
@@ -7,7 +7,11 @@ import json
 from django.core import serializers
 from .methods import *
 from django.contrib.auth.decorators import login_required
-
+from django.core.files.storage import FileSystemStorage
+from .models import picPath
+import shutil , os
+from django.conf import settings
+import manage
 
 
 class default:
@@ -78,6 +82,23 @@ class default:
             }
         return JsonResponse(context)
 
+    def change_profile_photo(request):
+        user = request.user
+        pic = request.FILES["pic"]
+        fs = FileSystemStorage()
+        try:
+            shutil.rmtree(os.path.dirname(manage.__file__)+'/media/users/'+request.user.role+'s/'+request.user.username+'/profile pic')
+        except Exception as e:
+            print(e)
+        fs.save(picPath(user,pic.name),pic)
+        user.pic = picPath(user,pic.name)
+        user.save()
+        context = {
+            'msg':'Profile Photo changed successfully',
+            'path':user.pic.url
+        }
+        return JsonResponse(context)
+
 class studentViews:
     # @login_required(login_url='/login')
     def studentScore(request):
@@ -111,7 +132,22 @@ class studentViews:
             return context
     # @login_required(login_url='/login')
     def s_messege(request):
-            return render(request,'html/dashboard/student/s_messege.html')
+        c_term = term.objects.last()
+        course = request.user.student.course.get(term = c_term)
+        context = {
+            't_fname':course.teacher.user.first_name,
+            't_lname':course.teacher.user.last_name
+        }
+        return render(request,'html/dashboard/student/s_messege.html',context)
+
+    def s_messege_ajax(request):
+        teacher = User.objects.get(first_name=request.POST['t_fname'],last_name=request.POST['t_lname'])
+        m = message(origin=request.user,to=teacher,subject = request.POST['subject'],text=request.POST['text'])
+        m.save()
+        data = {
+            'msg':"Message sent successfully"
+        }
+        return JsonResponse(data)
     # @login_required(login_url='/login')
     def r_messege(request):
             return render(request,'html/dashboard/student/r_messege.html')
@@ -201,7 +237,11 @@ class adminViews:
     def add_user_submit(request):
             check = User.objects.filter(username=request.POST["username"]).first()
             if(check is None):
-                newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]), first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
+                newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
+                pic = request.FILES["pic"]
+                fs = FileSystemStorage()
+                fs.save(picPath(newUser,pic.name),pic)
+                newUser.pic = picPath(newUser,pic.name)
                 newUser.save()
                 status = "User was created successfully!"
                 if request.POST["role"] == "Teacher":

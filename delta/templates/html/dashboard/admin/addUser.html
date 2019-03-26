@@ -6,7 +6,7 @@
          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
            <h3 class="h3 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h3>
            <div class="mb-2 mb-md-0">
-               <img src="../static/pic/head.png" style="width:10%;float:right">
+               <img src="{{user.pic.url}}" style="width:10%;float:right">
            </div>
          </div>
          <form id="add-user-form" action="{%url 'add_user_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
@@ -61,8 +61,14 @@
                   <option>Staff</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Submit</button>
             </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="pic">Profile photo</label>
+                <input type="file" class="form-control" id="pic" name="pic">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Submit</button>
+              </div>
             <div>
           </form>
        </main>

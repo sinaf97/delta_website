@@ -6,10 +6,12 @@ urlpatterns = [
     path('/settings',views.default.settings,name="settings"),
     path('/settings/change_name',views.default.change_name,name="change_name"),
     path('/settings/change_pass',views.default.change_pass,name="change_pass"),
+    path('/settings/change_profile_photo',views.default.change_profile_photo,name="change_profile_photo"),
 
     path('/student_info',views.studentViews.info,name="s_info"),
     path('/score',views.studentViews.studentScore,name="score"),
     path('/s_messege',views.studentViews.s_messege,name="s_messege"),
+    path('/s_messege/ajax',views.studentViews.s_messege_ajax,name="s_messege_ajax"),
     path('/r_messege',views.studentViews.r_messege,name="r_messege"),
     path('/reports',views.studentViews.reports,name="reports"),
 
@@ -33,9 +35,9 @@ urlpatterns = [
     path('/student_to_course/validate_usernames',views.adminViews.validate_usernames,name="validate_usernames"),
     path('/student_to_course/get_term_course',views.adminViews.getTermCourse,name="get_term_course"),
     path('/get_users',views.adminViews.get_users,name="get_users"),
-    path('/get_users_ajax',views.adminViews.get_users_ajax,name="get_users_ajax"),
+    path('/get_users/ajax',views.adminViews.get_users_ajax,name="get_users_ajax"),
     path('/get_courses',views.adminViews.get_courses,name="get_courses"),
-    path('/get_courses_ajax',views.adminViews.get_courses_ajax,name="get_courses_ajax"),
+    path('/get_courses/ajax',views.adminViews.get_courses_ajax,name="get_courses_ajax"),
     path('/users/<str:info>',views.adminViews.get_info,name="get_info"),
     path('/course/<str:info>',views.adminViews.get_course_info,name="get_course_info"),
 
