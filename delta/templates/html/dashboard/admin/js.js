@@ -1,20 +1,24 @@
 function reset_modal(user){
   $('.modal-body').empty()
   $('.modal-body').append('<div id="info">\
-    <form class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">\
-      <div style="margin:10px">\
-       <div class="form-row">\
-         <div class="form-group col-md-4">\
+  <form class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">\
+      <table>\
+      <tr>\
+      <td style="width:80%">\
+         <div style="float:left" class="form-group col-md-6">\
            <label for="fn">Firstname</label>\
            <input type="text" name="fn" class="form-control" value="'+user.fields.first_name+'" disabled>\
-         </div>\
-         <div class="form-group col-md-4">\
-         </div>\
-         <div class="form-group col-md-4">\
            <label for="ln">Lastname</label>\
            <input type="text" name="ln" class="form-control" value="'+user.fields.last_name+'" disabled>\
          </div>\
-       </div>\
+         <div style="float:left" class="form-group col-md-6">\
+         </div>\
+         </td>\
+        <td>\
+       <img style="width:100%;height:100%" src="/media/'+user.fields.pic+'"\
+       </td>\
+       </tr></table>\
+     <div id="details" style="margin:10px">\
        <div class="form-row">\
          <div class="form-group col-md-4">\
            <label for="em">E-mail</label>\
@@ -64,10 +68,15 @@ function reset_modal(user){
   <div id="tree"></div>\
   </div>')
   $('input').css('color','black')
+  try {$('.eClass').remove()} catch (e) {}
+  try {$('.sClass').remove()} catch (e) {}
+  $(".modal-footer").append('<a type="button" class="eClass btn btn-danger" style="color:white" id="edit">Edit Profile</a>')
+  ready()
 }
 function reset_course_modal(course,teacher,term,group){
   $('.modal-body').empty()
   $('.modal-header').empty()
+  try {$('#edit').remove()} catch (e) {}
   $('.modal-header').append('<a class="cClass" href="/dashboard/course/'+ order({'code':course.fields.code,'group':group,'term':term}) +'"><h1>'+course.fields.course_name+'</h1></a>\
     <h5>Term: '+ term.season + " of "+term.year + ", Part "+ term.part +'</h5>')
   $('.modal-body').append('<div id="info">\
@@ -111,7 +120,7 @@ function staff_modal_creator(user){
 }
 function add_courses(courses){
   $('.modal-body').append('\
-  <a id="courses" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true" aria-controls="collapseSemester"  href="#" >\
+  <a id="modal-courses" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true" aria-controls="collapseSemester"  href="#" >\
     <span data-feather="book"></span>\
     Show Courses\
   </a>\
@@ -270,6 +279,7 @@ function query_users(){
             <th>Role</th>\
             <th>Mobile</th>\
             <th>Status</th>\
+            <th>Photo</th>\
             <th>Profile</th>\
           </tr>')
           users.forEach(fill_user)
@@ -288,6 +298,7 @@ function fill_user(user,count){
       <td style="width:15%">'+user.fields.role+'</td>\
       <td style="width:29%">'+user.fields.mobile+'</td>\
       <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
+      <td style="width:10%"><img style="width:50%;height:50%" src="/media/'+(user.fields.pic)+'"></td>\
       <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
     </tr>')
   }
@@ -321,5 +332,33 @@ function ready(){
       return false;
     });
   })
+  $(document).ready(function(){
+    $(".eClass").click(function(){
+      edit_profile()
+      return false;
+    });
+  })
+  $(document).ready(function(){
+    $(".sClass").click(function(){
+      save_edit()
+      return false;
+    });
+  })
+
+}
+function edit_profile(){
+  $('#info :input').prop('disabled',false)
+  try {$('#tree').remove()}catch{}
+  try{$('#modal-courses').remove()}catch{}
+  $('#details').append('<div class="form-row">\
+    <div class="form-group col-md-6">\
+      <label for="ad">Photo</label>\
+      <input type="file" name="pic" class="form-control">\
+    </div>\
+  </div>')
+  $(".eClass").remove()
+  $(".modal-footer").append('<a type="submit" class="sClass btn btn-success" style="color:white" id="edit">Save</a>')
+}
+function save_edit(){
 
 }

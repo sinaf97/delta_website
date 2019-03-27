@@ -26,6 +26,7 @@
      </div>
    </form>
  </div>
+ <div>
    <form id="change-pass" action="{%url 'change_pass'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
      {%csrf_token%}
      <div style="margin:10px">
@@ -49,6 +50,23 @@
         <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-pass">Change Password</button>
       </div>
     </form>
+    </div>
+    <div class="">
+    <form id="change-profile-photo" action="{%url 'change_profile_photo'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+      {%csrf_token%}
+        <div style="margin:10px">
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <input type="file" name="pic" required>
+           </div>
+        </div>
+       </div>
+       <div>
+         <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-profile-photo">Change Profile Photo</button>
+         <button type="button" class="btn btn-danger float-right" style="margin:5% 1%;" id="delete-profile-photo">Delete Profile Photo</button>
+       </div>
+     </form>
+   </div>
 </main>
 
 <!-- Central Modal Medium Success -->
@@ -92,6 +110,8 @@
 
   $('#submit-name').click(submit_name)
   $('#submit-pass').click(submit_pass)
+    $('#submit-profile-photo').click(submit_profile_photo)
+    $('#delete-profile-photo').click(delete_profile_photo)
 
   function submit_name(){
     $('#change-name').ajaxForm({
@@ -116,6 +136,29 @@
         dataType:'json',
     })
   }
+}
+function submit_profile_photo(){
+  $('#change-profile-photo').ajaxForm({
+  success: function (data) {
+    $('#status-response').html(data.msg)
+    $('#centralModalSuccess').modal()
+    $('img:first').attr('src',data.path);
+    document.getElementById('change-profile-photo').reset();
+  },
+    dataType:'json',
+})
+}
+function delete_profile_photo(){
+  $.ajax({
+    url: "{%url 'change_profile_photo'%}",
+    method:'GET',
+    dataType: 'json',
+    success: function (data) {
+      $('#status-response').html(data.msg)
+      $('#centralModalSuccess').modal()
+      $('img:first').attr('src',data.path);
+    }
+  });
 }
 $('#settings').addClass('active')
 

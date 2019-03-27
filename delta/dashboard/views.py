@@ -48,15 +48,15 @@ class default:
                 return render (request,"html/dashboard/admin/dashboard_a.html",context)
     # @login_required(login_url='/login')
     def settings(request):
-            if request.user.role == "Teacher":
-                context = {
-                'courses' : getCourse(request),
-                }
-                return render(request,"html/dashboard/teacher/settings.html",context)
-            elif request.user.role == "Student":
-                return render(request,"html/dashboard/student/settings.html")
-            else:
-                return render(request,"html/dashboard/admin/settings.html")
+        if request.user.role == "Teacher":
+            context = {
+            'courses' : getCourse(request),
+            }
+            return render(request,"html/dashboard/teacher/settings.html",context)
+        elif request.user.role == "Student":
+            return render(request,"html/dashboard/student/settings.html")
+        else:
+            return render(request,"html/dashboard/admin/settings.html")
     # @login_required(login_url='/login')
     def change_name(request):
             request.user.first_name = request.POST["firstName"]
@@ -84,14 +84,17 @@ class default:
 
     def change_profile_photo(request):
         user = request.user
-        pic = request.FILES["pic"]
         fs = FileSystemStorage()
         try:
-            shutil.rmtree(os.path.dirname(manage.__file__)+'/media/users/'+request.user.role+'s/'+request.user.username+'/profile pic')
-        except Exception as e:
-            print(e)
-        fs.save(picPath(user,pic.name),pic)
-        user.pic = picPath(user,pic.name)
+            pic = request.FILES["pic"]
+            try:
+                shutil.rmtree(os.path.dirname(manage.__file__)+'/media/users/'+request.user.role+'s/'+request.user.username+'/profile pic')
+            except Exception as e:
+                pass
+            fs.save(picPath(user,pic.name),pic)
+            user.pic = picPath(user,pic.name)
+        except:
+            user.pic = 'default/profile.png'
         user.save()
         context = {
             'msg':'Profile Photo changed successfully',
@@ -238,10 +241,13 @@ class adminViews:
             check = User.objects.filter(username=request.POST["username"]).first()
             if(check is None):
                 newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
-                pic = request.FILES["pic"]
-                fs = FileSystemStorage()
-                fs.save(picPath(newUser,pic.name),pic)
-                newUser.pic = picPath(newUser,pic.name)
+                try:
+                    pic = request.FILES["pic"]
+                    fs = FileSystemStorage()
+                    fs.save(picPath(newUser,pic.name),pic)
+                    newUser.pic = picPath(newUser,pic.name)
+                except:
+                    pass
                 newUser.save()
                 status = "User was created successfully!"
                 if request.POST["role"] == "Teacher":

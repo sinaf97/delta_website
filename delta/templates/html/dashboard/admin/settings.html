@@ -57,12 +57,13 @@
         <div style="margin:10px">
          <div class="form-row">
            <div class="form-group col-md-6">
-             <input type="file" name="pic">
+             <input type="file" name="pic" id="pic" required>
            </div>
         </div>
        </div>
        <div>
          <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-profile-photo">Change Profile Photo</button>
+         <button type="button" class="btn btn-danger float-right" style="margin:5% 1%;" id="delete-profile-photo">Delete Profile Photo</button>
        </div>
      </form>
    </div>
@@ -110,6 +111,7 @@
   $('#submit-name').click(submit_name)
   $('#submit-pass').click(submit_pass)
   $('#submit-profile-photo').click(submit_profile_photo)
+  $('#delete-profile-photo').click(delete_profile_photo)
 
   function submit_name(){
     $('#change-name').ajaxForm({
@@ -135,15 +137,27 @@
   }
 }
 function submit_profile_photo(){
-  $('#change-profile-photo').ajaxForm({
-  success: function (data) {
-    $('#status-response').html(data.msg)
-    $('#centralModalSuccess').modal()
-    $('img:first').attr('src',data.path);
-    document.getElementById('change-profile-photo').reset();
-  },
-    dataType:'json',
-})
+    $('#change-profile-photo').ajaxForm({
+    success: function (data) {
+      $('#status-response').html(data.msg)
+      $('#centralModalSuccess').modal()
+      $('img:first').attr('src',data.path);
+      document.getElementById('change-profile-photo').reset();
+    },
+      dataType:'json',
+  })
+}
+function delete_profile_photo(){
+  $.ajax({
+    url: "{%url 'change_profile_photo'%}",
+    method:'GET',
+    dataType: 'json',
+    success: function (data) {
+      $('#status-response').html(data.msg)
+      $('#centralModalSuccess').modal()
+      $('img:first').attr('src',data.path);
+    }
+  });
 }
 $('#settings').addClass('active')
 
