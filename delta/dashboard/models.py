@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from bookShelf.models import book
+
 
 def picPath(user,fileName):
     fileName = fileName.split('.')[1]
@@ -59,6 +61,7 @@ class course(models.Model):
 class courseInfo(models.Model):
     course_name = models.CharField(max_length=128)
     code = models.CharField(max_length=8,null=True)
+    book = models.ForeignKey(book,null=True,on_delete=models.PROTECT,related_name='courses')
 
     def __str__(self):
         return f"{self.course_name}"

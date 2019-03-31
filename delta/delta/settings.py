@@ -33,13 +33,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'login.apps.LoginConfig',
-    'dashboard.apps.DashboardConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'dashboard.apps.DashboardConfig',
+    'bookShelf.apps.BookshelfConfig',
 ]
 AUTH_USER_MODEL = 'dashboard.User'
 

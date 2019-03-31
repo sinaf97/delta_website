@@ -8,7 +8,6 @@ from django.core import serializers
 from .methods import *
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
-from .models import picPath
 import shutil , os
 from django.conf import settings
 import manage
