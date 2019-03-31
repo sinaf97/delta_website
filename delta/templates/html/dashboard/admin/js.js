@@ -1,7 +1,7 @@
 function reset_modal(user){
   $('.modal-body').empty()
   $('.modal-body').append('<div id="info">\
-  <form class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">\
+  <form id="edit-user-form" action="/dashboard/users/edit_user" class="form" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">\
       <table>\
       <tr>\
       <td style="width:80%">\
@@ -29,6 +29,7 @@ function reset_modal(user){
          <div class="form-group col-md-4">\
            <label for="us">Username</label>\
            <input type="text" name="us" class="form-control" value="'+user.fields.username+'" disabled>\
+           <input type="hidden" name="us-fix" class="form-control" value="'+user.fields.username+'">\
          </div>\
        </div>\
          <div class="form-row">\
@@ -68,9 +69,9 @@ function reset_modal(user){
   <div id="tree"></div>\
   </div>')
   $('input').css('color','black')
-  try {$('.eClass').remove()} catch (e) {}
-  try {$('.sClass').remove()} catch (e) {}
-  $(".modal-footer").append('<a type="button" class="eClass btn btn-danger" style="color:white" id="edit">Edit Profile</a>')
+  $(".modal-footer").empty()
+  $(".modal-footer").append('<a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>')
+  $(".modal-footer").append('<a type="button" class="eClass btn btn-danger" style="color:white" href="/dashboard/users/'+user.fields.username+'/edit_user" id="edit">Edit Profile</a>')
   ready()
 }
 function reset_course_modal(course,teacher,term,group){
@@ -111,7 +112,6 @@ function student_modal_creator(user,scores){
 function teacher_modal_creator(user,courses){
   reset_modal(user)
   add_courses(courses)
-  ready()
   $('#centralModalSuccess').modal()
 }
 function staff_modal_creator(user){
@@ -120,6 +120,7 @@ function staff_modal_creator(user){
 }
 function add_courses(courses){
   $('.modal-body').append('\
+  <div id="course-container">\
   <a id="modal-courses" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true" aria-controls="collapseSemester"  href="#" >\
     <span data-feather="book"></span>\
     Show Courses\
@@ -127,7 +128,7 @@ function add_courses(courses){
   <div class="collapse" id="collapseSemester">\
     <ul id="year-courses-ul">\
     </ul>\
-  </div>')
+  </div></div>')
 
   var sina = courses
   if(typeof sina[0] == "undefined" )
@@ -332,33 +333,16 @@ function ready(){
       return false;
     });
   })
-  $(document).ready(function(){
-    $(".eClass").click(function(){
-      edit_profile()
-      return false;
-    });
-  })
-  $(document).ready(function(){
-    $(".sClass").click(function(){
-      save_edit()
-      return false;
-    });
-  })
+}
 
-}
-function edit_profile(){
-  $('#info :input').prop('disabled',false)
-  try {$('#tree').remove()}catch{}
-  try{$('#modal-courses').remove()}catch{}
-  $('#details').append('<div class="form-row">\
-    <div class="form-group col-md-6">\
-      <label for="ad">Photo</label>\
-      <input type="file" name="pic" class="form-control">\
-    </div>\
-  </div>')
-  $(".eClass").remove()
-  $(".modal-footer").append('<a type="submit" class="sClass btn btn-success" style="color:white" id="edit">Save</a>')
-}
 function save_edit(){
-
+  $('#edit-user-form').ajaxForm({
+  success: function (data) {
+    $('#status').html(data.msg)
+    $('#centralModalSuccess').modal()
+    $('#user-photo').attr('src',data.new_path)
+    $('input[name=pic]').val('')
+  },
+    dataType:'json',
+})
 }

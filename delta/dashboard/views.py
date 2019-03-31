@@ -12,10 +12,12 @@ from .models import picPath
 import shutil , os
 from django.conf import settings
 import manage
+import copy
+from .decoratore import *
 
 
 class default:
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
     def dashboard(request):
             context = {
                 "user" : request.user,
@@ -46,7 +48,7 @@ class default:
                 return render (request,"html/dashboard/teacher/dashboard_t.html",context)
             else:
                 return render (request,"html/dashboard/admin/dashboard_a.html",context)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
     def settings(request):
         if request.user.role == "Teacher":
             context = {
@@ -57,7 +59,7 @@ class default:
             return render(request,"html/dashboard/student/settings.html")
         else:
             return render(request,"html/dashboard/admin/settings.html")
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
     def change_name(request):
             request.user.first_name = request.POST["firstName"]
             request.user.last_name = request.POST["lastName"]
@@ -67,7 +69,7 @@ class default:
                 'msg':"Name changed successfully"
             }
             return JsonResponse(context)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
     def change_pass(request):
         if request.user.check_password(request.POST["oldpass"]):
             user = request.user
@@ -81,35 +83,33 @@ class default:
             'msg': msg
             }
         return JsonResponse(context)
-
+    @login_required(login_url='/login')
     def change_profile_photo(request):
-        user = request.user
-        fs = FileSystemStorage()
         try:
             pic = request.FILES["pic"]
-            try:
-                shutil.rmtree(os.path.dirname(manage.__file__)+'/media/users/'+request.user.role+'s/'+request.user.username+'/profile pic')
-            except Exception as e:
-                pass
-            fs.save(picPath(user,pic.name),pic)
-            user.pic = picPath(user,pic.name)
+            change_photo(request.user,pic)
         except:
-            user.pic = 'default/profile.png'
-        user.save()
+            request.user.pic = 'default/profile.png'
+            request.user.save()
+
         context = {
             'msg':'Profile Photo changed successfully',
-            'path':user.pic.url
+            'path':request.user.pic.url
         }
         return JsonResponse(context)
 
 class studentViews:
-    # @login_required(login_url='/login')
-    def studentScore(request):
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
+    def studentScore(request,user = None):
+        if(user is not None):
+            scores = user['user'].student.scores.all()
+        else:
             scores = request.user.student.scores.all()
-            dic = {}
-            list2 = []
-            sina = {}
-            for i in range(1399,1395,-1):
+        dic = {}
+        list2 = []
+        sina = {}
+        for i in range(1399,1395,-1):
                 list2 = []
                 for j in reversed(scores):
                     if j.course.term.year == i:
@@ -117,23 +117,22 @@ class studentViews:
                         list2.append(sina)
                         dic[str(i)] = list2
                         sina = {}
-            tree = []
-            json1 = {}
-            for key,value in dic.items():
+        tree = []
+        json1 = {}
+        for key,value in dic.items():
                 json1["text"] = key
                 json1["selectable"]=0
                 json1["state"]={"expanded":0}
                 json1["nodes"] = value
                 tree.append(json1)
                 json1 = {}
-            tree = json.dumps(tree)
-            context = {
+        tree = json.dumps(tree)
+        context = {
                 "tree" : tree
             }
-            if 'admin' not in request.content_params.keys():
-                return render (request,"html/dashboard/student/score.html",context)
-            return context
-    # @login_required(login_url='/login')
+        return context
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
     def s_messege(request):
         c_term = term.objects.last()
         course = request.user.student.course.get(term = c_term)
@@ -142,7 +141,8 @@ class studentViews:
             't_lname':course.teacher.user.last_name
         }
         return render(request,'html/dashboard/student/s_messege.html',context)
-
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
     def s_messege_ajax(request):
         teacher = User.objects.get(first_name=request.POST['t_fname'],last_name=request.POST['t_lname'])
         m = message(origin=request.user,to=teacher,subject = request.POST['subject'],text=request.POST['text'])
@@ -151,13 +151,16 @@ class studentViews:
             'msg':"Message sent successfully"
         }
         return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
     def r_messege(request):
             return render(request,'html/dashboard/student/r_messege.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
     def reports(request):
             return render(request,'html/dashboard/student/reports.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Student'])
     def info(request):
         data = {
             'user':request.user
@@ -165,11 +168,13 @@ class studentViews:
         return render (request,"html/dashboard/student/info.html",data)
 
 class teacherViews:
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
     def courses(request):
             context = getCourse(request)
             return render(request,'html/dashboard/teacher/courses.html',context)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
     def courseInfo(request,info):
             theCourse = courseConverter(info)
             lastTerm = []
@@ -195,7 +200,8 @@ class teacherViews:
             if 'admin' not in request.content_params.keys():
                 return render(request,'html/dashboard/teacher/courseInfo.html',context)
             return context
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
     def add_score(request):
             info = request.POST["course"]
             theCourse = courseConverter(info)
@@ -208,7 +214,8 @@ class teacherViews:
                 'msg':"Scores submitted successfully"
             }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
     def commiteScore(request,theCourse,username,midscore,finalscore):
             if midscore=="":
                 midscore = 0
@@ -221,7 +228,8 @@ class teacherViews:
                 new.save()
             else:
                 score.objects.filter(student=std,course=theCourse).update(midScore=midscore,finalScore=finalscore)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
     def info(request):
             data = {
                 'user':request.user,
@@ -230,13 +238,15 @@ class teacherViews:
             return render (request,"html/dashboard/teacher/info.html",data)
 
 class adminViews:
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def add_user(request):
             context = {
                 'status':"start",
             }
             return render(request,'html/dashboard/admin/addUser.html',context)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def add_user_submit(request):
             check = User.objects.filter(username=request.POST["username"]).first()
             if(check is None):
@@ -265,7 +275,8 @@ class adminViews:
                 'status':status,
             }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def validate_username(request):
             username = request.GET.get('username',None)
             exists = User.objects.filter(username=username).exists()
@@ -280,12 +291,13 @@ class adminViews:
                     'status':200,
                 }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def add_term(request):
             return render(request,'html/dashboard/admin/addTerm.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def add_term_submit(request):
             check = term.objects.filter(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"]).first()
             if(check is None):
@@ -299,10 +311,12 @@ class adminViews:
             }
             return JsonResponse(data)
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def new_course(request):
             return render(request,'html/dashboard/admin/newCourse.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def new_course_submit(request):
             new = course_info(course_name=request.POST['courseName'],code=request.POST['courseCode'])
             exist = [course_info.objects.filter(course_name=request.POST['courseName']).first(),course_info.objects.filter(code=request.POST['courseCode']).first()]
@@ -325,7 +339,8 @@ class adminViews:
             }
             return JsonResponse(data)
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def course_to_term(request):
             terms = []
             for i in term.objects.all():
@@ -336,7 +351,8 @@ class adminViews:
                 'terms':terms,
             }
             return render(request,'html/dashboard/admin/courseToTerm.html',data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def course_to_term_submit(request):
             newTerm = request.POST['term'].split("-")
             newTerm = term.objects.get(year=newTerm[2],season=newTerm[0],part=newTerm[1])
@@ -350,7 +366,8 @@ class adminViews:
                 'status':200
             }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def auto_fill(request):
             answer = None
             thing = [request.GET.get('info',None),request.GET.get('wanted',None)]
@@ -393,7 +410,8 @@ class adminViews:
                 }
             return JsonResponse(data)
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def students_to_course(request):
             terms = []
             for i in term.objects.all():
@@ -404,7 +422,8 @@ class adminViews:
                 'terms':terms,
             }
             return render(request,'html/dashboard/admin/studentToCourse.html',data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def getTermCourse(request):
             myterm = request.GET.get('info',None).split("-")
             myterm = term.objects.get(year=myterm[2],season=myterm[0],part=myterm[1])
@@ -416,7 +435,8 @@ class adminViews:
                 'courses':courses
             }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def students_to_course_submit(request):
             myterm = [request.POST['term'].split('-')[0],int(request.POST['term'].split('-')[1]),int(request.POST['term'].split('-')[2])]
             mycourse = [request.POST['courses'].split(' - ')[0],request.POST['courses'].split(' - ')[1].split(':')[1],int(request.POST['courses'].split(' - ')[2].split(':')[1])]
@@ -432,7 +452,8 @@ class adminViews:
             'status':200
             }
             return JsonResponse(data)
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def validate_usernames(request):
             names = list(filter(None,request.GET.get('info',None).split(",")))
             response = []
@@ -449,10 +470,12 @@ class adminViews:
             }
             return JsonResponse(data)
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_users(request):
             return render(request,'html/dashboard/admin/get_users.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_users_ajax(request):
             type = request.POST["type"]
             active = request.POST["active"]
@@ -490,10 +513,12 @@ class adminViews:
             }
             return JsonResponse(data)
 
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_courses(request):
             return render(request,'html/dashboard/admin/get_courses.html')
-    # @login_required(login_url='/login')
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_courses_ajax(request):
         courses = course.objects.filter(courseInfo__course_name__contains = request.POST["name"] ,term__year__contains = request.POST["year"],term__season__contains=request.POST["season"],term__part__contains=request.POST["part"])
         list = []
@@ -503,6 +528,8 @@ class adminViews:
             'courses':list
         }
         return JsonResponse(data)
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_info(request,info):
         requested = request
         requested.user = User.objects.get(username = info)
@@ -524,6 +551,8 @@ class adminViews:
             }
         return JsonResponse(context)
 
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
     def get_course_info(request,info):
         course = courseConverter(info)
         students = course.students.all()
@@ -539,5 +568,48 @@ class adminViews:
         'teacher':serializers.serialize("json",[course.teacher.user]),
         'term':course.term.getTermInfo(),
         'group':course.group,
+        }
+        return JsonResponse(data)
+
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
+    def edit_user(request,info):
+        user = User.objects.get(username = info)
+        if user.role == "Student":
+            context = {
+                'euser':User.objects.get(username = info),
+                'scores':studentViews.studentScore(request,{'user':user})
+            }
+        elif user.role == "Teacher":
+            courses = getCourse(user)
+            context = {
+                'euser':User.objects.get(username = info),
+                'courses':courses
+            }
+        else:
+            context = {
+                'euser':User.objects.get(username = info),
+            }
+        return render(request,'html/dashboard/admin/edit_user.html',context)
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
+    def edit_user_ajax(request,info):
+        user = User.objects.get(username=info)
+
+        User.objects.filter(username=info).update(first_name=request.POST["fn"],\
+        last_name=request.POST["ln"],\
+        email=request.POST["em"],\
+        phone=request.POST["ph"],\
+        mobile=request.POST["mb"],\
+        idCode=request.POST["id"],\
+        address=request.POST["ad"])
+        try:
+            pic = request.FILES["pic"]
+            change_photo(user,pic)
+        except Exception as e:
+            print(e)
+        data = {
+            'msg':"User information successfully changed",
+            'new_path':user.pic.url
         }
         return JsonResponse(data)
