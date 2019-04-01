@@ -1,0 +1,72 @@
+{% include "html/dashboard/admin/layout.html" %}
+
+{% block main %}
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+         <h3 class="h3 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h3>
+         <div class="mb-2 mb-md-0">
+             <img src="{{user.pic.url}}" style="width:10%;float:right">
+         </div>
+       </div>
+       <div class="" id="book-group-container">
+           <div class="card-group col-sm-12">
+             </div>
+       </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- Central Modal Medium Success -->
+    <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-success" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <p class="heading lead">Status</p>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+
+          <!--Body-->
+          <div class="modal-body">
+            <div class="text-center">
+            </div>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Medium Success-->
+{% endblock %}
+
+<script type="text/javascript">
+  $('#book').addClass('active')
+
+  var book_groups = {{groups|safe}}
+  for (group of book_groups) {
+    console.log(group.fields.group_pic)
+    $('.card-group').append('<div class="card col-sm-4">\
+      <img style="width:280px;height:180px" class="card-img-top" src="/media/'+group.fields.group_pic+'" alt="Card image cap">\
+      <div class="card-body">\
+        <h5 class="card-title">'+group.fields.group_name+'</h5>\
+      </div>\
+    </div>\
+    <div class="col-sm-2"></div>')
+  }
+
+
+
+
+
+</script>

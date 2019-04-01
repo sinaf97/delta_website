@@ -42,5 +42,6 @@ urlpatterns = [
     path('/users/<str:info>/edit_user',views.adminViews.edit_user,name="edit_user"),
     path('/users/<str:info>/edit_user/ajax',views.adminViews.edit_user_ajax,name="edit_user_ajax"),
     path('/course/<str:info>',views.adminViews.get_course_info,name="get_course_info"),
+    path('/book_shelf',views.adminViews.book_shelf,name="book_shelf"),
 
 ]

@@ -24,6 +24,7 @@ urlpatterns = [
     path('login',include('login.urls')),
     path('logout',include('logout.urls')),
     path('dashboard',include('dashboard.urls')),
+    path('book_shelf',include('bookShelf.urls')),
     path('register',include('home.urls')),
     path('admin/', admin.site.urls),
     path('test',include('home.urls')),

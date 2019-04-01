@@ -13,6 +13,7 @@ from django.conf import settings
 import manage
 import copy
 from .decoratore import *
+from bookShelf.models import book,date,bookGroup
 
 
 class default:
@@ -612,3 +613,11 @@ class adminViews:
             'new_path':user.pic.url
         }
         return JsonResponse(data)
+    @login_required(login_url='/login')
+    @role_blocked(blocked_roles=['Teacher','Student'])
+    def book_shelf(request):
+        book_groups = bookGroup.objects.all()
+        context = {
+            'groups':serializers.serialize("json",book_groups)
+        }
+        return render(request,'html/dashboard/admin/bookShelf/index.html',context);
