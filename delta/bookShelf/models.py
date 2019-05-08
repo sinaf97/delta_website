@@ -20,11 +20,21 @@ class book(models.Model):
     book_pic = models.FileField(upload_to=book_picPath,null=True,default='default/book_pic.jpg')
     description = models.TextField(max_length=512,null=True,blank=True)
 
+    def __str__(self):
+        return f"{self.title}"
+
 class date(models.Model):
     year = models.PositiveIntegerField(null=True)
     month = models.PositiveIntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(12)])
     day = models.PositiveIntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(30)])
 
+    def __str__(self):
+        return f"{self.year}/{self.month}/{self.day}"
+
 class bookGroup(models.Model):
     group_name = models.CharField(max_length=60,null=True,blank = True)
     group_pic  = models.FileField(upload_to=book_group_picPath,null=True,default='default/book_pic.jpg')
+    level = models.CharField(max_length=20,null=True,blank=True)
+    description = models.TextField(max_length=64,null=True,blank=True)
+    def __str__(self):
+        return f"{self.group_name}"

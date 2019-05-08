@@ -47,7 +47,9 @@ class default:
                 }
                 return render (request,"html/dashboard/teacher/dashboard_t.html",context)
             else:
+                # return render (request,"html/dashboard/admin/dashboard_a.html",context)
                 return render (request,"html/dashboard/admin/dashboard_a.html",context)
+
     @login_required(login_url='/login')
     def settings(request):
         if request.user.role == "Teacher":
@@ -259,20 +261,20 @@ class adminViews:
                 except:
                     pass
                 newUser.save()
-                status = "User was created successfully!"
+                msg = "User was created successfully!"
                 if request.POST["role"] == "Teacher":
                     t = teacher(user=newUser)
                     t.save()
                 elif request.POST["role"]=="Student":
                     s = student(user=newUser)
                     s.save()
-                ok = 1
+                status = 1
             else:
-                status = "Username already exists!"
-                ok = 0
+                msg = "Username already exists!"
+                status = 0
             data = {
-                'ok':ok,
                 'status':status,
+                'msg':msg,
             }
             return JsonResponse(data)
     @login_required(login_url='/login')
@@ -303,10 +305,13 @@ class adminViews:
             if(check is None):
                 newTerm = term(year=request.POST["year"],season=request.POST["season"],part=request.POST["part"])
                 newTerm.save()
-                status = f"<b>Term was added successfully:</b><br/>Year: {newTerm.year}<br/>Season: {newTerm.season}<br/>Part: {newTerm.part}"
+                msg = f"<b>Term was added successfully:</b><br/>Year: {newTerm.year}<br/>Season: {newTerm.season}<br/>Part: {newTerm.part}"
+                status = 1
             else:
-                status = f"<b>Term already exists:</b><br/>Year: {check.year}<br/>Season: {check.season}<br/>Part: {check.part}"
+                msg = f"<b>Term already exists:</b><br/>Year: {check.year}<br/>Season: {check.season}<br/>Part: {check.part}"
+                status = 0
             data = {
+                'msg' : msg,
                 'status':status,
             }
             return JsonResponse(data)
@@ -549,6 +554,7 @@ class adminViews:
             context = {
                 'user':serializers.serialize("json",User.objects.filter(username = info)),
             }
+            print(context)
         return JsonResponse(context)
 
     @login_required(login_url='/login')
@@ -609,6 +615,7 @@ class adminViews:
         except Exception as e:
             print(e)
         data = {
+            'status':200,
             'msg':"User information successfully changed",
             'new_path':user.pic.url
         }
@@ -618,6 +625,6 @@ class adminViews:
     def book_shelf(request):
         book_groups = bookGroup.objects.all()
         context = {
-            'groups':serializers.serialize("json",book_groups)
+            'groups':book_groups
         }
         return render(request,'html/dashboard/admin/bookShelf/index.html',context);

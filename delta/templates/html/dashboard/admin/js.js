@@ -1,3 +1,6 @@
+var courses = [];
+
+
 function reset_modal(user){
   $('.modal-body').empty()
   $('.modal-body').append('<div id="info">\
@@ -15,7 +18,7 @@ function reset_modal(user){
          </div>\
          </td>\
         <td>\
-       <img style="width:100%;height:100%" src="/media/'+user.fields.pic+'"\
+       <img style="width:100%;height:auto" src="/media/'+user.fields.pic+'"\
        </td>\
        </tr></table>\
      <div id="details" style="margin:10px">\
@@ -73,6 +76,7 @@ function reset_modal(user){
   $(".modal-footer").append('<a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>')
   $(".modal-footer").append('<a type="button" class="eClass btn btn-danger" style="color:white" href="/dashboard/users/'+user.fields.username+'/edit_user" id="edit">Edit Profile</a>')
   ready()
+  $('#modal').modal();
 }
 function reset_course_modal(course,teacher,term,group){
   $('.modal-body').empty()
@@ -116,7 +120,6 @@ function teacher_modal_creator(user,courses){
 }
 function staff_modal_creator(user){
   reset_modal(user)
-  $('#centralModalSuccess').modal()
 }
 function add_courses(courses){
   $('.modal-body').append('\
@@ -221,16 +224,19 @@ function profile(addressValue){
     $.ajax({
       url: addressValue,
       method:'GET',
-      dataType: 'json',
       success: function (data) {
         var user = JSON.parse(data.user)[0]
         if(user.fields.role == "Teacher")
+          // console.log("teacher");
           teacher_modal_creator(user,data.courses)
         else if(user.fields.role == "Student")
           student_modal_creator(user,JSON.parse(data.scores.tree))
+          // console.log("student");
         else
         staff_modal_creator(user)
-      }
+        console.log("staff");
+      },
+      dataType: 'json'
     });
   }
 function course_profile(addressValue){
@@ -299,9 +305,10 @@ function fill_user(user,count){
       <td style="width:15%">'+user.fields.role+'</td>\
       <td style="width:29%">'+user.fields.mobile+'</td>\
       <td style="width:10%">'+(user.fields.is_active?'Active':'Deactive')+'</td>\
-      <td style="width:10%"><img style="width:50%;height:50%" src="/media/'+(user.fields.pic)+'"></td>\
+      <td style="width:10%"><img style="width:50%" src="/media/'+(user.fields.pic)+'"></td>\
       <td style="width:10%"><a class="aClass" href="/dashboard/users/'+user.fields.username+'">Show</a></td>\
     </tr>')
+
   }
 function fill_courses(course,count){
     count += 1
@@ -338,11 +345,269 @@ function ready(){
 function save_edit(){
   $('#edit-user-form').ajaxForm({
   success: function (data) {
-    $('#status').html(data.msg)
-    $('#centralModalSuccess').modal()
+    submit_modal(data)
     $('#user-photo').attr('src',data.new_path)
     $('input[name=pic]').val('')
   },
     dataType:'json',
 })
 }
+
+function submit_modal(data){
+  $('.modal-body').empty()
+  var check = data.status?'fa-check':'fa-times';
+  var color = data.status?'green':'red';
+  $('.modal-body').append('<i class="fas '+check+' fa-4x mb-3" style="color:'+color+'"></i>')
+  $('.modal-body').append('<p>'+data.msg+'</p>')
+  $('#modal').modal()
+}
+
+function submit_add_term_form(){
+  $('#add-term-form').ajaxForm({
+    success: function (data) {
+      submit_modal(data);
+      document.getElementById('add-term-form').reset()
+    },
+    dataType:'json',
+  })
+  console.log("double out")
+}
+
+function validate_username(){
+    var username = $(this).val();
+    if(username == "")
+      $('#check_username').html("");
+    else{
+      $.ajax({
+        url: address,
+        data: {
+          'username': username
+        },
+        method:'GET',
+        dataType: 'json',
+        success: function (data) {
+          $('#check_username').html(data.msg);
+          if(data.status)
+             $('#check_username').css("color","green");
+           else
+             $('#check_username').css("color","red");
+        }
+      });
+    }}
+
+function submit_add_user_form(){
+  $('#add-user-form').ajaxForm({
+  success: function (data) {
+    $('.text-center').empty()
+    submit_modal(data)
+    $('#check_username').html("");
+  },
+    dataType:'json',
+})
+
+}
+
+function getCourses(){
+  var term = $(this).val();
+  $.ajax({
+    url: get_course_address,
+    data: {
+      'info': term,
+    },
+    dataType: 'json',
+    success: function (data) {
+      $('#courses').prop('disabled',false)
+      $('#courses').empty()
+      $('#courses').append('<option value="" selected>Choose...</option>')
+      for (var i of data.courses)
+        $('#courses').append('<option>'+i.course_name+' - code:'+i.code+' - group:'+i.group+'</option>')
+      courses = data.courses
+    }
+  });
+}
+
+function fill_teacher(){
+    var course = $('#courses').val()
+    course = course.split("-")
+    course = [course[0].trim(),course[1].split(":")[1].trim(),course[2].split(":")[1].trim()]
+    for (i of courses)
+      if(i.course_name == course[0]&&i.code == course[1]&&i.group == course[2]){
+        $('#teacherName').val(i.teacher.name)
+        $('#teacherUsername').val(i.teacher.username)
+      }
+}
+
+function validate_students(){
+var names = $('#studentNames').val().split();
+names = names[0].split('\n')
+$.ajax({
+  url: validate_students_address,
+  data: {
+    'info': names.join(),
+  },
+  dataType: 'json',
+  success: function (data) {
+    var flag = 0
+    $('#studentsUsernames').empty()
+    for(var i of data.response){
+        if(i.status)
+          $('#studentsUsernames').append('<li >'+ i.name + ' <span style="color:green">Valid</span></li>')
+        else{
+        $('#studentsUsernames').append('<li >'+ i.name + ' <span style="color:red">NOT Valid</span></li>')
+        flag = 1;
+      }
+    }
+    if(!flag&&$('#term').val()!="Choose..."&&$('#courses').val()!="Choose...")
+      $('#submit').prop('disabled',false)
+    else
+      $('#submit').prop('disabled',true)
+  }
+});
+}
+
+function submit_student_to_course_form(){
+  var names = $('#studentNames').val().split();
+  names = names[0].split('\n')
+  $('#student-to-course-form').ajaxForm({
+    data : {
+      'names':names
+    },
+    success: function (data) {
+      submit_modal(data)
+      document.getElementById('student-to-course-form').reset()
+      $('#submit').prop('disabled',true)
+      $('#studentsUsernames').empty()
+      },
+      dataType:'json',
+  })
+}
+
+function submit_new_course_form(){
+  $('#new-course-form').ajaxForm({
+    success: function (data) {
+    submit_modal(data)
+    document.getElementById('new-course-form').reset()
+    },
+    dataType:'json',
+  })
+}
+
+function submit_course_to_term_form(){
+  $('#course-to-term-form').ajaxForm({
+    success: function (data) {
+    submit_modal(data)
+    document.getElementById('course-to-term-form').reset()
+    },
+    dataType:'json',
+  })
+}
+
+function fill_teacherName(){
+  $('#teacherUsername').css("color","black");
+  var teacherUsername = $(this).val();
+  if(teacherUsername == ""){
+    $('#teacherName').val("");
+    $('#teacherName').css("color","black");
+  }
+  else{
+  $.ajax({
+    url: autofill,
+    data: {
+      'info': teacherUsername,
+      'wanted':"teacherName"
+    },
+    dataType: 'json',
+    success: function (data) {
+      if(data.status){
+        $('#teacherName').val(data.info);
+         $('#teacherName').css("color","green");
+       }
+       else{
+         $('#teacherName').val("");
+         $('#teacherName').attr("placeholder",data.info);
+       }
+    }
+})
+}}
+function fill_courseCode(){
+  $('#courseName').css("color","black");
+  var courseName = $(this).val();
+  if(courseName == ""){
+    $('#courseCode').val("");
+    $('#courseCode').css("color","black");
+  }
+  else{
+  $.ajax({
+    url: autofill,
+    data: {
+      'info': courseName,
+      'wanted':"courseCode"
+    },
+    dataType: 'json',
+    success: function (data) {
+      if(data.status){
+        $('#courseCode').val(data.info);
+         $('#courseCode').css("color","green");
+       }
+       else{
+         $('#courseCode').val("");
+         $('#courseCode').attr("placeholder",data.info);
+       }
+    }
+  });
+}}
+function fill_courseName(){
+  $('#courseCode').css("color","black");
+  var courseCode = $(this).val();
+  if(courseCode == ""){
+    $('#courseName').val("");
+    $('#courseName').css("color","black");
+  }
+  else{
+  $.ajax({
+    url: autofill,
+    data: {
+      'info': courseCode,
+      'wanted':"courseName"
+    },
+    dataType: 'json',
+    success: function (data) {
+      if(data.status){
+        $('#courseName').val(data.info);
+         $('#courseName').css("color","green");
+       }
+       else{
+         $('#courseName').val("");
+         $('#courseName').attr("placeholder",data.info);
+       }
+    }
+})
+}}
+function fill_teacherUsername(){
+  $('#teacherName').css("color","black");
+    var teacherName = $(this).val();
+
+    if(teacherName == ""){
+      $('#teacherUsername').val("");
+      $('#teacherUsername').css("color","black");
+    }
+    else{
+    $.ajax({
+      url: autofill,
+      data: {
+        'info': teacherName,
+        'wanted':"teacherUsername"
+      },
+      dataType: 'json',
+      success: function (data) {
+        if(data.status){
+          $('#teacherUsername').val(data.info);
+           $('#teacherUsername').css("color","green");
+         }
+         else{
+           $('#teacherUsername').val("");
+           $('#teacherUsername').attr("placeholder",data.info);
+         }
+      }
+  })
+}}

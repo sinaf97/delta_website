@@ -8,6 +8,9 @@ from bookShelf.models import book
 def picPath(user,fileName):
     fileName = fileName.split('.')[1]
     return f"users/{user.role}s/{user.username}/profile pic/{user.username}.{fileName}"
+def teacherPicPath(user,fileName):
+    fileName = fileName.split('.')[1]
+    return f"users/{user.role}s/{user.username}/public pic/{user.username}.{fileName}"
 
 class User(AbstractUser):
     role = models.CharField(max_length=30)
@@ -36,6 +39,8 @@ class teacher(models.Model):
     #pic = models.ImageField(upload_to='content/pic')
     user = models.OneToOneField(User,null=True,on_delete = models.CASCADE)
     status = models.BooleanField(default=False)
+    certificate = models.CharField(max_length=64,null=True)
+    pic = models.FileField(upload_to=teacherPicPath,null=True,default='default/default teacher.jpg')
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"

@@ -1,14 +1,16 @@
-{% include "html/dashboard/admin/layout.html" %}
-
+{% extends "html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>Add Term</h3>
+{%endblock%}
 {% block main %}
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+         <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
            <h3 class="h3 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h3>
            <div class="mb-2 mb-md-0">
                <img src="{{user.pic.url}}" style="width:10%;float:right">
            </div>
-         </div>
+         </div> -->
          <form id="add-term-form" action="{%url 'add_term_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
            {%csrf_token%}
            <div style="margin:10px">
@@ -36,64 +38,17 @@
                 </select>
               </div>
             </div>
-              <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Submit</button>
-
             <div>
           </form>
+           <button type="submit" class="btn btn-warning" onclick="submit_add_term_form" style="margin:5% 0;" id="submit">Submit</button>
        </main>
-        </div>
-      </div>
 
-      <!-- Central Modal Medium Success -->
-        <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog modal-notify modal-success" role="document">
-            <!--Content-->
-            <div class="modal-content">
-              <!--Header-->
-              <div class="modal-header">
-                <p class="heading lead">Status</p>
+       <script>
+         $('#submit').click(submit_add_term_form);
+       </script>
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true" class="white-text">&times;</span>
-                </button>
-              </div>
+  {% endblock %}
 
-              <!--Body-->
-              <div class="modal-body">
-                <div class="text-center">
-                </div>
-              </div>
-
-              <!--Footer-->
-              <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Close</a>
-              </div>
-            </div>
-            <!--/.Content-->
-          </div>
-        </div>
-        {% endblock %}
-
-
-  <script type="text/javascript">
-    $('#submit').click(submit_form)
-
-    function submit_form(){
-      $('#add-term-form').ajaxForm({
-      success: function (data) {
-        $('.text-center').append('<i class="fas fa-check fa-4x mb-3 animated rotateIn" style="color:green"></i>')
-        $('.text-center').append('<p>'+data.status+'</p>')
-       $('#centralModalSuccess').modal()
-       document.getElementById('add-term-form').reset()
-      },
-        dataType:'json',
-    })
-    }
-
-      $('#add').addClass("active")
-      $('#add-term').addClass("active")
-      $('#collapseAdd').addClass("show")
-      $('#add').attr("aria-expanded","true")
-
-  </script>
+  {%block modal_title%}
+    Add term
+  {%endblock%}

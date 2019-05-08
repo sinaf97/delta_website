@@ -2,13 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b6d9c2ae-5e0c-4592-947c-953c6fa7c8b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/bookShelf/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookShelf/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookShelf/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookShelf/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookShelf/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookShelf/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/delta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/delta/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/login/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logout/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/logout/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/books/AEF/American English File 4/book pic/American_English_File_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/books/AEF/group pic/AEF.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/books/Family &amp; Friends/group pic/Family__Friends.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/default/book_pic.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/media/default/book_pic.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/Login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/Login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/aspatest.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/books/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/books/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/addTerm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/addTerm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/addUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/addUser.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/bookShelf/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/bookShelf/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/courseToTerm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/courseToTerm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/dashboard_a.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/dashboard_a.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/edit_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/edit_user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_courses.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/get_users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/js.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/newCourse.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/newCourse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/studentToCourse.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/studentToCourse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/js.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/layouts/base_layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/layouts/base_layout.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,19 +51,41 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py">
+        <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="136" selection-start-line="136" selection-end-line="136" />
+            <state relative-caret-position="45">
+              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+              <folding>
+                <element signature="e#22#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dashboard/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="940">
+              <caret line="541" column="44" lean-forward="true" selection-start-line="541" selection-start-column="44" selection-end-line="541" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#604#3990#0" />
+                <element signature="e#4016#6746#0" />
+                <element signature="e#6772#9686#0" />
+                <element signature="e#9840#9978#0" />
+                <element signature="e#10120#11486#0" />
+                <element signature="e#11630#12060#0" />
+                <element signature="e#12196#12254#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bookShelf/views.py">
+        <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -48,12 +94,19 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="face_lift" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/dashboard/urls.py" />
         <option value="$PROJECT_DIR$/dashboard/methods.py" />
+        <option value="$PROJECT_DIR$/login/views.py" />
+        <option value="$PROJECT_DIR$/bookShelf/views.py" />
         <option value="$PROJECT_DIR$/dashboard/views.py" />
       </list>
     </option>
@@ -71,6 +124,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -87,11 +141,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -210,7 +264,26 @@
       <workItem from="1553835541805" duration="5303000" />
       <workItem from="1553870781344" duration="5410000" />
       <workItem from="1554062270953" duration="2178000" />
-      <workItem from="1554133086518" duration="2337000" />
+      <workItem from="1554133086518" duration="3497000" />
+      <workItem from="1554241605987" duration="519000" />
+      <workItem from="1554278449420" duration="1048000" />
+      <workItem from="1554285151135" duration="355000" />
+      <workItem from="1554292146112" duration="1354000" />
+      <workItem from="1554368679760" duration="632000" />
+      <workItem from="1554375409394" duration="522000" />
+      <workItem from="1554387200746" duration="1133000" />
+      <workItem from="1554410407366" duration="176000" />
+      <workItem from="1554411409556" duration="1868000" />
+      <workItem from="1554648496796" duration="347000" />
+      <workItem from="1554662159846" duration="372000" />
+      <workItem from="1555336997481" duration="1085000" />
+      <workItem from="1555784242891" duration="482000" />
+      <workItem from="1555787689688" duration="967000" />
+      <workItem from="1555795602861" duration="561000" />
+      <workItem from="1555848298765" duration="363000" />
+      <workItem from="1556280781412" duration="3000" />
+      <workItem from="1557298053213" duration="1062000" />
+      <workItem from="1557312106349" duration="963000" />
     </task>
     <servers />
   </component>
@@ -220,18 +293,18 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47562000" />
+    <option name="totallyTimeSpent" value="62534000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31616595" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14735337" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.31593406" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997253" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997253" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -239,7 +312,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.31593406" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32967034" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32967034" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32967034" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -293,16 +366,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#22#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/servers/basehttp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1255">
@@ -317,23 +380,6 @@
           <folding>
             <element signature="e#27#55#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="44" selection-start-line="44" selection-end-line="44" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/psycopg2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
         </state>
       </provider>
     </entry>
@@ -356,10 +402,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/views.py">
+    <entry file="file://$PROJECT_DIR$/login/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="60">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/psycopg2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="128" column="38" lean-forward="true" selection-start-line="128" selection-start-column="38" selection-end-line="128" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookShelf/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -370,10 +436,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bookShelf/views.py">
+    <entry file="file://$PROJECT_DIR$/login/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <folding>
+            <element signature="e#22#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="940">
+          <caret line="541" column="44" lean-forward="true" selection-start-line="541" selection-start-column="44" selection-end-line="541" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#604#3990#0" />
+            <element signature="e#4016#6746#0" />
+            <element signature="e#6772#9686#0" />
+            <element signature="e#9840#9978#0" />
+            <element signature="e#10120#11486#0" />
+            <element signature="e#11630#12060#0" />
+            <element signature="e#12196#12254#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>

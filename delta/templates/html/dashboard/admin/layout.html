@@ -1,94 +1,278 @@
-{% include "html/layouts/base_layout.html"%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block title %}
-  <title>Dashboard</title>
-{% endblock %}
-{% block head %}
-<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="stylesheet" href="/static/html/dashboard/admin/style.css">
-{% endblock %}
-{% block body %}
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a id="dashboard" class="nav-link" href="/dashboard">
-              <span data-feather="home"></span>
-              Status <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a id="add" class="nav-link" data-toggle="collapse" data-target="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd"  href="#" >
-              <span data-feather="command"></span>
-              Add
-            </a>
-            <div class="collapse" id="collapseAdd">
-              <div class="card card-body" id="year-courses">
-                <a id="add-user" class="nav-link" href="/dashboard/add_user"><span data-feather="user-plus"></span>User</a>
-                <a id="add-term" class="nav-link" href="/dashboard/add_term"><span data-feather="grid"></span>Term</a>
-                <a id="students-to-course" class="nav-link" href="/dashboard/students_to_course"><span data-feather="users"></span>Students</a>
-                <a id="course" class="nav-link" data-toggle="collapse" data-target="#collapseCourse" aria-expanded="false" aria-controls="collapseCourse" href="#"><span data-feather="file-plus"></span>Course</a>
-                <div class="collapse" id="collapseCourse">
-                  <ul>
-                    <li ><a id="new-course" class="nav-link" href="/dashboard/new_course">New Course</a></li>
-                    <li ><a id="add-course-to-term" class="nav-link" href="/dashboard/course_to_term">Add Course To Term</a></li>
+    <title>Dashboard</title>
+    <!-- jQuery --><script src="/static/bootstrap/Dashboard dependencies/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/static/html/dashboard/admin/js.js"></script>
+
+
+    <!-- Bootstrap -->                     <link href="/static/bootstrap/Dashboard dependencies/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->                  <link href="/static/bootstrap/Dashboard dependencies/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->                     <link href="/static/bootstrap/Dashboard dependencies/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->            <link href="/static/bootstrap/Dashboard dependencies/build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view" >
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="/" class="site_title" style="font-size:36px"> D<span style="color:#f82249;">E</span>LTA</a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="{{request.user.pic.url}}" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>{{user.first_name}} {{user.last_name}}</h2>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/dashboard">Dashboard</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-plus-square"></i> Add <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/dashboard/add_user">User</a></li>
+                      <li><a href="/dashboard/add_term">Term</a></li>
+                      <li><a href="/dashboard/students_to_course">Students</a></li>
+                      <li><a>Course <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="/dashboard/new_course">New Course</a></li>
+                          <li><a href="/dashboard/course_to_term">Add Course To Term</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> Statistics <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/dashboard/get_users">Users</a></li>
+                      <li><a href="/dashboard/get_courses">Courses</a></li>
+                      <li><a href="#">Other</a></li>
+                      <li><a href="#">Calendar</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="/dashboard/book_shelf"><i class="fa fa-book"></i> Library </a>
+                  </li>
+                  <li><a href="/dashboard/settings"><i class="fa fa-gear"></i> Settings </a>
+                  </li>
+                </li>
+                <li><a href="{%url 'logout'%}?next={{request.path}}"><i class="fa fa-sign-out"></i> Log out </a>
+                </li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <!-- <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div> -->
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="{{user.pic.url}}" alt="">{{user.first_name}} {{user.last_name}}
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <!-- <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span> -->
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <!-- <div class="page-title">
+              <div class="title_left">
+                <h3>This is sina</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div style="color:rgba(6, 12, 34, 0.98)" class="x_title">
+                    {%block x_title%}
+                    {%endblock%}
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      {%block main%}
+                      {%endblock%}
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-          </li>
-          <li class="nav-item">
-            <a id="statistics" class="nav-link" data-toggle="collapse" data-target="#collapseStatistics" aria-expanded="true" aria-controls="collapseStatistics"  href="#" >
-              <span data-feather="bar-chart-2"></span>
-              Statistics
-            </a>
-            <div class="collapse" id="collapseStatistics">
-              <div class="card card-body" id="year-courses">
-                <a id="users-s" class="nav-link" href="/dashboard/get_users">Users</a>
-                <a id="courses-s" class="nav-link" href="/dashboard/get_courses">Courses</a>
-                <a class="nav-link" href="#">Other</a>
+        <!-- modals -->
+        <!-- Large modal -->
+
+        <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{%block modal_title%}{%endblock%}</h4>
               </div>
+              <div class="modal-body">
+                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
             </div>
+          </div>
+        </div>
+        <!-- /page content -->
 
-          </li>
-          <li class="nav-item">
-            <a id="book" class="nav-link" href="/dashboard/book_shelf">
-              <span data-feather="book"></span>
-              Book Shelf
-            </a>
-          </li>
-          <li class="nav-item">
-            <a id="settings" class="nav-link" href="/dashboard/settings">
-              <span data-feather="settings"></span>
-              Setting
-            </a>
-          </li>
-        </ul>
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            <!-- Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a> -->
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
       </div>
-      </nav>
-    </div>
-        {% block main %}
-        {% endblock %}
     </div>
 
 
-    <script
-			  src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script>
-        <script src="http://malsup.github.com/jquery.form.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+
+
+
+
+
+
+    <!-- Bootstrap --><script src="/static/bootstrap/Dashboard dependencies/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick --><script src="/static/bootstrap/Dashboard dependencies/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress --><script src="/static/bootstrap/Dashboard dependencies/vendors/nprogress/nprogress.js"></script>
+    <!-- Custom Theme Scripts --><script src="/static/bootstrap/Dashboard dependencies/build/js/custom.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="/static/js/popper.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap-treeview.js"></script>
 
-    <!-- Icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.21.0/feather.js"></script>
-    <script>
-      feather.replace()
-    </script>
-{% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+  </body>
+</html>

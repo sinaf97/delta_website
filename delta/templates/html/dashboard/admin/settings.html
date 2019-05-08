@@ -1,12 +1,15 @@
-{% include "html/dashboard/admin/layout.html" %}
+{% extends "html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>Settings</h3>
+{%endblock%}
 {% block main %}
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h4 id="name-info" class="h4 font-weight-bold">{{user.first_name}} {{user.last_name}}</h4>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h4 id="name-info" class="h4 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h5">{{user.role}}</span></h4>
   <div class="mb-2 mb-md-0">
       <img src="{{user.pic.url}}" style="width:10%;float:right">
   </div>
-</div>
+</div> -->
 <div id="details">
   <form id="change-name" action="{%url 'change_name'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
     {%csrf_token%}
