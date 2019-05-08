@@ -73,7 +73,7 @@ class courseInfo(models.Model):
 
 class student(models.Model):
     user = models.OneToOneField(User,null=True,on_delete = models.CASCADE)
-    course = models.ManyToManyField(course,related_name='students',null=True)
+    course = models.ManyToManyField(course,related_name='students')
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"

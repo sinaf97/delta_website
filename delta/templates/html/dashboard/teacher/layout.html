@@ -1,135 +1,33 @@
-{% extends "html/layouts/base_layout.html"%}
+{% extends "html/dashboard/layout.html" %}
 
-{% block title %}
-  <title>Dashboard</title>
-{% endblock %}
-{% block head %}
-{% endblock %}
-<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-{% block body %}
 
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a id="status" class="nav-link" href="/dashboard">
-                  <span data-feather="home"></span>
-                  Status <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a id="info" class="nav-link" href="/dashboard/teacher_info">
-                  <span data-feather="info"></span>
-                  Information <span class="sr-only"></span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a id="courses" class="nav-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true" aria-controls="collapseSemester"  href="#" >
-                  <span data-feather="book"></span>
-                  Courses
-                </a>
-                <div class="collapse" id="collapseSemester">
-                  <!-- <div class="list-group" id="year-courses">
-                  </div> -->
-                  <ul  id="year-courses">
-
-                  </ul>
-                </div>
-
-              </li>
-              <li class="nav-item">
-                <a id="inbox" class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Inbox
-                </a>
-              </li>
-              <li class="nav-item">
-                <a id="courseReport" class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Course Report
-                </a>
-              </li>
-              <li class="nav-item">
-                <a id="settings" class="nav-link" href="/dashboard/settings">
-                  <span data-feather="settings"></span>
-                  Setting
-                </a>
-              </li>
+  {%block menu-section%}
+      <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+          <li><a href="/dashboard"><i class="fa fa-leaf"></i>Dashboard</a>
+            </li>
+          <li><a href="/dashboard/teacher_info"><i class="fa fa-info-circle"></i> Information</a>
+            </li>
+          <li><a><i class="fa fa-book"></i> Courses </a>
+            <ul class="nav child_menu" id="year-courses">
 
             </ul>
-        </nav>
-    </div>
-        {% block main %}
-        {% endblock %}
-  </div>
+            </li>
+          <li><a><i class="fa fa-bar-chart-o"></i> Talk to Students <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="/dashboard/s_messege">Send message</a></li>
+              <li><a href="/dashboard/r_messege">Inbox</a></li>
+            </ul>
+          </li>
+          <li><a href="/dashboard/settings"><i class="fa fa-gear"></i> Settings </a>
+          </li>
+        <li><a href="{%url 'logout'%}?next={{request.path}}"><i class="fa fa-sign-out"></i> Log out </a>
+        </li>
+        </ul>
+      </div>
 
-
-  <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"></script>
-      <script src="http://malsup.github.com/jquery.form.js"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-  <script src="/static/js/popper.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
-
-  <!-- Icons -->
-  <script src="/static/js/feather.min.js"></script>
-  <script>
-    feather.replace()
-  </script>
-
-
-{% endblock %}
-
-
-<script>
-  function order(input){
-    var output = input.code +"_"+ input.group + "_"+ input.term.year + "_" + input.term.season + "_" + input.term.part
-    return(output)
-  }
-  var sina = {{courses|safe}}
-  var flag = sina[0]['term']['year']
-  var count = 0
-  for(var i=0;i<sina.length; i++){
-    if(sina[i]['term']['year'] == flag && count==0){
-      $('#year-courses').append('<a id="collapseYearCover'+sina[i].term.year+'" class="nav-link" data-toggle="collapse" data-target="#collapseYear'+sina[i]['term']['year']+'" aria-expanded="true" aria-controls="collapseTerm" href="#" >\
-        <li style="font-size:16px">'+sina[i]['term']['year']+'</li>\
-      </a>\
-      <div class="collapse" id="collapseYear'+sina[i]['term']['year']+'">\
-        <ul class="list-group" id="year'+sina[i]['term']['year']+'">\
-        </ul>\
-      </div>')
-      count++;
-    }
-    else if(sina[i]['term']['year'] != flag) {
-    count = 0
-     flag = sina[i]['term']['year']
-     i--;
-    }
-  }
-  flag = [sina[0]['term']['season'],sina[0]['term']['part']]
-  count = 0
-  for(var i=0;i<sina.length; i++){
-    if(sina[i]['term']['season'] == flag[0] && sina[i]['term']['part'] == flag[1] && count==0){
-      $('#year'+sina[i]['term']['year']).append('<li class="list-group-item" style="padding:0;margin:0 10px 0 0px;font-size:14px"><a id="'+sina[i].term.year+sina[i].term.season+sina[i].term.part+'" class="nav-link" data-toggle="collapse" data-target="#collapseTerm'+sina[i].term.year+sina[i]['term']['season']+sina[i]['term']['part']+'" aria-expanded="true" aria-controls="collapseTerm" href="#" >\
-        '+sina[i]['term']['season'] + " Part " + sina[i]['term']['part']+'\
-      </a>\
-      <div class="collapse" id="collapseTerm'+sina[i].term.year+sina[i]['term']['season']+sina[i]['term']['part']+'">\
-        <ul id="term'+sina[i]['term']['season']+sina[i]['term']['part']+'">\
-        </ul>\
-      </div></li>')
-      count++;
-    }
-    else if(sina[i]['term']['season'] != flag[0] || sina[i]['term']['part'] != flag[1]) {
-    count = 0
-     flag = [sina[i]['term']['season'],sina[i]['term']['part']]
-     i--;
-    }
-  }
-  for(var i=0;i<sina.length; i++)
-    $('#term'+sina[i]['term']['season']+sina[i]['term']['part']).append('<li style="font-size:12px"><a id="'+sina[i].term.year+sina[i].term.season+sina[i].term.part+sina[i].code+'" class="nav-link" href="/dashboard/courses/'+ order(sina[i]) +'">'+ sina[i].course_name +'</a></li>')
-  </script>
+      <script>
+        teacher_courses({{courses|safe}})
+      </script>
+  {%endblock%}

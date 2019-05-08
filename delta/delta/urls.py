@@ -18,15 +18,21 @@ from django.urls import path , include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler404,handler500
+from errors import views as error_views
 
 urlpatterns = [
     path('',include('home.urls')),
     path('login',include('login.urls')),
     path('logout',include('logout.urls')),
-    path('dashboard',include('dashboard.urls')),
+    path('dashboard/',include('dashboard.urls')),
     path('book_shelf',include('bookShelf.urls')),
     path('register',include('home.urls')),
+    path(r'error/', include('errors.urls')),
     path('admin/', admin.site.urls),
     path('test',include('home.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
+
+handler404 = error_views.notfound_404
+handler500 = error_views.serverfailure

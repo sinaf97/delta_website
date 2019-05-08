@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dashboard.apps.DashboardConfig',
     'bookShelf.apps.BookshelfConfig',
+    'errors.apps.ErrorsConfig'
 ]
 AUTH_USER_MODEL = 'dashboard.User'
 

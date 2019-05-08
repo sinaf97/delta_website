@@ -1,12 +1,7 @@
-{% include "html/dashboard/student/layout.html" %}
+{% extends "html/dashboard/student/layout.html" %}
 {% block main %}
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-             <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}</h1>
-             <div class="mb-2 mb-md-0">
-                 <img src="{{user.pic.url}}" style="width:20%;float:right">
-             </div>
-           </div>
+
            <div id="details">
              <h1 class="h1">Score</h1>
              <p id="test"></p>
@@ -14,16 +9,8 @@
 
            </div>
          </main>
+         
+         <script>
+           $('#tree').treeview({data: {{tree|safe}} });
+         </script>
 {% endblock %}
-
-
-
-
-<script>
-$('#score').addClass('active')
-console.log({{tree|safe}})
-
-    var sina = {{tree|safe}};
-    $('#tree').treeview({data: sina});
-
-</script>

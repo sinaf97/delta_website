@@ -67,6 +67,7 @@ class default:
             request.user.last_name = request.POST["lastName"]
             request.user.save()
             context = {
+                'status':200,
                 'new_name':request.user.get_full_name(),
                 'msg':"Name changed successfully"
             }
@@ -82,6 +83,7 @@ class default:
         else:
             msg = "Wrong old password"
         context = {
+        'status':200,
             'msg': msg
             }
         return JsonResponse(context)
@@ -90,12 +92,15 @@ class default:
         try:
             pic = request.FILES["pic"]
             change_photo(request.user,pic)
+            msg = 'Profile Photo changed successfully'
         except:
             request.user.pic = 'default/profile.png'
             request.user.save()
+            msg = 'Profile Photo was deleted!'
 
         context = {
-            'msg':'Profile Photo changed successfully',
+        'status':200,
+            'msg':msg,
             'path':request.user.pic.url
         }
         return JsonResponse(context)
@@ -132,7 +137,7 @@ class studentViews:
         context = {
                 "tree" : tree
             }
-        return context
+        return render(request,"html/dashboard/student/score.html",context)
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
     def s_messege(request):
