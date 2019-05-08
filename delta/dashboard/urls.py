@@ -10,13 +10,14 @@ urlpatterns = [
 
     path('student_info',views.studentViews.info,name="s_info"),
     path('score',views.studentViews.studentScore,name="score"),
-    path('s_messege',views.studentViews.s_messege,name="s_messege"),
-    path('s_messege/ajax',views.studentViews.s_messege_ajax,name="s_messege_ajax"),
-    path('r_messege',views.studentViews.r_messege,name="r_messege"),
+    path('s_massege',views.studentViews.s_massege,name="s_massege"),
+    path('s_massege/ajax',views.studentViews.s_massege_ajax,name="s_massege_ajax"),
+    path('r_massege',views.studentViews.r_massege,name="r_massege"),
     path('reports',views.studentViews.reports,name="reports"),
 
     path('teacher_info',views.teacherViews.info,name="t_info"),
     path('courses',views.teacherViews.courses,name="courses"),
+    path('t_r_massege',views.teacherViews.r_massege,name="t_r_massege"),
     path('courses/submit',views.teacherViews.add_score,name="add_score"),
     path('courses/<str:info>',views.teacherViews.courseInfo,name="course_info"),
 

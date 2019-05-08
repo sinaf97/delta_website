@@ -140,27 +140,30 @@ class studentViews:
         return render(request,"html/dashboard/student/score.html",context)
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
-    def s_messege(request):
+    def s_massege(request):
         c_term = term.objects.last()
         course = request.user.student.course.get(term = c_term)
         context = {
             't_fname':course.teacher.user.first_name,
-            't_lname':course.teacher.user.last_name
+            't_lname':course.teacher.user.last_name,
+            't_username' : course.teacher.user.username,
         }
-        return render(request,'html/dashboard/student/s_messege.html',context)
+        return render(request,'html/dashboard/student/s_massege.html',context)
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
-    def s_messege_ajax(request):
-        teacher = User.objects.get(first_name=request.POST['t_fname'],last_name=request.POST['t_lname'])
-        m = message(origin=request.user,to=teacher,subject = request.POST['subject'],text=request.POST['text'])
+    def s_massege_ajax(request):
+        print(request.POST['text'])
+        teacher = User.objects.get(username=request.POST['t_username'])
+        m = message(origin=request.user,to=teacher,subject = request.POST['subject'],text=request.POST['text'],seen=False)
         m.save()
         data = {
+            'status':200,
             'msg':"Message sent successfully"
         }
         return JsonResponse(data)
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
-    def r_messege(request):
+    def r_massege(request):
             return render(request,'html/dashboard/student/r_messege.html')
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
@@ -243,6 +246,19 @@ class teacherViews:
                 'courses':getCourse(request)
             }
             return render (request,"html/dashboard/teacher/info.html",data)
+    @login_required(login_url='/login')
+    @role_required(allowed_roles=['Teacher'])
+    def r_massege(request):
+        m = message.objects.filter(to = request.user)
+        mlist = []
+        counter = 0;
+        for ma in m:
+            mlist.append({'id':counter,'origin':ma.origin.get_full_name(),'title':ma.subject,'text':ma.text})
+            counter+=1
+        data = {
+            'masseges' : mlist
+        }
+        return render(request,'html/dashboard/teacher/inbox.html',data)
 
 class adminViews:
     @login_required(login_url='/login')
