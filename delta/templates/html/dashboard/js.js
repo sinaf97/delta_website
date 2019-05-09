@@ -719,3 +719,53 @@ function teacher_course_info(students,scores,info,main_course){
     </tr>')
   }
 }
+
+//massege functions
+function send_mail(){
+  $('#send-massage').ajaxForm({
+    data:{'text':$('#editor-one').html()},
+    success: function (data) {
+        submit_modal(data)
+        document.getElementById('send-massage').reset();
+    },
+    dataType:'json',
+  })
+}
+function show_mail(id,mail){
+  $('#title').html(mail.title)
+  $('#sender').html(mail.origin.name + ' ('+mail.origin.username+')')
+  $('.view-mail').html(mail.text)
+  $('.date').html(""+ mail.time_sent.h + ":" + mail.time_sent.m + " " + mail.date_sent.day + "/" + mail.date_sent.month + "/" + mail.date_sent.year)
+  $('#seen'+id).remove()
+  $('#delete').attr('mail_id',mail.id)
+  $('#reply').attr('href','/dashboard/mail/reply/'+mail.origin.username)
+  seen(mail.id)
+}
+function seen(id){
+    $.ajax({
+      url: '/dashboard/mail/inbox/seen',
+      data: {
+        'id': id
+      },
+      method:'GET',
+      dataType: 'json',
+      success: function (data) {
+      }
+    });
+}
+
+function delete_mail(){
+    $.ajax({
+      url: '/dashboard/mail/delete',
+      data: {
+        'id': $('#delete').attr('mail_id')
+      },
+      method:'GET',
+      dataType: 'json',
+      success: function (data) {
+        submit_modal(data)
+
+
+      }
+    });
+  }

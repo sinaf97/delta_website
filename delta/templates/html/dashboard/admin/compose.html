@@ -1,4 +1,4 @@
-{% extends "html/dashboard/teacher/layout.html" %}
+{% extends "html/dashboard/admin/layout.html" %}
 {% block main %}
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -11,7 +11,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="t-fname">Reciever</label>
-            <input type="text" class="form-control" id="username" name="t_username">
+            <input type="text" class="form-control" id="username" value="{{username}}" name="username">
           </div>
         </div>
         <div class="form-row">
@@ -112,25 +112,12 @@
 
    </div>
  </main>
-
  <script src="/static/bootstrap/Dashboard dependencies/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
  <script src="/static/bootstrap/Dashboard dependencies/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
  <script src="/static/bootstrap/Dashboard dependencies/vendors/google-code-prettify/src/prettify.js"></script>
  <script src="/static/bootstrap/Dashboard dependencies/vendors/switchery/dist/switchery.min.js"></script>
 
- <script type="text/javascript">
-   $('#submit').click(send_massage)
-   function send_massage(){
-     $('#send-massage').ajaxForm({
-       data:{'text':$('#editor-one').html()},
-       success: function (data) {
-         if(data.status){
-           submit_modal(data)
-           document.getElementById('send-massage').reset();
-         }
-       },
-       dataType:'json',
-     })
-   }
+ <script>
+   $('#submit').click(send_mail)
  </script>
  {% endblock %}

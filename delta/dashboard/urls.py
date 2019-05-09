@@ -11,6 +11,8 @@ urlpatterns = [
     path('mail/inbox/seen',views.default.inbox_seen,name="inbox_seen"),
     path('mail/compose',views.default.compose,name="compose"),
     path('mail/send',views.default.mail_send,name="mail_send"),
+    path('mail/delete',views.default.mail_delete,name="mail_delete"),
+    path('mail/reply/<str:username>',views.default.compose,name="mail_reply"),
 
     path('student_info',views.studentViews.info,name="s_info"),
     path('score',views.studentViews.studentScore,name="score"),

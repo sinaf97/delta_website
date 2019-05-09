@@ -29,7 +29,7 @@
           <div class="x_content">
             <div class="row">
               <div class="col-sm-3 mail_list_column">
-                <button id="compose" class="btn btn-sm btn-dark btn-block" type="button">COMPOSE</button>
+                <a href="/dashboard/mail/compose"><button id="compose" class="btn btn-sm btn-dark btn-block" type="button">COMPOSE</button></a>
                 {%for m in masseges%}
                 <a id="{{m.id}}" count="{{m.count}}" class="showClass">
                   <div class="mail_list">
@@ -52,8 +52,8 @@
                   <div class="mail_heading row">
                     <div class="col-md-8">
                       <div class="btn-group">
-                        <button class="btn btn-sm btn-primary" type="button"><i class="fa fa-reply"></i> Reply</button>
-                        <button class="btn btn-sm btn-danger" type="button" data-placement="top" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
+                        <a id="reply"><button  class="btn btn-sm btn-primary" type="button""><i class="fa fa-reply"></i> Reply</button></a>
+                        <a><button id="delete" class="btn btn-sm btn-danger" type="button" data-placement="top" onClick="delete_mail()" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button></a>
                       </div>
                     </div>
                     <div class="col-md-4 text-right">
@@ -92,34 +92,10 @@
   $(document).ready(function(){
     $(".showClass").click(function(){
       var id = $(this).attr("count");
-      show_mail(id)
+      var mail = {{jsMasseges|safe}}[id]
+      show_mail(id,mail)
       return false;
     });
   })
-  function show_mail(id){
-    var mail = {{jsMasseges|safe}}[id]
-    console.log(mail.text);
-    $('#title').html(mail.title)
-    $('#sender').html(mail.origin.name + ' ('+mail.origin.username+')')
-    $('.view-mail').html(mail.text)
-    $('.date').html(""+ mail.time_sent.h + ":" + mail.time_sent.m + " " + mail.date_sent.day + "/" + mail.date_sent.month + "/" + mail.date_sent.year)
-    $('#seen'+id).remove()
-    seen(mail.id)
-  }
-
-  function seen(id){
-      $.ajax({
-        url: '/dashboard/inbox/seen',
-        data: {
-          'id': id
-        },
-        method:'GET',
-        dataType: 'json',
-        success: function (data) {
-          if(data.status)
-            console.log("DB modified");
-        }
-      });
-  }
 </script>
 {%endblock%}

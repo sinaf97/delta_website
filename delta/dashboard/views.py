@@ -1,21 +1,17 @@
+import json , copy , manage , uuid ,shutil , os
 from django.shortcuts import render
 from .models import term , course,score,student,User,teacher,massege
 from .models import courseInfo as course_info
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
-import json
 from django.core import serializers
 from .methods import *
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
-import shutil , os
 from django.conf import settings
-import manage
-import copy
 from .decoratore import *
 from bookShelf.models import book,date,bookGroup
 from django.template import loader, RequestContext
-import uuid
 
 
 class default:
@@ -124,23 +120,46 @@ class default:
         }
         return JsonResponse(data)
 
-    def compose(request):
+    def compose(request,username = None):
         if request.user.role == "Teacher":
-            return teacherViews.s_massege(request)
+            return teacherViews.s_massege(request,username)
         elif request.user.role == "Student":
-            return studentViews.s_massege(request)
+            return studentViews.s_massege(request,username)
         else:
-            return adminViews.s_massege(request)
+            return adminViews.s_massege(request,username)
 
     def mail_send(request):
-        receiver = User.objects.get(username=request.POST['username'])
-        m = massege(id = uuid.uuid1().hex ,origin=request.user,to=receiver,subject = request.POST['subject'],text=request.POST['text'],seen=False)
-        m.save()
-        data = {
+        try:
+            receiver = User.objects.get(username=request.POST['username'])
+        except Exception as e:
+            data = {
+                'status':0,
+                'msg':"User not found"
+            }
+            return JsonResponse(data)
+        if request.user.role == "Student" and receiver.role == "Student":
+            data = {
+                'status':210,
+                'msg':"Insufficaint autharity"
+            }
+        else:
+            m = massege(id = uuid.uuid1().hex ,origin=request.user,to=receiver,subject = request.POST['subject'],text=request.POST['text'],seen=False)
+            m.save()
+            data = {
             'status':200,
             'msg':"massege sent successfully"
+            }
+        return JsonResponse(data)
+
+    def mail_delete(request):
+        m = massege.objects.get(id = request.GET.get('id'))
+        m.delete()
+        data = {
+            'status':200,
+            'msg':'Mail was removed successfully'
         }
         return JsonResponse(data)
+
 class studentViews:
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
@@ -176,8 +195,10 @@ class studentViews:
         return render(request,"html/dashboard/student/score.html",context)
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
-    def s_massege(request):
-        return render(request,'html/dashboard/student/compose.html')
+    def s_massege(request,username = None):
+        if username is None:
+            username = ""
+        return render(request,'html/dashboard/student/compose.html',{'username':username})
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
     def r_massege(request):
@@ -267,14 +288,18 @@ class teacherViews:
     @role_required(allowed_roles=['Teacher'])
     def r_massege(request):
         return render(request,'html/dashboard/teacher/inbox.html',get_masseges(request))
-    def s_massege(request):
-        return render(request,'html/dashboard/teacher/compose.html')
+    def s_massege(request,username = None):
+        if username is None:
+            username = ""
+        return render(request,'html/dashboard/teacher/compose.html',{'username':username})
 
 class adminViews:
     def r_massege(request):
         return render(request,'html/dashboard/admin/inbox.html',get_masseges(request))
-    def s_massege(request):
-        return render(request,'html/dashboard/admin/compose.html')
+    def s_massege(request,username = None):
+        if username is None:
+            username = ""
+        return render(request,'html/dashboard/admin/compose.html',{'username':username})
     @login_required(login_url='/login')
     @role_blocked(blocked_roles=['Teacher','Student'])
     def add_user(request):

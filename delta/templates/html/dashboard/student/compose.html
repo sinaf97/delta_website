@@ -4,51 +4,25 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
    <div id="details">
-     <h4 class="h4">Send a messege to your teacher:</h4>
+     <h4 class="h4">Compose a mail:</h4>
      <form id="send-massage" action="{% url 'mail_send' %}"  class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
        {%csrf_token%}
        <div style="margin:10px">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="t-fname">Teacher</label>
-            <input type="text" class="form-control" id="t-fname" value="{{t_fname}}" name="t_fname" disabled>
-            <input type="text" class="form-control hidden" id="t-username" value="{{t_username}}" name="t_username">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="t-lname" style="color:white">!</label>
-            <input type="text" class="form-control" id="t-lname" value="{{t_lname}}" name="t_lname" disabled>
+            <label for="t-fname">Reciever</label>
+            <input type="text" class="form-control" id="username" value="{{username}}" name="username">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="subject">Subject</label>
             <input type="text" class="form-control" id="subject" placeholder="" name="subject" required>
-            <p id="check_username"></p>
           </div>
         </div>
         <div class="form-row">
-          <label for="text">Content</label>
           <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-              <div class="x_title">
-                <h2>Text areas<small>Sessions</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                  </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Settings 1</a>
-                      </li>
-                      <li><a href="#">Settings 2</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a class="close-link"><i class="fa fa-close"></i></a>
-                  </li>
-                </ul>
-                <div class="clearfix"></div>
-              </div>
+            <label for="text">Content</label>
               <div class="x_content">
                 <div id="alerts"></div>
                 <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
@@ -129,7 +103,6 @@
                 <br />
 
               </div>
-            </div>
           </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">Send</button>
@@ -144,20 +117,7 @@
  <script src="/static/bootstrap/Dashboard dependencies/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
  <script src="/static/bootstrap/Dashboard dependencies/vendors/google-code-prettify/src/prettify.js"></script>
  <script src="/static/bootstrap/Dashboard dependencies/vendors/switchery/dist/switchery.min.js"></script>
-
  <script type="text/javascript">
-   $('#submit').click(send_massage)
-   function send_massage(){
-     $('#send-massage').ajaxForm({
-       data:{'text':$('#editor-one').html()},
-       success: function (data) {
-         if(data.status){
-           submit_modal(data)
-           document.getElementById('send-massage').reset();
-         }
-       },
-       dataType:'json',
-     })
-   }
+   $('#submit').click(send_mail)
  </script>
  {% endblock %}
