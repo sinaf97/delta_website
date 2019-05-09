@@ -85,24 +85,25 @@
                         <li role="presentation" class="dropdown">
                           <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-envelope-o"></i>
-                            <span class="badge bg-green">6</span>
+                            {%if unseen != 0%}<span class="badge bg-red">{{unseen}}</span>{%endif%}
                           </a>
                           <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                            {%for m in top_masseges%}
                             <li>
                               <a>
-                                <!-- <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span> -->
                                 <span>
-                                  <span>John Smith</span>
-                                  <span class="time">3 mins ago</span>
+                                  <strong>{{m.origin}}</strong>
+                                  <span class="time">{{m.time_sent.h}}:{{m.time_sent.m}} {{m.date_sent}}</span>
                                 </span>
                                 <span class="message">
-                                  Film festivals used to be do-or-die moments for movie makers. They were where...
+                                  {{m.title}}
                                 </span>
                               </a>
                             </li>
+                            {%endfor%}
                             <li>
                               <div class="text-center">
-                                <a>
+                                <a href="/dashboard/t_r_massege">
                                   <strong>See All Alerts</strong>
                                   <i class="fa fa-angle-right"></i>
                                 </a>

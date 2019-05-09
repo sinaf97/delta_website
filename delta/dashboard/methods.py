@@ -1,4 +1,4 @@
-from .models import term , course,score,student,User,teacher
+from .models import term , course,score,student,User,teacher,massege
 from django.core.files.storage import FileSystemStorage
 import shutil , os
 import manage
@@ -110,3 +110,23 @@ def change_photo(user,pic):
 def picPath(user,fileName):
     fileName = fileName.split('.')[1]
     return f"users/{user.role}s/{user.username}/profile pic/{user.username}.{fileName}"
+
+def get_masseges(request):
+    m = massege.objects.filter(to = request.user)
+    mlist = []
+    jlist = []
+    counter = 0
+    for ma in m:
+        if ma.seen:
+            seen = 1
+        else:
+            seen = 0
+        mlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':ma.seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':ma.date_sent})
+        jlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':{'year':ma.date_sent.year,'month':ma.date_sent.month,'day':ma.date_sent.day}})
+        counter+=1
+    mlist.reverse()
+    data = {
+        'masseges' : mlist,
+        'jsMasseges':jlist
+    }
+    return data

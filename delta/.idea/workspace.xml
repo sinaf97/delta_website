@@ -2,13 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b6d9c2ae-5e0c-4592-947c-953c6fa7c8b6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/methods.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/delta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/delta/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/admin/layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/student/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/s_messege.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/r_messege.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/student/s_massege.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/inbox.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/inbox.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/html/dashboard/teacher/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/dashboard/teacher/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/home/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/html/layouts/base_layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/html/layouts/base_layout.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +37,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
+            <state relative-caret-position="45">
               <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
               <folding>
                 <element signature="e#22#31#0" expanded="true" />
@@ -40,17 +49,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dashboard/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="155" selection-start-line="155" selection-end-line="155" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/delta/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/management/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="424" selection-start-line="424" selection-end-line="424" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dashboard/admin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
               <caret line="1" selection-start-line="1" selection-end-line="1" />
@@ -76,6 +112,7 @@
         <option value="$PROJECT_DIR$/login/views.py" />
         <option value="$PROJECT_DIR$/bookShelf/views.py" />
         <option value="$PROJECT_DIR$/dashboard/views.py" />
+        <option value="$PROJECT_DIR$/delta/settings.py" />
       </list>
     </option>
   </component>
@@ -252,7 +289,8 @@
       <workItem from="1556280781412" duration="3000" />
       <workItem from="1557298053213" duration="1062000" />
       <workItem from="1557312106349" duration="1631000" />
-      <workItem from="1557327451739" duration="6133000" />
+      <workItem from="1557327451739" duration="6185000" />
+      <workItem from="1557381072416" duration="8326000" />
     </task>
     <servers />
   </component>
@@ -262,18 +300,19 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69335000" />
+    <option name="totallyTimeSpent" value="77713000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14949928" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15164521" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.31593406" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997253" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997253" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -292,17 +331,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/dashboard/views.py</url>
-          <line>155</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -467,7 +495,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
+        <state relative-caret-position="45">
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding>
             <element signature="e#22#31#0" expanded="true" />
@@ -475,20 +503,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/delta/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/management/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="424" selection-start-line="424" selection-end-line="424" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="155" selection-start-line="155" selection-end-line="155" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="150">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

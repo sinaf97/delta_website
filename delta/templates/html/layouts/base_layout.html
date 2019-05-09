@@ -78,6 +78,14 @@
           {%else%}
           <li class="buy-tickets"><a href="/login?next={{request.path}}">Sign in</a></li>
           {%endif%}
+          {%if request.user.is_authenticated%}
+          <li>
+            <a href="/dashboard/inbox">
+              <i class="fa fa-envelope-o" style="color:white"></i>
+              {%if unseen != 0%}<h2 class="badge badge-pill badge-danger">{{unseen}}</h2>{%endif%}
+            </a>
+          </li>
+          {%endif%}
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>

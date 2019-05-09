@@ -92,9 +92,12 @@ class score(models.Model):
         return {'username':self.student.user.username,'midScore':self.midScore,'finalScore':self.finalScore}
 
 
-class message(models.Model):
-    origin =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="sent_messages")
-    to =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="recieved_messages")
+class massege(models.Model):
+    id = models.CharField(max_length=40,null = False,primary_key = True)
+    origin =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="sent_masseges")
+    to =  models.ForeignKey(User,null=True,default=None,on_delete=models.CASCADE,related_name="recieved_masseges")
     seen = models.BooleanField(default = True)
+    time_sent = models.TimeField(auto_now_add = True)
+    date_sent = models.DateField(auto_now_add = True)
     subject = models.CharField(max_length = 64)
     text = models.TextField(max_length=512,null=True)

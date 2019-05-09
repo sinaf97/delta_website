@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import term , course,score,student,User,teacher,message
+from .models import term , course,score,student,User,teacher,massege
 from .models import courseInfo as course_info
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
@@ -14,6 +14,8 @@ import manage
 import copy
 from .decoratore import *
 from bookShelf.models import book,date,bookGroup
+from django.template import loader, RequestContext
+import uuid
 
 
 class default:
@@ -104,7 +106,41 @@ class default:
             'path':request.user.pic.url
         }
         return JsonResponse(context)
+    @login_required(login_url='/login')
+    def inbox(request):
+        if request.user.role == "Teacher":
+            return teacherViews.r_massege(request)
+        elif request.user.role == "Student":
+            return studentViews.r_massege(request)
+        else:
+            return adminViews.r_massege(request)
 
+    def inbox_seen(request):
+        m = massege.objects.get(id = request.GET.get('id'))
+        m.seen = True
+        m.save()
+        data = {
+            'status':200
+        }
+        return JsonResponse(data)
+
+    def compose(request):
+        if request.user.role == "Teacher":
+            return teacherViews.s_massege(request)
+        elif request.user.role == "Student":
+            return studentViews.s_massege(request)
+        else:
+            return adminViews.s_massege(request)
+
+    def mail_send(request):
+        receiver = User.objects.get(username=request.POST['username'])
+        m = massege(id = uuid.uuid1().hex ,origin=request.user,to=receiver,subject = request.POST['subject'],text=request.POST['text'],seen=False)
+        m.save()
+        data = {
+            'status':200,
+            'msg':"massege sent successfully"
+        }
+        return JsonResponse(data)
 class studentViews:
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
@@ -141,30 +177,11 @@ class studentViews:
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
     def s_massege(request):
-        c_term = term.objects.last()
-        course = request.user.student.course.get(term = c_term)
-        context = {
-            't_fname':course.teacher.user.first_name,
-            't_lname':course.teacher.user.last_name,
-            't_username' : course.teacher.user.username,
-        }
-        return render(request,'html/dashboard/student/s_massege.html',context)
-    @login_required(login_url='/login')
-    @role_required(allowed_roles=['Student'])
-    def s_massege_ajax(request):
-        print(request.POST['text'])
-        teacher = User.objects.get(username=request.POST['t_username'])
-        m = message(origin=request.user,to=teacher,subject = request.POST['subject'],text=request.POST['text'],seen=False)
-        m.save()
-        data = {
-            'status':200,
-            'msg':"Message sent successfully"
-        }
-        return JsonResponse(data)
+        return render(request,'html/dashboard/student/compose.html')
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
     def r_massege(request):
-            return render(request,'html/dashboard/student/r_messege.html')
+        return render(request,'html/dashboard/student/inbox.html',get_masseges(request))
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
     def reports(request):
@@ -249,18 +266,15 @@ class teacherViews:
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Teacher'])
     def r_massege(request):
-        m = message.objects.filter(to = request.user)
-        mlist = []
-        counter = 0;
-        for ma in m:
-            mlist.append({'id':counter,'origin':ma.origin.get_full_name(),'title':ma.subject,'text':ma.text})
-            counter+=1
-        data = {
-            'masseges' : mlist
-        }
-        return render(request,'html/dashboard/teacher/inbox.html',data)
+        return render(request,'html/dashboard/teacher/inbox.html',get_masseges(request))
+    def s_massege(request):
+        return render(request,'html/dashboard/teacher/compose.html')
 
 class adminViews:
+    def r_massege(request):
+        return render(request,'html/dashboard/admin/inbox.html',get_masseges(request))
+    def s_massege(request):
+        return render(request,'html/dashboard/admin/compose.html')
     @login_required(login_url='/login')
     @role_blocked(blocked_roles=['Teacher','Student'])
     def add_user(request):
