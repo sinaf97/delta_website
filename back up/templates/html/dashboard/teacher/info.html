@@ -1,0 +1,80 @@
+{% extends "html/dashboard/teacher/layout.html" %}
+{% block main %}
+<style>
+  input{
+    color:black
+  }
+</style>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+           <div id="info">
+             <form class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+               {%csrf_token%}
+               <div style="margin:10px">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="fn">Firstname</label>
+                    <input type="text" name="fn" class="form-control" value="{{user.first_name}}" disabled>
+                  </div>
+                  <div class="form-group col-md-4">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="ln">Lastname</label>
+                    <input type="text" name="ln" class="form-control" value="{{user.last_name}}" disabled>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="em">E-mail</label>
+                    <input type="text" name="em" class="form-control" value="{{user.email}}" disabled>
+                  </div>
+                  <div class="form-group col-md-4">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="us">Username</label>
+                    <input type="text" name="us" class="form-control" value="{{user.username}}" disabled>
+                  </div>
+                </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label for="ph">Phone</label>
+                      <input type="text" name="ph" class="form-control" value="{{user.phone}}" disabled>
+                    </div>
+                    <div class="form-group col-md-4">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="mb">Mobile</label>
+                      <input type="text" name="mb" class="form-control" value="{{user.mobile}}" disabled>
+                    </div>
+                  </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="id">ID</label>
+                        <input type="text" name="id" class="form-control" value="{{user.idCode}}" disabled>
+                      </div>
+                      <div class="form-group col-md-4">
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="rl">Role</label>
+                        <input type="text" name="rl" class="form-control" value="{{user.role}}" disabled>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="ad">Address</label>
+                        <input type="text" name="ad" class="form-control" value="{{user.address}}" disabled>
+                      </div>
+                    </div>
+                </div>
+                <div>
+              </form>
+
+           </div>
+         </main>
+{% endblock %}
+
+
+
+<script>
+$('#info').addClass('active')
+$('input').css('color','black')
+</script>

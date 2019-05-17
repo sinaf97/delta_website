@@ -1,0 +1,39 @@
+{% extends "fa/html/dashboard/teacher/layout.html" %}
+{% block main %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+  <div id="details">
+    <h1 class="h1">{{info.course_name}}</h1>
+    <h4>گروه: {{info.group}}</h4>
+    <h6 class="h6">ترم: {{info.term.season}}{{info.term.part}} of {{info.term.year}}</h6>
+
+    <form id="add-score-form" action="{%url 'add_score' lang='fa'%}" class="form" method="post">
+      {%csrf_token%}
+      <div class="container" style="margin-top:5%">
+         <table class="table table-bordered table-hover">
+           <thead class="thead-light">
+             <tr>
+               <th>نام</th>
+               <th>شناسه کاربری</th>
+               <th>میانترم</th>
+               <th>نمره کل</th>
+             </tr>
+           </thead>
+           <tbody id="toFill">
+           </tbody>
+         </table>
+         <input type="text" id="courseInfo" name="course" style="display:none">
+         <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0" id="submit">تایید</button>
+       </div>
+     </form>
+
+   </div>
+</main>
+
+<script>
+  $('#submit').click(submit_course_scores_form)
+  $('#courseInfo').val(order({{info|safe}}))
+  teacher_course_info({{students|safe}},{{scores|safe}},{{info|safe}},{{info|safe}})
+</script>
+{% endblock %}

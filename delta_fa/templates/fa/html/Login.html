@@ -1,0 +1,49 @@
+{% extends "fa/html/layouts/base_layout.html"%}
+
+{% block title %}
+  <title>ورود</title>
+{% endblock %}
+
+{% block head %}
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+<!--==========================
+  Book Intro Section
+============================-->
+<section id="intro" style='background: center url("/media/main/sign in.jpg");background-size:cover;'>
+
+  <div class="intro-container wow fadeIn">
+    <img src="/media/main/logo.png" alt="" style="width:20%;margin-bottom:3%">
+    <form dir="rtl" action="{%url 'auth' lang='fa'%}" method="post">
+      {%csrf_token%}
+      <div>
+        <input type="text" name="delta_id" class="form-control" placeholder="شناسه کاربری" required="" />
+      </div>
+      <div>
+        <input type="password" name="password" class="form-control" style="margin-top:2%" placeholder="رمز ورود" required="" />
+      </div>
+      <div>
+        <input type="hidden" name="next" value="{{next}}">
+        <button class="btn col-md-6 btn-default submit" style="margin-top:5%;color:white;background-color:rgba(6, 12, 34, 0.98);" href="index.html"><b>ورود</b></button>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="separator">
+        <a class="reset_pass" href="#">رمزم را گم کردم!</a>
+        <p class="change_link">تازه آمده اید؟
+          <a href="#signup" class="to_register"> ثبت نام </a>
+        </p>
+
+        <div class="clearfix"></div>
+        <br />
+
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

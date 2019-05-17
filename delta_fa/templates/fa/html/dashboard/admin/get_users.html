@@ -1,0 +1,56 @@
+{% extends "fa/html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>Users</h3>
+{%endblock%}
+
+{% block main %}
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+         <form id="get-users" action="{%url 'get_users_ajax' lang='fa'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+           {%csrf_token%}
+           <div style="margin:10px">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="name">نام</label>
+                <input class="form-control" type="text" placeholder="All" name="name" value="">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="last_name">نام خانوادگی</label>
+                <input class="form-control" type="text" placeholder="All" name="last_name" value="">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="type">شغل</label>
+                <select class="form-control" name="type">
+                  <option value="All" selected>All</option>
+                  <option value="Teachers">Teachers</option>
+                  <option value="Students">Students</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="active">فعالیت</label>
+                <select class="form-control" name="active">
+                  <option value="All" selected>All</option>
+                  <option value="Active">Active only</option>
+                  <option value="Deactive">Not active</option>
+              </select>
+              </div>
+            </div>
+            <div>
+              <div class="" id="users">
+                <table dir="rtl" class="table table-hover" id="user-list">
+
+                </table>
+              </div>
+            </div>
+          </form>
+          <button type="submit" class="btn btn-primary" onclick="query_users" style="float:right;margin:5% 0;background-color:rgba(6, 12, 34, 0.98);" id="query-users"><b>لیست کن</b></button>
+       </main>
+
+       <script type="text/javascript">
+         $('#query-users').click(query_users);
+       </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+{% endblock %}

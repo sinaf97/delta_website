@@ -1,0 +1,43 @@
+{% extends "html/dashboard/layout.html" %}
+  {%block menu-section%}
+        <div class="menu_section">
+          <h3>General</h3>
+          <ul class="nav side-menu">
+            <li><a href="/dashboard"><i class="fa fa-leaf"></i>Dashboard</a>
+              </li>
+            <li><a><i class="fa fa-plus-square"></i> Add <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/dashboard/add_user">User</a></li>
+                <li><a href="/dashboard/add_term">Term</a></li>
+                <li><a href="/dashboard/students_to_course">Students</a></li>
+                <li><a>Course <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="/dashboard/new_course">New Course</a></li>
+                    <li><a href="/dashboard/course_to_term">Add Course To Term</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a><i class="fa fa-bar-chart-o"></i> Statistics <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/dashboard/get_users">Users</a></li>
+                <li><a href="/dashboard/get_courses">Courses</a></li>
+                <li><a href="#">Other</a></li>
+                <li><a href="#">Calendar</a></li>
+              </ul>
+            </li>
+            <li><a><i class="fa fa-bar-chart-o"></i> Mail <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/dashboard/mail/compose">Compose</a></li>
+                <li><a href="/dashboard/mail/inbox">Inbox</a></li>
+              </ul>
+            </li>
+            <li><a href="/dashboard/book_shelf"><i class="fa fa-book"></i> Library </a>
+            </li>
+            <li><a href="/dashboard/settings"><i class="fa fa-gear"></i> Settings </a>
+            </li>
+          <li><a href="{%url 'logout'%}?next={{request.path}}"><i class="fa fa-sign-out"></i> Log out </a>
+          </li>
+          </ul>
+        </div>
+  {%endblock%}

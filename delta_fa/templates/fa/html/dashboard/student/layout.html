@@ -1,0 +1,32 @@
+{% extends "fa/html/dashboard/layout.html" %}
+
+  {%block menu-section%}
+    <div class="menu_section">
+      <h3>مدیریت</h3>
+      <ul class="nav side-menu">
+        <li><a href="/fa/dashboard"><i class="fa fa-leaf"></i>پنل کاربری</a>
+          </li>
+        <li><a href="/fa/dashboard/student_info"><i class="fa fa-info-circle"></i> اطلاعات کاربری</a>
+          </li>
+        <li><a href="/fa/dashboard/score"><i class="fa fa-book"></i> نمرات </a>
+          </li>
+        <li><a><i class="fa fa-envelope"></i> پیام <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="/fa/dashboard/mail/compose">ایجاد پیام</a></li>
+            <li><a href="/fa/dashboard/mail/inbox">صندوق پیام</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-bar-chart-o"></i> مالی <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="/fa/dashboard/finance/invoice">فاکتور</a></li>
+            <li><a href="/fa/dashboard/finance/history">تراکنش های گذشته</a></li>
+          </ul>
+        </li>
+        <li><a href="/fa/dashboard/settings"><i class="fa fa-gear"></i> تنظیمات </a>
+        </li>
+      <li><a href="/fa/logout?next={{request.path}}"><i class="fa fa-sign-out"></i> خروج </a>
+      </li>
+      </ul>
+    </div>
+
+  {%endblock%}

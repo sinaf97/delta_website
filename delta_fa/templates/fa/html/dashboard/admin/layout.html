@@ -1,0 +1,43 @@
+{% extends "fa/html/dashboard/layout.html" %}
+  {%block menu-section%}
+        <div class="menu_section">
+          <h3 style="text-align:right">مدیریت</h3>
+          <ul class="nav side-menu">
+            <li><a href="/fa/dashboard"><i class="fa fa-leaf"></i>پنل کاربری</a>
+              </li>
+            <li><a><i class="fa fa-plus-square"></i> اضافه کردن <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/fa/dashboard/add_user">کاربر</a></li>
+                <li><a href="/fa/dashboard/add_term">ترم</a></li>
+                <li><a href="/fa/dashboard/students_to_course">دانش آموز</a></li>
+                <li><a>دوره <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="/fa/dashboard/new_course">دوره</a></li>
+                    <li><a href="/fa/dashboard/course_to_term">دوره به ترم</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a><i class="fa fa-bar-chart-o"></i> آمار <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/fa/dashboard/get_users">کاربران</a></li>
+                <li><a href="/fa/dashboard/get_courses">دوره ها</a></li>
+                <li><a href="#">دیگر</a></li>
+                <li><a href="#">تقویم</a></li>
+              </ul>
+            </li>
+            <li><a><i class="fa fa-envelope"></i> پیام <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                <li><a href="/fa/dashboard/mail/compose">ایجاد پیام</a></li>
+                <li><a href="/fa/dashboard/mail/inbox">صندوق پیام ها</a></li>
+              </ul>
+            </li>
+            <li><a href="/fa/dashboard/book_shelf"><i class="fa fa-book"></i> کتابخانه </a>
+            </li>
+            <li><a href="/fa/dashboard/settings"><i class="fa fa-gear"></i> تنظیمات </a>
+            </li>
+          <li><a href="/fa/logout?next={{request.path}}"><i class="fa fa-sign-out"></i> خروج </a>
+          </li>
+          </ul>
+        </div>
+  {%endblock%}

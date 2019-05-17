@@ -1,0 +1,28 @@
+@keyframes opacity {
+  from{opacity:0;}
+  to{opacity: 1;}
+}
+#ceo{
+  width: 100%;
+}
+#ceo-pic{
+  width: 30%;
+  float: left;
+  opacity: 0;
+  animation-name: opacity;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+  background-color: green;
+}
+#ceo-text{
+  width: 70%;
+  text-align: left;
+  float: left;
+  opacity: 0;
+  animation-name: opacity;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+  background-color: red;
+}

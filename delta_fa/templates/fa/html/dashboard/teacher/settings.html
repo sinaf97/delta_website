@@ -1,0 +1,81 @@
+{% extends "fa/html/dashboard/teacher/layout.html" %}
+
+
+{%block x_title%}
+<h3>تنظیمات</h3>
+{%endblock%}
+
+
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+<div id="details">
+  <form id="change-name" action="{%url 'change_name' lang='fa'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+    {%csrf_token%}
+    <div style="margin:10px">
+     <div class="form-row">
+       <div class="form-group col-md-6">
+         <label for="firstName">نام جدید</label>
+         <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" required>
+       </div>
+       <div class="form-group col-md-6">
+         <label for="lastName">نام خانوادگی جدید</label>
+         <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" required>
+       </div>
+     </div>
+     <div>
+       <button type="submit" class="btn float-right" style="color:white;margin:5% 0;background-color:rgba(6, 12, 34, 0.98);" id="submit-name">تغییر نام</button>
+     </div>
+   </form>
+ </div>
+ <div>
+   <form id="change-pass" action="{%url 'change_pass' lang='fa'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+     {%csrf_token%}
+     <div style="margin:10px">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="firstName">رمز قدیمی</label>
+          <input type="password" class="form-control" id="oldpass" placeholder="" name="oldpass" required>
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="lastName">رمز جدید</label>
+          <input type="password" class="form-control" id="newpass" placeholder="" name="newpass" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="lastName">تکرار رمز جدید</label>
+          <input type="password" class="form-control" id="repass" placeholder="" name="repass" required>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn float-right" style="color:white;margin:5% 0;background-color:rgba(6, 12, 34, 0.98);" id="submit-pass">تغییر رمز</button>
+      </div>
+    </form>
+    </div>
+    <div class="">
+    <form id="change-profile-photo" action="{%url 'change_profile_photo' lang='fa'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+      {%csrf_token%}
+        <div style="margin:10px">
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <input type="file" name="pic" accept=".jpeg,.jpg,.png" id="pic" required>
+           </div>
+        </div>
+       </div>
+       <div>
+         <button type="submit" class="btn float-right" style="color:white;margin:5% 1%;background-color:rgba(6, 12, 34, 0.98);" id="submit-profile-photo">تغییر عکس کاربری</button>
+         <button type="button" class="btn btn-danger float-right" style="margin:5% 1%;" id="delete-profile-photo">حذف عکس کاربری</button>
+       </div>
+     </form>
+   </div>
+</main>
+
+<script type="text/javascript">
+  $('#submit-name').click(submit_name)
+  $('#submit-pass').click(submit_pass)
+  $('#submit-profile-photo').click(submit_profile_photo)
+  $('#delete-profile-photo').click(delete_profile_photo)
+
+</script>
+
+{% endblock %}

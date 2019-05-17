@@ -1,0 +1,62 @@
+{% extends "html/dashboard/admin/layout.html" %}
+
+
+{%block x_title%}
+<h3>Add courses to terms</h3>
+{%endblock%}
+
+
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+ <form id="course-to-term-form" action="{%url 'course_to_term_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+   {%csrf_token%}
+   <div style="margin:10px">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="term">Term</label>
+        <select id="term" class="form-control" name="term">
+          {%for i in terms%}
+          <option>{{i.season}}-{{i.part}}-{{i.year}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="courseName">Course name</label>
+        <input type="text" class="form-control" id="courseName" placeholder="AEF 1" name="courseName" required>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="courseCode">Course code</label>
+        <input type="text" class="form-control" id="courseCode" placeholder="AEF1UI" name="courseCode" required>
+      </div>
+      </div>
+      <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="teacherName">Teacher name</label>
+        <input type="text" class="form-control" id="teacherName" placeholder="Sina Farahani" name="teacherName" required>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="teacherUsername">Teacher username</label>
+        <input type="text" class="form-control" id="teacherUsername" placeholder="sina86" name="teacherUsername" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="courseGroup">Course group</label>
+        <input type="number" class="form-control" id="courseGroup" placeholder="2" name="courseGroup" required>
+      </div>
+
+    </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0;background-color:rgba(6, 12, 34, 0.98);" id="submit"><b>Submit</b></button>
+
+    <div>
+  </form>
+</main>
+
+<script>
+  var autofill = "{%url 'auto_fill'%}";
+  $('#submit').click(submit_course_to_term_form)
+  $('#courseName').blur(fill_courseCode)
+  $('#courseCode').blur(fill_courseName)
+  $('#teacherName').blur(fill_teacherUsername)
+  $('#teacherUsername').blur(fill_teacherName)
+</script>
+
+{% endblock %}

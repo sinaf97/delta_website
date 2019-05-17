@@ -1,0 +1,31 @@
+{% extends "en/html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>Add Course</h3>
+{%endblock%}
+
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+ <form id="new-course-form" action="{%url 'new_course_submit' lang='en'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+   {%csrf_token%}
+   <div style="margin:10px">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="courseName">Course name</label>
+        <input type="text" class="form-control" id="courseName" placeholder="AEF 1" name="courseName" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="courseCode">Course code</label>
+        <input type="text" class="form-control" id="courseCode" placeholder="AEF1UI" name="courseCode" required>
+      </div>
+
+    </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin:5% 0;background-color:rgba(6, 12, 34, 0.98);" id="submit"><b>Submit</b></button>
+
+    <div>
+  </form>
+</main>
+
+<script type="text/javascript">
+  $('#submit').click(submit_new_course_form)
+</script>
+{% endblock %}

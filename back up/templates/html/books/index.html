@@ -1,0 +1,84 @@
+{% extends "html/layouts/base_layout.html"%}
+
+{% block title %}
+  <title>Books</title>
+{% endblock %}
+
+{% block head %}
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/html/books/style.css">
+{% endblock %}
+
+{% block body %}
+<!--==========================
+  Book Intro Section
+============================-->
+<section id="intro" style='background: center url("/media/main/book-shelf.jpg");background-size:cover;'>
+  <div class="intro-container wow fadeIn">
+    <h1 class="mb-4 pb-0">Delta<br><span>Book</span> Shelf</h1>
+    <a href="#speakers" class="about-btn scrollto">Books</a>
+    <!-- <p class="mb-4 pb-0">10-12 December, Downtown Conference Center, New York</p> -->
+  </div>
+</section>
+
+<main id="main">
+
+
+  <!--==========================
+    Books Section
+  ============================-->
+  <section id="speakers" class="wow fadeInUp">
+    <div class="container">
+      <div class="section-header">
+        <h2>Book Groups</h2>
+      </div>
+
+      <div class="row">
+        {%for i in groups%}
+        <div class="col-lg-3 col-md-6">
+          <a href="speaker-details.html"><div class="speaker">
+            <img src="/media/{{i.group_pic}}" alt="Books" class="img-fluid">
+            <div class="details">
+              <h3><a href="speaker-details.html">{{i.group_name}}</h3>
+              <p>{{i.level}}</p>
+              <p>{{i.description}}</p>
+              <!-- <div class="social">
+                <a href=""><i class="fa fa-twitter"></i></a>
+                <a href=""><i class="fa fa-facebook"></i></a>
+                <a href=""><i class="fa fa-google-plus"></i></a>
+                <a href=""><i class="fa fa-linkedin"></i></a>
+              </div> -->
+            </div>
+          </div></a>
+        </div>
+        {%endfor%}
+    </div>
+  </section>
+  <!-- #contact -->
+
+</main>
+
+{% endblock %}
+
+
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-treeview.js"></script>
+
+    <!-- Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.21.0/feather.js"></script>
+    <script>
+      feather.replace()
+    </script>
+    {%block js%}
+    <script type="text/javascript">
+      $('a[href="/book_shelf"]').parent().addClass('menu-active')
+    </script>
+    {%endblock%}

@@ -1,0 +1,15 @@
+{% extends "fa/html/dashboard/student/layout.html" %}
+{% block main %}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div id="details">
+              <h1 class="h1">Summary</h1>
+                <h3 id="current-course" class="h5" style="padding:20px 0 0 20px">Current course: {{info.course}}</h3>
+                <h3 id="current-teacher" class="h5" style="padding:0px 0 0 20px">Current teacher: {{user.student.course.last.teacher}}</h3>
+                <h3 id="current-time" class="h5" style="padding:0px 0 0 20px">Current semester: {{info.term}}</h3>
+                <h3 id="average-score" class="h5" style="padding:0px 0 0 20px">Last score: {{user.student.scores.last.finalScore}}</h3>
+
+            </div>
+          </main>
+
+{% endblock %}

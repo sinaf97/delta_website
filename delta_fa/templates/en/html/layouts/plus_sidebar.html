@@ -1,0 +1,29 @@
+{% extends "html/layouts/base_layout.html"%}
+{%block body%}
+    <nav id="side-bar" class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <div class="card">
+            {%if request.user.is_authenticated%}
+              <img class="card-img-top" src="/media/{{user.pic}}" style="margin:auto;width:50%;height:50%;border-radius:100%" alt="Card image">
+              {%else%}
+              <img class="card-img-top" src="/media/default/profile.png" style="margin:auto;width:50%;height:50%;border-radius:100%" alt="Card image">
+              {%endif%}
+              <div class="card-body">
+                {%if request.user.is_authenticated%}
+                <h4 class="card-title text-center">{{user.first_name}} {{user.last_name}}</h4>
+                <p class="card-text text-center">{{user.role}}</p>
+                <a href="/dashboard" class="btn btn-primary btn-block">Dashboard</a>
+                {%else%}
+                <a href="/login?next={{request.path}}" class="btn btn-primary col-md-5 float-left">Sign in</a>
+                <a href="/register" class="btn btn-primary col-md-5 float-right">Register</a>
+                {%endif%}
+              </div>
+            </div>
+        </div>
+    </nav>
+
+          {%block main%}
+          {%endblock%}
+
+
+  {%endblock%}

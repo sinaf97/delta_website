@@ -1,0 +1,101 @@
+{% extends "fa/html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>ویرایش اطلاعات کاربر</h3>
+{%endblock%}
+{% block main %}
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+         <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+           <h1 class="h1 font-weight-bold">{{user.first_name}} {{user.last_name}}<br/><span class="h3">{{user.role}}</span></h1>
+           <div class="mb-2 mb-md-0">
+               <img src="{{user.pic.url}}" style="width:20%;float:right">
+           </div>
+         </div> -->
+
+
+         <form id="edit-user-form" action="/fa/dashboard/users/{{euser.username}}/edit_user/ajax" method="post" class="form" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+           {%csrf_token%}
+           <div class="form-row">
+             <table>
+             <tr>
+             <td style="width:80%">
+                <div style="float:left" class="form-group col-md-6">
+                  <label for="fn">نام</label>
+                  <input type="text" name="fn" class="form-control" value="{{ euser.first_name }}" >
+                  <label for="ln">نام خانوادگی</label>
+                  <input type="text" name="ln" class="form-control" value="{{euser.last_name}}" >
+                </div>
+                <div style="float:left" class="form-group col-md-6">
+                </div>
+                </td>
+               <td>
+              <img id="user-photo" style="width:80%;height:auto;margin:4%" src="/media/{{euser.pic}}"
+              </td>
+              </tr></table>
+          </div>
+            <div id="details" style="margin:10px">
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="em">ایمیل</label>
+                  <input type="text" name="em" class="form-control" value="{{euser.email}}" >
+                </div>
+                <div class="form-group col-md-4">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="us">شناسه کاربری</label>
+                  <input type="text" name="us" class="form-control" value="{{euser.username}}" disabled>
+                </div>
+                </div>
+              <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="ph">تلفن</label>
+                    <input type="text" name="ph" class="form-control" value="{{euser.phone}}" >
+                  </div>
+                  <div class="form-group col-md-4">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="mb">همراه</label>
+                    <input type="text" name="mb" class="form-control" value="{{euser.mobile}}" >
+                  </div>
+                </div>
+              <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label for="id">کد ملی</label>
+                      <input type="text" name="id" class="form-control" value="{{euser.idCode}}" >
+                    </div>
+                    <div class="form-group col-md-4">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="rl">شغل</label>
+                      <input type="text" name="rl" class="form-control" value="{{euser.role}}" disabled>
+                    </div>
+                </div>
+              <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="ad">آدرس</label>
+                        <textarea rows="8" cols="80" name="ad" class="form-control" value="{{euser.address}}" ></textarea>
+                      </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="file" name="pic" accept=".jpg,.jpeg,.png" id="pic">
+                  </div>
+               </div>
+              <div class="form-row">
+                  <button type="submit" class="sClass btn btn-danger btn-block float-right" style="color:white" id="edit">تایید اطلاعات</button>
+                </div>
+            </div>
+          </form>
+       </main>
+
+       <script type="text/javascript">
+         $('#edit').click(save_edit)
+       </script>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+{% endblock %}

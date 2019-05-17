@@ -1,0 +1,101 @@
+{% extends "en/html/dashboard/teacher/layout.html" %}
+
+{% block main %}
+
+<!-- page content -->
+<div class="left_col" role="main">
+  <div class="">
+
+    <div class="page-title">
+      <div class="title_left">
+        <h3 style="color:white;margin-left:5%">Inbox</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="row">
+              <div class="col-sm-3 mail_list_column">
+                <a href="/en/dashboard/mail/compose"><button id="compose" class="btn btn-sm btn-dark btn-block" type="button">COMPOSE</button></a>
+                {%for m in masseges%}
+                <a id="{{m.id}}" count="{{m.count}}" class="showClass">
+                  <div class="mail_list">
+                    <div class="left">
+                      {%if not m.seen%}<i id="seen{{m.count}}" class="fa fa-circle"></i>{%endif%} <i class="fa fa-edit"></i>
+                    </div>
+                    <div class="right">
+                      <h3>{{m.origin.name}}<small>{{m.time_sent.h}}:{{m.time_sent.m}} {{m.date_sent}}</small></h3>
+                      <p>{{m.title}}</p>
+                    </div>
+                  </div>
+                </a>
+                {%endfor%}
+              </div>
+              <!-- /MAIL LIST -->
+
+              <!-- CONTENT MAIL -->
+              <div class="col-sm-9 mail_view">
+                <div class="inbox-body">
+                  <div class="mail_heading row">
+                    <div class="col-md-8">
+                      <div class="btn-group">
+                        <a id="reply"><button  class="btn btn-sm btn-primary" type="button""><i class="fa fa-reply"></i> Reply</button></a>
+                        <a><button id="delete" class="btn btn-sm btn-danger" type="button" data-placement="top" onClick="delete_mail()" data-toggle="tooltip" data-original-title="Trash"><i class="fa fa-trash-o"></i></button></a>
+                      </div>
+                    </div>
+                    <div class="col-md-4 text-right">
+                      <p class="date"></p>
+                    </div>
+                    <div class="col-md-12">
+                      <h4 id="title"></h4>
+                    </div>
+                  </div>
+                  <div class="sender-info">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <strong id="sender"></strong>
+                        <span id="sender_id"></span> to
+                        <strong>me</strong>
+                        <a class="sender-dropdown"><i class="fa fa-chevron-down"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="view-mail">
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <!-- /CONTENT MAIL -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- /page content -->
+<script>
+  $(document).ready(function(){
+    $(".showClass").click(function(){
+      var id = $(this).attr("count");
+      var mail = {{jsMasseges|safe}}[id]
+      show_mail(id,mail)
+      return false;
+    });
+  })
+</script>
+{%endblock%}

@@ -1,0 +1,72 @@
+{% extends "html/dashboard/admin/layout.html" %}
+{%block x_title%}
+<h3>Add Students to courses</h3>
+{%endblock%}
+{% block main %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-12 px-4">
+  <form id="student-to-course-form" action="{%url 'students_to_course_submit'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
+     {%csrf_token%}
+     <div style="margin:10px">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="term">Term</label>
+          <select id="term" class="form-control" name="term">
+            <option selected>Choose...</option>
+            {%for i in terms%}
+            <option>{{i.season}}-{{i.part}}-{{i.year}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="courses">Course</label>
+          <select id="courses" class="form-control" name="courses" disabled>
+            <option value="" selected>Choose...</option>
+          </select>
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="teacherName">Teacher name</label>
+          <input type="text" class="form-control" id="teacherName" name="teacherName" required disabled>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="teacherUsername">Teacher username</label>
+          <input type="text" class="form-control" id="teacherUsername" name="teacherUsername" required disabled>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="studentNames" disabled>Student's names</label>
+          <textarea class="form-control" id="studentNames" rows="10" name="studentNames" required></textarea>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="studentsUsernames" disabled>Response</label>
+          <div class="form-control" id="response" name="response">
+            <ol id="studentsUsernames">
+
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <button type="button" class="btn btn-primary col-md-11" style="margin:5% 3%;background-color:rgba(6, 12, 34, 0.98);" id="validate-students"><b>Validate students</b></button>
+          </div>
+          <div class="form-group col-md-6">
+          <button type="submit" class="btn btn-primary col-md-11" style="margin:5% 3%;background-color:rgba(6, 12, 34, 0.98);" id="submit" disabled><b>Submit</b></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+
+<script>
+  var get_course_address = "{%url 'get_term_course'%}";
+  var validate_students_address = "{%url 'validate_usernames'%}";
+  $('#submit').click(submit_student_to_course_form)
+  $('#courses').change(fill_teacher)
+  $('#validate-students').click(validate_students)
+  $('#term').change(getCourses)
+</script>
+
+{% endblock %}

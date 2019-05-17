@@ -1,0 +1,45 @@
+{% extends "fa/html/dashboard/admin/layout.html" %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/static/html/books/style.css">
+{% block main %}
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+         <h4><b>{{user.first_name}} {{user.last_name}}</b><br/><span class="h5">{{user.role}}</span></h4>
+         <div class="mb-2 mb-md-0">
+             <img src="{{user.pic.url}}" style="width:10%;float:right">
+         </div>
+       </div>
+
+
+       <div class="container">
+         <h3 class="h3">دسته بندی کتاب ها </h3>
+         <div class="row">
+           {% for i in groups %}
+             <div class="col-md-3 col-sm-6">
+                 <div class="product-grid6">
+                     <div class="product-image6">
+                         <a href="#">
+                             <img class="pic-1" src="/media/{{i.group_pic}}">
+                         </a>
+                     </div>
+                     <div class="product-content">
+                         <h3 class="title"><a href="#">{{i.group_name}}</a></h3>
+                         <div class="price">
+                             <span></span>
+                         </div>
+                     </div>
+                     <ul class="social">
+                         <li><a href="" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                         <li><a href="" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
+                         <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                     </ul>
+                 </div>
+             </div>
+             {% endfor %}
+         </div>
+       </div>
+       <hr>
+
+      </main>
+
+{% endblock %}

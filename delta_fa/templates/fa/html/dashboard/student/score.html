@@ -1,0 +1,18 @@
+{% extends "fa/html/dashboard/student/layout.html" %}
+{%block x_title%}
+<h3>نمرات</h3>
+{%endblock%}
+{% block main %}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+           <div id="details">
+             <p id="test"></p>
+             <div dir="rtl" id="tree"></div>
+
+           </div>
+         </main>
+
+         <script>
+           $('#tree').treeview({data: {{tree|safe}} });
+         </script>
+{% endblock %}
