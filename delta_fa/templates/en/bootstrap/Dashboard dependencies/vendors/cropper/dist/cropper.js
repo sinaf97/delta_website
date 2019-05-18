@@ -2770,7 +2770,6 @@
 
         return params;
       }).call(this));
-
       return canvas;
     },
 

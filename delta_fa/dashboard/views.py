@@ -11,7 +11,10 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from bookShelf.models import Book,Date,BookGroup
 from django.template import loader, RequestContext
+import base64
+from PIL import Image
 
+media_path = '/Users/sinafarahani/Desktop/Me/django/delta_fa'
 
 class default:
     @login_required(login_url='/login')
@@ -85,21 +88,30 @@ class default:
             }
         return JsonResponse(context)
     @login_required(login_url='/login')
-    def change_profile_photo(request,lang="fa"):
+    def change_profile_photo(request,lang="fa",newUser = None):
+        if newUser is not None:
+            user = newUser
+        else:
+            user = request.user
         try:
-            pic = request.FILES["pic"]
-            change_photo(request.user,pic)
+            picPath = request.POST["pic-path"]
+            pic = Image.open(picPath[1:])
+            change_photo(user,pic)
+            os.remove(media_path+picPath)
+            status = 200
             msg = 'Profile Photo changed successfully'
-        except:
-            request.user.pic = 'default/profile.png'
-            request.user.save()
+        except Exception as e:
+            print(e)
+            user.pic = 'default/profile.png'
+            user.save()
             msg = 'Profile Photo was deleted!'
-
-        context = {
-        'status':200,
-            'msg':msg,
-            'path':request.user.pic.url
-        }
+            status = 0
+        finally:
+            context = {
+                'status':status,
+                'msg':msg,
+                'path':user.pic.url
+            }
         return JsonResponse(context)
     @login_required(login_url='/login')
     def inbox(request,lang="fa"):
@@ -159,10 +171,19 @@ class default:
         }
         return JsonResponse(data)
 
+    @login_required(login_url='/login')
+    def save_image_ajax(request,lang="fa"):
+            img = request.POST['img']
+            url = save_photo(img)
+            data = {
+                'url': url
+            }
+            return JsonResponse(data)
+
 class studentViews:
     @login_required(login_url='/login')
     @role_required(allowed_roles=['Student'])
-    def studentScore(request,user = None):
+    def studentScore(request,lang = "fa",user = None):
         if(user is not None):
             scores = user['user'].student.scores.all()
         else:
@@ -314,13 +335,11 @@ class adminViews:
     def add_user_submit(request,lang="fa"):
             check = User.objects.filter(username=request.POST["username"]).first()
             if(check is None):
-                newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
+                newUser = User.objects.create_user(username=request.POST["username"],password=int(request.POST["idNumber"]),first_name=request.POST["firstName"],last_name = request.POST["lastName"],email=request.POST["email"],latin_role=request.POST["role"],phone=int(request.POST["phone"]),mobile=int(request.POST["mobile"]),idCode=int(request.POST["idNumber"]),address=request.POST["address"])
                 try:
-                    pic = request.FILES["pic"]
-                    fs = FileSystemStorage()
-                    fs.save(picPath(newUser,pic.name),pic)
-                    newUser.pic = picPath(newUser,pic.name)
-                except:
+                    default.change_profile_photo(request,lang,newUser)
+                except Exception as e:
+                    print(e)
                     pass
                 newUser.save()
                 msg = "User was created successfully!"
@@ -607,7 +626,7 @@ class adminViews:
                 'scores':studentViews.studentScore(requested)
             }
         elif requested.user.role == "Teacher":
-            courses = getCourse(requested)
+            courses = getCourse(requested,lang)
             context = {
                 'user':serializers.serialize("json",User.objects.filter(username = info)),
                 'courses':courses

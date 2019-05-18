@@ -55,15 +55,161 @@
     <div class="">
     <form id="change-profile-photo" action="{%url 'change_profile_photo' lang='en'%}" class="form" method="post" style="border:1px solid grey;border-radius:5px;margin-bottom:10%">
       {%csrf_token%}
+      <label for="inputImage" class="btn btn-info" title="Upload image file" style="margin:3%">Choose file...
+        <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Import image">
+          <span class="fa fa-upload"></span>
+        </span>
+      </label>
         <div style="margin:10px">
          <div class="form-row">
-           <div class="form-group col-md-6">
-             <input type="file" name="pic" accept=".jpeg,.jpg,.png" id="pic" required>
+           <div class="form-group col-md-12">
+             <!--************************-->
+             <!--************************-->
+             <!--************************-->
+             <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+               <div class="modal-dialog modal-lg">
+                 <div class="modal-content">
+
+                   <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                     </button>
+                     <h4 class="modal-title" id="myModalLabel">{%block modal_title%}{%endblock%}</h4>
+                   </div>
+                   <div class="modal-body">
+                     <photo>
+                       <div class="container cropper">
+                         <div class="row">
+                           <div class="col-md-9">
+                             <div class="img-container">
+                               <img id="image" src="" alt="Picture">
+                             </div>
+                           </div>
+                           <div class="col-md-3">
+                             <div class="docs-preview clearfix">
+                               <div class="img-preview preview-lg"></div>
+                             </div>
+                           </div>
+                         </div>
+                         <div class="row">
+                           <div class="col-md-9 docs-buttons">
+                             <!-- <h3 class="page-header">Toolbar:</h3> -->
+                             <div class="btn-group">
+                                 <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Move">
+                                   <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
+                                     <span class="fa fa-arrows"></span>
+                                   </span>
+                                 </button>
+                                 <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
+                                   <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)">
+                                     <span class="fa fa-crop"></span>
+                                   </span>
+                                 </button>
+
+                             </div>
+
+                             <div class="btn-group">
+                               <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, 0.1)">
+                                   <span class="fa fa-search-plus"></span>
+                                 </span>
+                               </button>
+                               <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, -0.1)">
+                                   <span class="fa fa-search-minus"></span>
+                                 </span>
+                               </button>
+                             </div>
+
+                             <div class="btn-group">
+                               <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, -10, 0)">
+                                   <span class="fa fa-arrow-left"></span>
+                                 </span>
+                               </button>
+                               <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 10, 0)">
+                                   <span class="fa fa-arrow-right"></span>
+                                 </span>
+                               </button>
+                               <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 0, -10)">
+                                   <span class="fa fa-arrow-up"></span>
+                                 </span>
+                               </button>
+                               <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 0, 10)">
+                                   <span class="fa fa-arrow-down"></span>
+                                 </span>
+                               </button>
+                             </div>
+
+                             <div class="btn-group">
+                               <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, -45)">
+                                   <span class="fa fa-rotate-left"></span>
+                                 </span>
+                               </button>
+                               <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, 45)">
+                                   <span class="fa fa-rotate-right"></span>
+                                 </span>
+                               </button>
+                             </div>
+
+                             <div class="btn-group">
+                               <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+                                 <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;reset&quot;)">
+                                   <span class="fa fa-refresh"></span>
+                                 </span>
+                               </button>
+                             </div>
+
+                             <button type="button" class="btn btn-primary" data-method="moveTo" data-option="0">
+                               <span class="docs-tooltip" data-toggle="tooltip" title="cropper.moveTo(0)">
+                                 0,0
+                               </span>
+                             </button>
+                             <button type="button" class="btn btn-danger float-right" data-method="getCroppedCanvas" data-dismiss="modal">
+                               <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;)">
+                                 Confirm
+                               </span>
+                             </button>
+                             <a class="btn btn-primary hidden" id="download" href="javascript:void(0);" download="cropped.png">sina</a>
+
+
+                           </div><!-- /.docs-buttons -->
+
+                           <div class="col-md-3 docs-toggles">
+                             <!-- <h3 class="page-header">Toggles:</h3> -->
+
+                           </div><!-- /.docs-toggles -->
+                         </div>
+                       </div>
+                     </photo>
+                     </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-info" data-dismiss="modal">Continue editting</button>
+                   </div>
+
+                 </div>
+               </div>
+             </div>
+
+
+             <!--************************-->
+             <!--************************-->
+             <!--************************-->
+             <csrf id="csrf" value="{{csrf_token}}"></csrf>
+             <img id="new-image" src="" style="width:20%;float:right">
+             <input type="text" id="pic-path" name="pic-path" value="" class="hidden">
+
+
            </div>
         </div>
        </div>
        <div>
-         <button type="submit" class="btn btn-primary float-right" style="margin:5% 0;" id="submit-profile-photo">Change Profile Photo</button>
+         <button type="submit" class="btn btn-primary float-right" style="margin:5% 1%;" id="submit-profile-photo">Change Profile Photo</button>
          <button type="button" class="btn btn-danger float-right" style="margin:5% 1%;" id="delete-profile-photo">Delete Profile Photo</button>
        </div>
      </form>

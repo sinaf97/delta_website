@@ -57,6 +57,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
+
 ROOT_URLCONF = 'delta.urls'
 
 TEMPLATES = [

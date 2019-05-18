@@ -14,6 +14,7 @@ urlpatterns = [
     path(r'mail/send/',views.default.mail_send,name="mail_send"),
     path(r'mail/delete/',views.default.mail_delete,name="mail_delete"),
     path(r'mail/reply/<str:username>/',views.default.compose,name="mail_reply"),
+    path(r'save_temp_image',views.default.save_image_ajax,name="save_image"),
 
     path(r'student_info/',views.studentViews.info,name="s_info"),
     path(r'score/',views.studentViews.studentScore,name="score"),

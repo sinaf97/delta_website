@@ -1257,7 +1257,7 @@ if (typeof NProgress != 'undefined') {
 
 				result = $image.cropper(data.method, data.option, data.secondOption);
 
-				switch (data.method) {
+        switch (data.method) {
 				  case 'scaleX':
 				  case 'scaleY':
 					$(this).data('option', -data.option);
@@ -1267,13 +1267,20 @@ if (typeof NProgress != 'undefined') {
 					if (result) {
 
 					  // Bootstrap's Modal
-					  $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
-
-					  if (!$download.hasClass('disabled')) {
-						$download.attr('href', result.toDataURL());
-					  }
+            console.log(result);
+            $.ajax({
+              url: '/fa/dashboard/save_temp_image',
+              data: {
+                'img': result.toDataURL(),
+              },
+              method:'GET',
+              dataType: 'json',
+              success: function (data) {
+                $('#new-image').attr('src',data.url)
+                $('#pic-path').attr('value',data.url)
+              }
+            });
 					}
-
 					break;
 				}
 

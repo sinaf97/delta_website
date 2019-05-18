@@ -2,23 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="889026d3-d5c2-4110-9303-7648c613b618" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../delta/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/bookShelf/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/bookShelf/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/bookShelf/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/bookShelf/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/bookShelf/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/bookShelf/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/context_processors.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/context_processors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/dashboard/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/delta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/delta/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/delta/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/delta/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/home/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/media/users/Managers/admin/profile pic/admin.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/media/users/Managers/admin/profile pic/admin.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/templates/bootstrap/Dashboard dependencies/build/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/templates/bootstrap/Dashboard dependencies/build/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/templates/html/dashboard/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/templates/html/dashboard/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../delta/templates/html/dashboard/student/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../delta/templates/html/dashboard/student/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/delta/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/delta/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/users/Site Admins/sinaf97/profile pic/sinaf97.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/users/Teachers/mahsa86/profile pic/mahsa86_1G0jfAr.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/users/استادs/mahsa86/profile pic/mahsa86.24" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/build/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/build/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/build/js/custom.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/build/js/custom.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/vendors/cropper/dist/cropper.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/bootstrap/Dashboard dependencies/vendors/cropper/dist/cropper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/html/dashboard/admin/addUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/html/dashboard/admin/addUser.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/html/dashboard/admin/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/html/dashboard/admin/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/html/dashboard/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/html/dashboard/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/html/dashboard/student/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/html/dashboard/student/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/en/html/dashboard/teacher/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/en/html/dashboard/teacher/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/bootstrap/Dashboard dependencies/build/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/bootstrap/Dashboard dependencies/build/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/html/dashboard/admin/addUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/html/dashboard/admin/addUser.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/html/dashboard/admin/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/html/dashboard/admin/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/html/dashboard/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/html/dashboard/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/html/dashboard/student/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/html/dashboard/student/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/fa/html/dashboard/teacher/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/fa/html/dashboard/teacher/settings.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,14 +34,71 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dashboard/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="51" selection-start-line="51" selection-end-line="51" />
+            <state relative-caret-position="177">
+              <caret line="104" selection-start-line="104" selection-end-line="104" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dashboard/methods.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="61">
+              <caret line="100" column="12" selection-start-line="100" selection-start-column="12" selection-end-line="100" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/functional.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="243" selection-start-line="243" selection-end-line="243" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/db/models/fields/files.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="208" selection-start-line="208" selection-end-line="208" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="123" selection-start-line="123" selection-end-line="123" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/delta/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1920">
+              <caret line="130" selection-start-line="130" selection-end-line="130" />
             </state>
           </provider>
         </entry>
@@ -50,6 +113,8 @@
       <list>
         <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/delta/settings.py" />
+        <option value="$PROJECT_DIR$/dashboard/methods.py" />
+        <option value="$PROJECT_DIR$/dashboard/views.py" />
       </list>
     </option>
   </component>
@@ -75,6 +140,11 @@
               <item name="delta_fa" type="b2602c69:ProjectViewProjectNode" />
               <item name="delta_fa" type="462c0819:PsiDirectoryNode" />
               <item name="dashboard" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="delta_fa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="delta_fa" type="462c0819:PsiDirectoryNode" />
+              <item name="delta" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -144,16 +214,15 @@
       <workItem from="1557815447746" duration="3494000" />
       <workItem from="1557845650456" duration="164000" />
       <workItem from="1557851240956" duration="871000" />
-      <workItem from="1558079468415" duration="2428000" />
+      <workItem from="1558079468415" duration="16861000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7465000" />
+    <option name="totallyTimeSpent" value="21898000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2746781" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -161,7 +230,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997253" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997253" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -181,17 +250,6 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/dashboard/views.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/db/backends/base/base.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -204,13 +262,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2070">
           <caret line="147" column="10" selection-start-line="147" selection-start-column="10" selection-end-line="147" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/delta/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
         </state>
       </provider>
     </entry>
@@ -231,22 +282,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/delta/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1920">
+          <caret line="130" selection-start-line="130" selection-end-line="130" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="123" selection-start-line="123" selection-end-line="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="243" selection-start-line="243" selection-end-line="243" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/db/models/fields/files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="208" selection-start-line="208" selection-end-line="208" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="177">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/methods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="100" column="12" selection-start-line="100" selection-start-column="12" selection-end-line="100" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>

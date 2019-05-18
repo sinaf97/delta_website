@@ -1,9 +1,12 @@
 from .models import *
 from django.core.files.storage import FileSystemStorage
 import shutil , os
-import manage
-
-
+import manage , uuid
+from django.core.files.storage import default_storage
+import base64
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import codecs
+from pathlib import Path,PurePath
 
 def courseConverter(info):
     info = info.split("_")
@@ -98,18 +101,36 @@ def studentScore(request,user):
         return context
 
 def change_photo(user,pic):
-    fs = FileSystemStorage()
     try:
-        shutil.rmtree(os.path.dirname(manage.__file__)+'/media/users/'+user.role+'s/'+user.username+'/profile pic')
+        pic.save(Path(picPath(user,pic)))
+        user.pic = picPath(user,pic)[6:]
+        user.save()
+    except Exception as e:
+        print('change photo '+e)
+        pass
+
+
+def picPath(user,pic):
+    try:
+        os.makedirs(f"media/users/{user.latin_role}s/{user.username}/profile pic")
     except Exception as e:
         print(e)
-    fs.save(picPath(user,pic.name),pic)
-    user.pic = picPath(user,pic.name)
-    user.save()
+        pass
+    return f"media/users/{user.latin_role}s/{user.username}/profile pic/{user.username}.{pic.format.lower()}"
 
-def picPath(user,fileName):
-    fileName = fileName.split('.')[1]
-    return f"users/{user.role}s/{user.username}/profile pic/{user.username}.{fileName}"
+def save_photo(pic):
+    pic = pic.split(',')
+    imageType = pic[0].split(';')[0].split('/')[1]
+    fs = FileSystemStorage()
+    picPath = savePicPath(imageType)
+    pic = codecs.encode(pic[1]+'=')
+    with open('/Users/sinafarahani/Desktop/Me/django/delta_fa'+picPath, "wb") as fh:
+        fh.write(base64.decodebytes(pic))
+    return picPath
+
+def savePicPath(imageType):
+    # return f"/media/temp/profile images/{uuid.uuid1()}.jpg"
+    return f"/media/temp/profile images/{uuid.uuid1()}.{imageType}"
 
 def get_masseges(request,lang):
     m = Massege.objects.filter(to = request.user)
@@ -121,8 +142,12 @@ def get_masseges(request,lang):
             seen = 1
         else:
             seen = 0
-        mlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':ma.seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':ma.date_sent})
-        jlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':{'year':ma.date_sent.year,'month':ma.date_sent.month,'day':ma.date_sent.day}})
+        if lang == "fa":
+            mlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':ma.seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':ma.date_sent})
+            jlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.get_full_name(),'username':ma.origin.username},'seen':seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':{'year':ma.date_sent.year,'month':ma.date_sent.month,'day':ma.date_sent.day}})
+        else:
+            mlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.latin_str(),'username':ma.origin.username},'seen':ma.seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':ma.date_sent})
+            jlist.append({'count':counter,'id':ma.id,'origin':{'name':ma.origin.latin_str(),'username':ma.origin.username},'seen':seen,'title':ma.subject,'text':ma.text,'time_sent':{'h':ma.time_sent.hour,'m':ma.time_sent.minute},'date_sent':{'year':ma.date_sent.year,'month':ma.date_sent.month,'day':ma.date_sent.day}})
         counter+=1
     mlist.reverse()
     data = {

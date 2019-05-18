@@ -26,7 +26,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
+    def latin_str(self):
+        return f"{self.latin_first_name} {self.latin_last_name}"
 
 # Create your models here.
 
